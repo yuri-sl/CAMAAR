@@ -4,19 +4,19 @@
 
 **Projeto:** CAMAAR  
 **Sprint:** Sprint 1  
-**Repositório do fork:** [https://www.figma.com/design/5GVzfaJSBbcXmGvuvAi7WF/Camaar-2024.1?node-id=0-1&p=f]  
-**Kanban do projeto: ** [https://github.com/users/yuri-sl/projects/7]  
-**Wiki do projeto:** [https://github.com/yuri-sl/CAMAAR/wiki]  
+**Repositório do fork:** https://www.figma.com/design/5GVzfaJSBbcXmGvuvAi7WF/Camaar-2024.1?node-id=0-1&p=f  
+**Kanban do projeto: ** https://github.com/users/yuri-sl/projects/7  
+**Wiki do projeto:** https://github.com/yuri-sl/CAMAAR/wiki  
 
 ### Integrantes
 
 | Nome | Matrícula | Papel |
 |---|---:|---|
-| [Yuri Santana Lopes] | [Matrícula] | Dev |
-| [Nome do integrante 2] | [Matrícula] | Dev |
-| [Nome do integrante 3] | [Matrícula] | Dev |
-| [Nome do integrante 4] | [Matrícula] | Dev |
-| [Nome do integrante 5] | [Matrícula] | Dev |
+| Arthur Souza Chagas | 221037385 | Dev |
+| João Felipe Stein | 241039331 | Dev |
+| Luidgi Varela Carneiro | 231011669 | Dev |
+| Yuri Santana Lopes | 222009750 | Dev |
+| João Vitor das Neves Romero | 221028546 | Dev |
 
 Scrum Master / Dev
 Product Owner / Dev
@@ -24,7 +24,7 @@ Product Owner / Dev
 
 ## 2. Escopo do Projeto
 
-O projeto **CAMAAR** tem como objetivo [descrever brevemente o objetivo geral do sistema].
+O projeto **CAMAAR** tem como objetivo implementar um sistema de controle de turmas e alunos, com suporte à criação de formulários para serem respondidos por alunos ou professores.
 
 Nesta Sprint, o grupo trabalhou no planejamento, organização e especificação das funcionalidades relacionadas ao seguinte épico/issue:
 
@@ -33,10 +33,11 @@ Nesta Sprint, o grupo trabalhou no planejamento, organização e especificação
 
 O escopo desta Sprint envolve:
 
-- [Funcionalidade 1]
-- [Funcionalidade 2]
-- [Funcionalidade 3]
-- [Funcionalidade 4]
+- Login de usuário no sistema
+- Cadastro de usuário
+- Redefinição de senha de usuário
+- Criação de formulário
+- Responder formulário criado
 
 ---
 
@@ -80,10 +81,11 @@ Nesta Sprint, foram especificadas as seguintes funcionalidades:
 
 | ID | Funcionalidade | Descrição | Responsável |
 |---|---|---|---|
-| F01 | [Nome da funcionalidade] | [Descrição curta da funcionalidade] | [Nome] |
-| F02 | [Nome da funcionalidade] | [Descrição curta da funcionalidade] | [Nome] |
-| F03 | [Nome da funcionalidade] | [Descrição curta da funcionalidade] | [Nome] |
-| F04 | [Nome da funcionalidade] | [Descrição curta da funcionalidade] | [Nome] |
+| F01 |  login de usuário | login de usuário ao sistema | Yuri Santana Lopes |
+| F02 | Cadastro de usuário | cadastrar novo usuário no sistema | Luidgi Varela Carneiro |
+| F03 | Redefinição de senha de usuário | redefinir a senha para um usuário já criado | João Vitor das Neves Romero |
+| F04 | Criação de formulário | criar formulário para os alunos ou professores responderem | João Felipe Stein |
+| F05 | Responder formulário criado | usuário deve conseguir responder um formulário que já foi criado | Arthur Souza Chagas |
 
 ---
 
