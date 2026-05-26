@@ -1,9 +1,5 @@
 Feature: Redefinir senha do usuário
 
-  Como usuário,
-  Quero conseguir mudar a minha senha
-  Para que eu possa ter acesso a minha conta mesmo se esquecer da credencial
-
 Scenario: Redefinição de senha realizada com sucesso
 Given que o usuário está na tela de redefinição de senha
 When ele coloca a nova senha no primeiro campo
