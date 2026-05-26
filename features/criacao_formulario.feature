@@ -13,7 +13,7 @@ Quero poder criar formularios à partir de uma Template de Formulário
       | Pergunta um   | 3 | Um, Dois, Tres, Quatro  |
       | Como se sente?  | 3 | Muito Favoravel, Favoravel, Neutro, Desfavoravel, Muito Desfavoravel  |
 
-  Scenario: Criacao do Formulario com Sucesso (Happy Path)
+  Scenario Outline: Criacao do Formulario com Sucesso - Com nome (Happy Path)
     Given que o usuário tem permissões para criacao de Formulario
     And ele está na aba criação de formulários
     When ele clica no botão "Criar Formulário"
@@ -30,9 +30,20 @@ Quero poder criar formularios à partir de uma Template de Formulário
 
 
 
+  Scenario Outline: Criacao do Formulario com Sucesso - Sem nome (Happy Path)
+    Given que o usuário tem permissões para criacao de Formulario
+    And ele está na aba criação de formulários
+    When ele clica no botão "Criar Formulário"
+    And seleciona "<templateName> de "Templates"
+    And ele clica no botão "Criar"
+    Then o usuário deve estar na aba de criação de formulários
+    And o formulário "<templateName>" deve existir
 
-  
 
+
+
+
+    
   Scenario: Falha na Criacao do Formulario - Nenhum input (Sad Path)
     Given que o usuário tem permissões para criacao de Formulario
     And ele está na aba criação de formulários
@@ -41,7 +52,7 @@ Quero poder criar formularios à partir de uma Template de Formulário
     Then o usuário deve estar na página do formulário de criação de formulários
     And ele deve ver "Formulario não pode ser criado, por favor preencha os dados necessários"
 
-  Scenario: Falha na Criacao do Formulario - Não seleciona Template (Sad Path)
+  Scenario Outline: Falha na Criacao do Formulario - Não seleciona Template (Sad Path)
     Given que o usuário tem permissões para criacao de Formulario
     And ele está na aba criação de formulários
     When ele clica no botão "Criar Formulário"
@@ -56,12 +67,3 @@ Quero poder criar formularios à partir de uma Template de Formulário
   | testeteste      |
   | Formulario Satisfação - CIC0105 |
   | Teste 3 - Formulario para Discentes |
-
-  Scenario: Falha na Criacao do Formulario - Não escreve nome (Sad Path)
-    Given que o usuário tem permissões para criacao de Formulario
-    And ele está na aba criação de formulários
-    When ele clica no botão "Criar Formulário"
-    And seleciona "<templateName> de "Templates"
-    And ele clica no botão "Criar"
-    Then o usuário deve estar na página do formulário de criação de formulários
-    And ele deve ver "Formulario <nomeFormulario> não pode ser criado, por favor seleciona uma Template"
