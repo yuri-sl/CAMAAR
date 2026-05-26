@@ -1,5 +1,9 @@
 Feature: Cadastro de Usuário
 
+  Como usuário,
+  Quero conseguir me cadastrar no sistema
+  Para que eu possa ter acesso às turmas de minhas matérias e responder formulários
+
 Scenario: Cadastro realizado com sucesso
 Given que o usuário está na tela de cadastro
 When ele informa nome válido
