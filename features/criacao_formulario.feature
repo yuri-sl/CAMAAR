@@ -9,24 +9,24 @@ Quero poder criar formularios à partir de uma Template de Formulário
       | default       |
       | APC - 2026.1  |
     And que eles contém as seguintes Perguntas estilo radio:
-      | Enunciado     | gabaritoRadio | opcoesRadio |
-      | Pergunta um   | 3 | Um, Dois, Tres, Quatro  |
-      | Como se sente?  | 3 | Muito Favoravel, Favoravel, Neutro, Desfavoravel, Muito Desfavoravel  |
+      | Enunciado     | gabaritoRadio | opcoesRadio                                                           |
+      | Pergunta um   | 3             | Um, Dois, Tres, Quatro                                                |
+      | Como se sente?  | 3           | Muito Favoravel, Favoravel, Neutro, Desfavoravel, Muito Desfavoravel  |
 
   Scenario Outline: Criacao do Formulario com Sucesso - Com nome (Happy Path)
     Given que o usuário tem permissões para criacao de Formulario
     And ele está na aba criação de formulários
     When ele clica no botão "Criar Formulário"
     And escreve "<nomeFormulario>" em "Nome do Formulário"
-    And seleciona "<templateName> de "Templates"
+    And seleciona "<templateName>" de "Templates"
     And ele clica no botão "Criar"
     Then o usuário deve estar na aba de criação de formulários
     And o formulário "<nomeFormulario>" deve existir
 
   Examples:
-  | nomeFormulario  |
-  | formulario um   |
-  | Formulario de Opinião - APC |
+  | nomeFormulario              | templateName  |
+  | formulario um               | default       |
+  | Formulario de Opinião - APC | APC - 2026.1  |
 
 
 
@@ -34,12 +34,15 @@ Quero poder criar formularios à partir de uma Template de Formulário
     Given que o usuário tem permissões para criacao de Formulario
     And ele está na aba criação de formulários
     When ele clica no botão "Criar Formulário"
-    And seleciona "<templateName> de "Templates"
+    And seleciona "<templateName>" de "Templates"
     And ele clica no botão "Criar"
     Then o usuário deve estar na aba de criação de formulários
     And o formulário "<templateName>" deve existir
 
-
+  Examples:
+  | templateName  |
+  | default       |
+  | APC - 2026.1  |
 
 
 
@@ -62,8 +65,8 @@ Quero poder criar formularios à partir de uma Template de Formulário
     And ele deve ver "Formulario <nomeFormulario> não pode ser criado, por favor seleciona uma Template"
 
   Examples:
-  | nomeFormulario  |
-  | formulario um   |
-  | testeteste      |
-  | Formulario Satisfação - CIC0105 |
+  | nomeFormulario                      |
+  | formulario um                       |
+  | testeteste                          |
+  | Formulario Satisfação - CIC0105     |
   | Teste 3 - Formulario para Discentes |
