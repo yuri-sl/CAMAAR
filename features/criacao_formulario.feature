@@ -1,4 +1,7 @@
 Feature: Criacao de Formulario
+Como Professor ou Administrador,
+Para que eu possa avaliar meus alunos/Para que eu possa avaliar os discentes e doscentes de uma turma,
+Quero poder criar formularios à partir de uma Template de Formulário
 
   Background:
     Given que os seguintes Templates existem:
