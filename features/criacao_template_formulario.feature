@@ -19,6 +19,8 @@ Quero poder criar templates de formulario das quais criarei formularios futurame
   | Template Generica     |
   | Formulario de Opinião |
 
+
+
   Scenario: Criação de Pergunta tipo Discursiva
     Given que o usuário está montando um Template
     When ele seleciona "Discursiva" de "Tipo de Questão"
@@ -26,6 +28,8 @@ Quero poder criar templates de formulario das quais criarei formularios futurame
     And escreve "Resposta" em "Gabarito"
     And ele clica no botão "Adicionar Questão"
     Then ele deve ver "Pergunta?"
+
+
 
   Scenario: Criação de Pergunta tipo Radio
     Given que o usuário está montando um Template
@@ -49,7 +53,12 @@ Quero poder criar templates de formulario das quais criarei formularios futurame
     | 4                | Carro  | Moto   | Bike   | Trem   | N/A    | Opção 2  |
     | 5                | Alface | Tomate | Batata | Cebola | Alho   | Opção 3  |
 
-  Scenario: Sucesso na criação de uma template de formulário de uma questão discursiva (Happy Path)
+
+
+
+
+
+  Scenario: Sucesso na criação de uma Template - Uma questão discursiva (Happy Path)
     Given que o usuário está montando o Template "<nomeTemplate>"
     When ele cria uma questão "Discursiva" com "<enunciado>" e "<gabarito>"
     And ele clica no botão "Criar Template"
@@ -62,7 +71,9 @@ Quero poder criar templates de formulario das quais criarei formularios futurame
   | Resposta Aberta | Qual sua opinião sobre o curso? | Resposta aberta |
   | Se Conhecer | Fale um pouco sobre você! | Resposta pessoal  |
 
-  Scenario: Sucesso na criação de uma template de formulário de uma questão tipo radio (Happy Path)
+
+
+  Scenario: Sucesso na criação de uma Template - Uma questão tipo radio (Happy Path)
     Given que o usuário está montando o Template "<nomeTemplate>"
     When ele cria uma questão "Radio" com "<enunciado>" e "<resposta>" com "<quantidadeOpcoes>" opções:
       | texto_opcao |
@@ -71,7 +82,6 @@ Quero poder criar templates de formulario das quais criarei formularios futurame
       | <opcaoTres> |
       | <opcaoQuatro> |
       | <opcaoCinco>  |
-    And ele clica no botão "Adicionar Questão"
     And ele clica no botão "Criar Template"
     Then o usuário deve estar na aba criação de Templates de Formulário
     And ele deve ver "<nomeTemplate>"
@@ -82,11 +92,41 @@ Quero poder criar templates de formulario das quais criarei formularios futurame
   | Opinião Curso | Como você se sente sobre o curso? | 5 | Muito Bem | Bem | Neutro  | Mal       | Muito Mal   | Sem Gabarito  |
   | Matemática    | Quanto é 2+2? | 4             | 3       | 4         | 21        | 773.237     | N/A         | Opção 2   |
 
-  Scenario: Sucesso na criação de uma template de formulário de uma questão discursiva e uma questão tipo radio (Happy Path)
 
+
+  Scenario: Sucesso na criação de uma Template - Uma questão discursiva e uma tipo radio (Happy Path)
+    Given que o usuário está montando o Template "<nomeTemplate>"
+    When ele cria uma questão "Radio" com "<enunciadoRadio>" e "<respostaRadio>" com "<quantidadeOpcoes>" opções:
+      | texto_opcao |
+      | <opcaoUm>   |
+      | <opcaoDois> |
+      | <opcaoTres> |
+      | <opcaoQuatro> |
+      | <opcaoCinco>  |
+    And ele cria uma questão "Discursiva" com "<enunciadoDiscursiva>" e "<gabaritoDiscursiva>"
+    And ele clica no botão "Criar Template"
+    Then o usuário deve estar na aba criação de Templates de Formulário
+    And ele deve ver "<nomeTemplate>"
+
+    Examples:
+    | nomeTemplate  | enunciadoRadio  | quantidadeOpcoes  | opcaoUm | opcaoDois | opcaoTres | opcaoQuatro | opcaoCinco  | respostaRadio | enunciadoDiscursiva | gabaritoDiscursiva  |
+    | Template Teste  | Opções        | 3                 | 1       | 2         | 3         | N/A         | N/A         | Opção 3       | Pergunta?           | Resposta!           |
+    | Opinião Curso | Como você se sente sobre o curso? | 5 | Muito Bem | Bem   | Neutro    | Mal         | Muito Mal   | Sem Gabarito  | Qual sua opinião sobre o curso? | Resposta aberta |
+    | Matemática    | Quanto é 2+2?   | 4                 | 3       | 4         | 21        | 773.237     | N/A         | Opção 2       | Fale um pouco sobre você! | Resposta pessoal  |
+  
+
+
+
+
+
+  Scenario: Falha na criação de uma Template - Sem questões (Sad Path)
+    Given que o usuário está montando o Template "<nomeTemplate>"
+    And ele clica no botão "Criar Template"
+    Then o usuário deve estar na página de criação de Templates de Formulário
+    And ele deve ver "Template <nomeTemplate> não pode ser criada, por favor adicione uma Questão"
+  
   Examples:
-  | nomeFormulario  |
-  | formulario um   |
-  | testeteste      |
-  | Formulario Satisfação - CIC0105 |
-  | Teste 3 - Formulario para Discentes |
+  | nomeTemplate          |
+  | Template Generica     |
+  | Formulario de Opinião |
+  | Formulario Técnico    |
