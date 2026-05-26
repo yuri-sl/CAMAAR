@@ -2,11 +2,12 @@
 
 ## 1. Identificação do Grupo
 
-**Projeto:** CAMAAR  
-**Sprint:** Sprint 1  
-**Repositório do fork:** https://www.figma.com/design/5GVzfaJSBbcXmGvuvAi7WF/Camaar-2024.1?node-id=0-1&p=f  
-**Kanban do projeto: ** https://github.com/users/yuri-sl/projects/7  
-**Wiki do projeto:** https://github.com/yuri-sl/CAMAAR/wiki  
+ [Projeto]: CAMAAR  
+ [Sprint]: Sprint 1  
+ [Repositório do fork]: (https://github.com/EngSwCIC/CAMAAR)
+ [Kanban do projeto]: (https://github.com/users/yuri-sl/projects/7)  
+ [Wiki do projeto]:(https://github.com/yuri-sl/CAMAAR/wiki)  
+ [Protótipo no Figma](https://www.figma.com/design/5GVzfaJSBbcXmGvuvAi7WF/Camaar-2024.1?node-id=0-1&p=f)
 
 ### Integrantes
 
@@ -80,116 +81,6 @@ Nesta Sprint, foram especificadas as seguintes funcionalidades:
 | F03 | Redefinição de senha de usuário | redefinir a senha para um usuário já criado | João Vitor das Neves Romero |
 | F04 | Criação de formulário | criar formulário para os alunos ou professores responderem | João Felipe Stein |
 | F05 | Responder formulário criado | usuário deve conseguir responder um formulário que já foi criado | Arthur Souza Chagas |
-
----
-
-## 5. Histórias de Usuário
-
-As histórias de usuário foram definidas seguindo o padrão Connextra:
-
-> Como **[tipo de usuário]**, quero **[ação ou funcionalidade]**, para **[benefício esperado]**.
-
----
-
-### HU01 - [Nome da história]
-
-**Como** [tipo de usuário],  
-**quero** [ação desejada],  
-**para** [benefício esperado].
-
-**Funcionalidade relacionada:** [Nome da funcionalidade]  
-**Responsável:** [Nome do integrante]  
-**Pontuação:** [1/2/3/5/8] pontos
-
-#### Critérios de Aceitação
-
-- [ ] Dado que [contexto], quando [ação válida], então [resultado esperado].
-- [ ] Dado que [contexto], quando [ação inválida], então [mensagem ou comportamento de erro esperado].
-- [ ] Dado que [contexto], quando [regra de negócio for violada], então [resultado esperado].
-
-#### Cenários BDD
-
-```gherkin
-Funcionalidade: [Nome da funcionalidade]
-
-Cenário: [Caminho feliz]
-  Dado que [contexto inicial]
-  Quando [ação realizada pelo usuário]
-  Então [resultado esperado]
-
-Cenário: [Caminho triste]
-  Dado que [contexto inicial]
-  Quando [ação inválida realizada pelo usuário]
-  Então [mensagem ou comportamento esperado]
-```
-
----
-
-### HU02 - [Nome da história]
-
-**Como** [tipo de usuário],  
-**quero** [ação desejada],  
-**para** [benefício esperado].
-
-**Funcionalidade relacionada:** [Nome da funcionalidade]  
-**Responsável:** [Nome do integrante]  
-**Pontuação:** [1/2/3/5/8] pontos
-
-#### Critérios de Aceitação
-
-- [ ] Dado que [contexto], quando [ação válida], então [resultado esperado].
-- [ ] Dado que [contexto], quando [ação inválida], então [mensagem ou comportamento de erro esperado].
-- [ ] Dado que [contexto], quando [regra de negócio for violada], então [resultado esperado].
-
-#### Cenários BDD
-
-```gherkin
-Funcionalidade: [Nome da funcionalidade]
-
-Cenário: [Caminho feliz]
-  Dado que [contexto inicial]
-  Quando [ação realizada pelo usuário]
-  Então [resultado esperado]
-
-Cenário: [Caminho triste]
-  Dado que [contexto inicial]
-  Quando [ação inválida realizada pelo usuário]
-  Então [mensagem ou comportamento esperado]
-```
-
----
-
-### HU03 - [Nome da história]
-
-**Como** [tipo de usuário],  
-**quero** [ação desejada],  
-**para** [benefício esperado].
-
-**Funcionalidade relacionada:** [Nome da funcionalidade]  
-**Responsável:** [Nome do integrante]  
-**Pontuação:** [1/2/3/5/8] pontos
-
-#### Critérios de Aceitação
-
-- [ ] Dado que [contexto], quando [ação válida], então [resultado esperado].
-- [ ] Dado que [contexto], quando [ação inválida], então [mensagem ou comportamento de erro esperado].
-- [ ] Dado que [contexto], quando [regra de negócio for violada], então [resultado esperado].
-
-#### Cenários BDD
-
-```gherkin
-Funcionalidade: [Nome da funcionalidade]
-
-Cenário: [Caminho feliz]
-  Dado que [contexto inicial]
-  Quando [ação realizada pelo usuário]
-  Então [resultado esperado]
-
-Cenário: [Caminho triste]
-  Dado que [contexto inicial]
-  Quando [ação inválida realizada pelo usuário]
-  Então [mensagem ou comportamento esperado]
-```
 
 ---
 
@@ -273,5 +164,3 @@ feature/resposta-questionarios
 
 ## 10. Links Úteis
 
-- [Repositório do Fork](https://github.com/EngSwCIC/CAMAAR)
-- [Protótipo no Figma](https://www.figma.com/design/5GVzfaJSBbcXmGvuvAi7WF/Camaar-2024.1?node-id=0-1&p=f)
