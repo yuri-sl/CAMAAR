@@ -28,6 +28,19 @@ Quero poder criar formularios à partir de uma Template de Formulário
   | formulario um   |
   | Formulario de Opinião - APC |
 
+
+
+
+  
+
+  Scenario: Falha na Criacao do Formulario - Nenhum input (Sad Path)
+    Given que o usuário tem permissões para criacao de Formulario
+    And ele está na aba criação de formulários
+    When ele clica no botão "Criar Formulário"
+    And ele clica no botão "Criar"
+    Then o usuário deve estar na página do formulário de criação de formulários
+    And ele deve ver "Formulario não pode ser criado, por favor preencha os dados necessários"
+
   Scenario: Falha na Criacao do Formulario - Não seleciona Template (Sad Path)
     Given que o usuário tem permissões para criacao de Formulario
     And ele está na aba criação de formulários
@@ -43,3 +56,12 @@ Quero poder criar formularios à partir de uma Template de Formulário
   | testeteste      |
   | Formulario Satisfação - CIC0105 |
   | Teste 3 - Formulario para Discentes |
+
+  Scenario: Falha na Criacao do Formulario - Não escreve nome (Sad Path)
+    Given que o usuário tem permissões para criacao de Formulario
+    And ele está na aba criação de formulários
+    When ele clica no botão "Criar Formulário"
+    And seleciona "<templateName> de "Templates"
+    And ele clica no botão "Criar"
+    Then o usuário deve estar na página do formulário de criação de formulários
+    And ele deve ver "Formulario <nomeFormulario> não pode ser criado, por favor seleciona uma Template"
