@@ -20,3 +20,17 @@ Funcionalidade: Responder Formulário
     E clico em "Enviar respostas"
     Então o sistema não registra a resposta
     E vejo uma mensagem de erro indicando campos obrigatórios não preenchidos
+
+  Cenário: Estudante tenta acessar formulário fora do prazo
+    Dado que estou logado como estudante
+    E existe um formulário cuja data de encerramento já passou
+    Quando tento acessar o formulário
+    Então o sistema não permite o acesso ao formulário
+    E vejo uma mensagem informando que o prazo de resposta foi encerrado
+
+  Cenário: Estudante tenta responder formulário de turma em que não está matriculado
+    Dado que estou logado como estudante
+    E existe um formulário disponível para uma turma em que não estou matriculado
+    Quando tento acessar o formulário diretamente pela URL
+    Então o sistema nega o acesso
+    E vejo uma mensagem de erro informando que não tenho permissão para responder este formulário
