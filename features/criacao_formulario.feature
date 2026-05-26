@@ -29,6 +29,14 @@ Feature: Criacao de Formulario
     Given que o usuário tem permissões para criacao de Formulario
     And ele está na aba criação de formulários
     When ele clica no botão "Criar Formulário"
+    And escreve "<nomeFormulario>" em "Nome do Formulário"
     And ele clica no botão "Criar"
-    Then o usuário deve estar na aba de criação de formulários
-    And o formulário "<templateName>" deve existir
+    Then o usuário deve estar na página do formulário de criação de formulários
+    And ele deve ver "Formulario <nomeFormulario> não pode ser criado, por favor seleciona uma Template"
+
+  Examples:
+  | nomeFormulario  |
+  | formulario um   |
+  | testeteste      |
+  | Formulario Satisfação - CIC0105 |
+  | Teste 3 - Formulario para Discentes |
