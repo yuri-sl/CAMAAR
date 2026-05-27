@@ -3,6 +3,9 @@ Como Administrador/Professor,
 Para que possa organizar e atualizar minhas templates,
 Quero poder editar minhas templates existentes e deleta-las.
 
+  Background:
+    Given que o usuário está na aba de 
+
   Scenario: Edicao de Template - Adicionar Pergunta Discursiva (Happy Path)
 
 
