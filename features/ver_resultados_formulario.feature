@@ -8,18 +8,19 @@ Quero poder ver os formulários que eu criei.
       | nome  | perfil    | email             | departamento  |
       | Igor  | Admin     | igor@escola.com   | CIC           |
       | Ana   | Professor | ana@escola.com    | CIC           |
+      | Joe   | Professor | joe@escola.com    | CIC           |
       | Pedro | Professor | pedro@escola.com  | MUS           |
       | Julia | Estudante | julia@escola.com  | CIC           |
     And o departamento do/a "CIC" possui os seguintes formulários:
-      | nomeFormulario                  | dono        |
-      | Formulário Matéria 1 - Turma 2  | Professor1  |
-      | Formulário Matéria 1 - Turma 7  | Professor1  |
-      | Formulário Matéria 2 - Turma 2  | Professor1  |
-      | Formulário Opcional             | Ana         |
-      | Formulário Um                   | Ana         |
-      | Formulário Introdutório         | Ana         |
+      | nomeFormulario                  | dono            |
+      | Formulário Matéria 1 - Turma 2  | joe@escola.com  |
+      | Formulário Matéria 1 - Turma 7  | joe@escola.com  |
+      | Formulário Matéria 2 - Turma 2  | joe@escola.com  |
+      | Formulário Opcional             | ana@escola.com  |
+      | Formulário Um                   | ana@escola.com  |
+      | Formulário Introdutório         | ana@escola.com  |
 
-  Scenario Outline: Professor vê seus formulários (Happy Path)
+  Scenario: Professor vê seus formulários (Happy Path)
     Given que o usuário esta logado como "ana@escola.com"
     When o usuário acessa a aba de "Respostas Formulários"
     Then ele deve ver "Formulário Opcional"
@@ -28,12 +29,12 @@ Quero poder ver os formulários que eu criei.
 
 
 
-  Scenario Outline: Administrador vê todos os formulários de um Departamento (Happy Path)
+  Scenario: Administrador vê todos os formulários de um Departamento (Happy Path)
     Given que o usuário esta logado como "igor@escola.com"
     When o usuário acessa a aba de "Respostas Formulários"
     Then ele deve ver "Formulário Matéria 1 - Turma 2"
     And ele deve ver "Formulário Matéria 1 - Turma 7"
-    And ele deve ver Formulário Matéria 2 - Turma 2"
+    And ele deve ver "Formulário Matéria 2 - Turma 2"
     And ele deve ver "Formulário Opcional"
     And ele deve ver "Formulário Um"
     And ele deve ver "Formulário Introdutório" 
@@ -47,7 +48,7 @@ Quero poder ver os formulários que eu criei.
     Given que o usuário não está logado 
     When o usuário acessa a aba de "Respostas Formulários"
     Then o usuário deve ser redirecionado à página de "Login"
-    And ele deve ver "É necessário estar logado para acessar está página."
+    And ele deve ver "É necessário estar logado para acessar esta página."
 
   Scenario: Tentativa de acesso a aba de Formulários Abertos sendo Aluno (Sad Path)
     Given que o usuário esta logado como "julia@escola.com"
