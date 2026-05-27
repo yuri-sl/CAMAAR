@@ -21,24 +21,28 @@ Assim como foi pedido na especificação os entregáveis desta sprint foram:
 
 Nesta Sprint, foram especificadas as seguintes funcionalidades:
 
-| ID  | Funcionalidade | Descrição | Responsável | Pontos |
-|---|---|---|---|---:|
-| F01 | Login de usuário | login de usuário ao sistema | Yuri Santana Lopes | 2 |
-| F02 | Cadastro de usuário | cadastrar novo usuário no sistema | Luidgi Varela Carneiro | 2 |
-| F03 | Redefinição de senha de usuário | redefinir a senha para um usuário já criado | João Vitor das Neves Romero | 3 |
-| F04 | Criação de formulário | criar formulário para os alunos ou professores responderem | João Felipe Stein | 5 |
-| F05 | Responder formulário criado | usuário deve conseguir responder um formulário que já foi criado | Arthur Souza Chagas | 5 |
-| F06 | Importar dados do SIGAA | usuário deve conseguir importar dados do SIGAA para popular o banco de dados | João Vitor das Neves Romero | 5 |
-| F07 | Criar template de formulário | usuário deve conseguir criar templates de formulários para serem reaproveitados | João Felipe Stein | 5 |
-| F08 | Gerar relatório do administrador | usuário deve conseguir gerar um relatório de administrador contendo informações referentes a todos os formulários respondidos | Arthur Souza Chaga | 8 |
-| F09 | Definição de senha | usuário deve conseguir definir uma senha para email já criado | Yuri Santana Lopes | 3 |
-| F10 | Criação de formulário para discentes e docentes | usuário deve conseguir criar formulários para público alvo | Luidgi Varela Carneiro | 3 |
-| F11 | Atualizar base de dados com os dados do SIGAA | usuário deve conseguir atualizar a base de dados do CAMAAR com novos dados do SIGAA | Yuri Santana Lopes | 8 |
-| F12 | Sistema de gerenciamento por departamento | usuário deve conseguir gerenciar usuários e turmas a partir do departamento | Arthur Souza Chaga | 8 |
-| F13 | Visualização de formulários para responder | usuário deve conseguir visualizar quais formulários ele precisa responder | João Felipe Stein | 3 |
-| F14 | Visualização de resultados de formulários | usuário deve visualizar os resultados do formulário requisitado | Luidgi Varela Carneiro | 5 |
-| F15 | Visualização de templates criados | usuário deve visualizar a lista dos templates de formulário existentes no sistema | João Vitor das Neves Romero | 2 |
-| F16 | Edição / deleção de templates | usuário deve conseguir editar ou remover templates de formulário previamente criados | João Felipe Stein | 3 |
+| ID  | Funcionalidade | Issue | Descrição | Responsável | Pontos |
+|---|---|---|---|---|---:|
+| F01 | Login de usuário | [#104](https://github.com/EngSwCIC/CAMAAR/issues/104) | login de usuário ao sistema | Yuri Santana Lopes | 2 |
+| F02 | Cadastro de usuário | [#100](https://github.com/EngSwCIC/CAMAAR/issues/100) | cadastrar novo usuário no sistema | Luidgi Varela Carneiro | 2 |
+| F03 | Redefinição de senha de usuário | [#107](https://github.com/EngSwCIC/CAMAAR/issues/107) | redefinir a senha para um usuário já criado | João Vitor das Neves Romero | 3 |
+| F04 | Criação de formulário | [#103](https://github.com/EngSwCIC/CAMAAR/issues/103) | criar formulário para os alunos ou professores responderem | João Felipe Stein | 5 |
+| F05 | Responder formulário criado | [#99](https://github.com/EngSwCIC/CAMAAR/issues/99) | usuário deve conseguir responder um formulário que já foi criado | Arthur Souza Chagas | 5 |
+| F06 | Importar dados do SIGAA | [#98](https://github.com/EngSwCIC/CAMAAR/issues/98) | usuário deve conseguir importar dados do SIGAA para popular o banco de dados | João Vitor das Neves Romero | 5 |
+| F07 | Criar template de formulário | [#102](https://github.com/EngSwCIC/CAMAAR/issues/102) | usuário deve conseguir criar templates de formulários para serem reaproveitados | João Felipe Stein | 5 |
+| F08 | Gerar relatório do administrador | [#101](https://github.com/EngSwCIC/CAMAAR/issues/101) | usuário deve conseguir gerar um relatório de administrador contendo informações referentes a todos os formulários respondidos | Arthur Souza Chagas | 8 |
+| F09 | Definição de senha | [#105](https://github.com/EngSwCIC/CAMAAR/issues/105) | usuário deve conseguir definir uma senha para email já criado | Yuri Santana Lopes | 3 |
+| F10 | Criação de formulário para discentes e docentes | [#113](https://github.com/EngSwCIC/CAMAAR/issues/113) | usuário deve conseguir criar formulários para público alvo | Luidgi Varela Carneiro | 3 |
+| F11 | Atualizar base de dados com os dados do SIGAA | [#108](https://github.com/EngSwCIC/CAMAAR/issues/108) | usuário deve conseguir atualizar a base de dados do CAMAAR com novos dados do SIGAA | Yuri Santana Lopes | 8 |
+| F12 | Sistema de gerenciamento por departamento | [#106](https://github.com/EngSwCIC/CAMAAR/issues/106) | usuário deve conseguir gerenciar usuários e turmas a partir do departamento | Arthur Souza Chagas | 8 |
+| F13 | Visualização de formulários para responder | [#109](https://github.com/EngSwCIC/CAMAAR/issues/109) | usuário deve conseguir visualizar quais formulários ele precisa responder | João Felipe Stein | 3 |
+| F14 | Visualização de resultados de formulários | [#110](https://github.com/EngSwCIC/CAMAAR/issues/110) | usuário deve visualizar os resultados do formulário requisitado | Luidgi Varela Carneiro | 5 |
+| F15 | Visualização de templates criados | [#111](https://github.com/EngSwCIC/CAMAAR/issues/111) | usuário deve visualizar a lista dos templates de formulário existentes no sistema | João Vitor das Neves Romero | 2 |
+| F16 | Edição / deleção de templates | [#112](https://github.com/EngSwCIC/CAMAAR/issues/112) | usuário deve conseguir editar ou remover templates de formulário previamente criados | João Felipe Stein | 3 |
+
+
+
+
 ---
 
 ##  Regras de Negócio
@@ -206,16 +210,16 @@ A pontuação foi atribuída considerando a complexidade, o esforço e a incerte
 | HU03 | Como usuário, quero redefinir minha senha, para recuperar o acesso à minha conta | João Vitor das Neves Romero | 3 |
 | HU04 | Como administrador, quero criar formulários, para coletar feedback de discentes e docentes | João Felipe Stein | 5 |
 | HU05 | Como discente ou docente, quero responder os formulários disponíveis, para contribuir com a avaliação acadêmica | Arthur Souza Chagas | 5 |
-| HU06 | Como administrador, quero importar dados do SIGAA, para popular rapidamente o banco de dados do CAMAAR | /******/ | 5 |
+| HU06 | Como administrador, quero importar dados do SIGAA, para popular rapidamente o banco de dados do CAMAAR | João Vitor das Neves Romero | 5 |
 | HU07 | Como administrador, quero criar templates de formulário, para reaproveitar estruturas em diferentes formulários | João Felipe Stein | 5 |
-| HU08 | Como administrador, quero gerar relatórios consolidados, para acompanhar o desempenho geral das turmas | /******/ | 8 |
+| HU08 | Como administrador, quero gerar relatórios consolidados, para acompanhar o desempenho geral das turmas | Arthur Souza Chagas | 8 |
 | HU09 | Como usuário com cadastro pré-existente, quero definir minha senha, para acessar o sistema pela primeira vez | Yuri Santana Lopes | 3 |
-| HU10 | Como administrador, quero criar formulários direcionados a um público específico, para coletar feedback adequado ao perfil dos respondentes | /******/ | 3 |
+| HU10 | Como administrador, quero criar formulários direcionados a um público específico, para coletar feedback adequado ao perfil dos respondentes | Luidgi Varela Carneiro | 3 |
 | HU11 | Como administrador, quero atualizar a base de dados com informações do SIGAA, para manter o CAMAAR sincronizado com a fonte oficial | Yuri Santana Lopes | 8 |
-| HU12 | Como administrador, quero gerenciar usuários e turmas por departamento, para organizar o sistema conforme a estrutura institucional | /******/ | 8 |
+| HU12 | Como administrador, quero gerenciar usuários e turmas por departamento, para organizar o sistema conforme a estrutura institucional | Arthur Souza Chagas | 8 |
 | HU13 | Como discente ou docente, quero visualizar os formulários que preciso responder, para não esquecer pendências | João Felipe Stein | 3 |
-| HU14 | Como administrador, quero visualizar os resultados de um formulário específico, para analisar o feedback recebido | /******/ | 5 |
-| HU15 | Como administrador, quero visualizar a lista de templates existentes, para reutilizá-los na criação de formulários | /******/ | 2 |
+| HU14 | Como administrador, quero visualizar os resultados de um formulário específico, para analisar o feedback recebido | Luidgi Varela Carneiro | 5 |
+| HU15 | Como administrador, quero visualizar a lista de templates existentes, para reutilizá-los na criação de formulários | João Vitor das Neves Romero | 2 |
 | HU16 | Como administrador, quero editar ou deletar templates, para manter a base de templates organizada e atualizada | João Felipe Stein | 3 |
 
 **Velocity estimada da Sprint:** 70 pontos
