@@ -61,16 +61,23 @@ Responsabilidades:
 
 ---
 
-## 9. Política de Branching
+## Política de Branching
 
 A política de branching adotada pelo grupo foi definida para organizar o desenvolvimento da Sprint e facilitar a abertura do Pull Request para o repositório principal.
 
-### Branch principal
+### Branch principal (main)
+
+A main contém a versão mais estável do projeto implementado.
 
 A branch utilizada para a entrega da sprint 1 é a `sprint-1`. Paralelamente, a branch `main` foi mantida como branch principal do fork do grupo, contendo o estado base do projeto.
 
+### Branch sprints
+
+Cada sprint tem sua branch principal de trabalho. Todos os commits que forem necessários para o desenvolvimento de uma sprint são salvos na branch com o nome da referente sprint.
+
 ### Branches de funcionalidades
 
+Cada feature implementada tem sua própria branch para permitir melhor versionamento e separação de atividades.
 Cada integrante pode criar branches específicas para suas funcionalidades, seguindo o padrão:
 
 ```bash

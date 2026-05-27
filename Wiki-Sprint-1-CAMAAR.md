@@ -2,10 +2,20 @@
 
 ## Escopo da Sprint
 
-A Sprint foi focada em desenvolver BDD para as features que devem ser implementadas na próxima etapa de entrega.
+A Sprint 1 representa a etapa inicial do desenvolvimento do CAMAAR e teve como foco a **especificação** das funcionalidades do sistema, não sua implementação. Nesta fase, o grupo se dedicou ao entendimento das histórias de usuário disponibilizadas no repositório, à organização do backlog do projeto e à definição clara dos comportamentos esperados para cada feature, de modo que as próximas Sprints possam concentrar-se exclusivamente na codificação, apoiadas em critérios de aceitação bem definidos desde o início.
 
-Nesta Sprint, o grupo trabalhou no planejamento, organização e especificação dos testes em BDD para a implementação de features relacionadas às principais atividades a serem desempenhadas no sistema.
+As funcionalidades especificadas nesta Sprint cobrem cinco grandes áreas do sistema:
+ - Autenticação e gestão de credenciais** (login, cadastro, redefinição e definição de senha);
+ - Gestão de formulários (criação geral, criação direcionada a discentes ou docentes, resposta de formulário e visualização de pendências),
+ - Gestão de templates (criação, listagem e edição/deleção),
+ - Integração com o SIGAA (importação inicial e atualização incremental de dados);
+ - Administração e análise: (relatórios consolidados, visualização de resultados e gerenciamento por departamento)
 
+Assim como foi pedido na especificação os entregáveis desta sprint foram:
+- Criação de testesde aceitação das histórias de usuário usando Cucumber;
+- Abertura de Pull Request (PR) no repositório principal contendo as especificações dos testes
+- Geração de documento txt contendo as informações referentes ao projeto.
+- Criação da Wiki em MarkDown do grupo. 
 
 ## Funcionalidades Especificadas
 
