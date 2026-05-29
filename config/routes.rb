@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
   root "login#index"
+  get "login",to: "login#index"
+
+  get "gerenciamento", to: "pages#gerenciamento"
+  get "avaliacoes",to: "pages#avaliacoes"
+  get "relatorios",to: "pages#relatorios"
+
 
   get "login", to: "login#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
