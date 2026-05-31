@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  root "login#index"
+  get "login",to: "login#index"
+
+  get "gerenciamento", to: "pages#gerenciamento"
+  get "avaliacoes",to: "pages#avaliacoes"
+  get "relatorios",to: "pages#relatorios"
+
+
+  get "login", to: "login#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
