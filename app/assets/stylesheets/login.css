@@ -1,37 +1,13 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
-html,
-body {
-    margin: 0;
-    padding: 0;
-}
-
-.main-page {
-    min-height: 100vh;
-    background-color: #909090;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 .login-page {
     min-height: 100vh;
-    background-color: #9f9e9e;
+    background-color: #d9d9d9;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.login-container {
+.login-card {
     width: 880px;
     height: 420px;
     display: flex;
@@ -40,14 +16,14 @@ body {
     background-color: white;
 }
 
-.login-left {
+.login-form-side {
     width: 44%;
     background-color: white;
     padding: 85px 38px;
     box-sizing: border-box;
 }
 
-.login-left h1 {
+.login-form-side h1 {
     text-align: center;
     font-size: 20px;
     font-weight: 400;

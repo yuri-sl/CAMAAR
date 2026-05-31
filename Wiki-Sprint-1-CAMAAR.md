@@ -13,23 +13,17 @@
 | Nome | Matrícula | Papel |
 |---|---:|---|
 | Arthur Souza Chagas | 221037385 | Dev |
-| João Felipe Stein | 241039331 | Dev |
+| João Felipe Stein | 241039331 |Product Owner / Dev |
 | Luidgi Varela Carneiro | 231011669 | Dev |
-| Yuri Santana Lopes | 222009750 | Dev |
+| Yuri Santana Lopes | 222009750 | Scrum Master Dev |
 | João Vitor das Neves Romero | 221028546 | Dev |
-
-Scrum Master / Dev
-Product Owner / Dev
 ---
 
 ## 2. Escopo do Projeto
 
 O projeto **CAMAAR** tem como objetivo implementar um sistema de controle de turmas e alunos, com suporte à criação de formulários para serem respondidos por alunos ou professores.
 
-Nesta Sprint, o grupo trabalhou no planejamento, organização e especificação das funcionalidades relacionadas ao seguinte épico/issue:
-
-**Épico/Issue escolhida:**  
-- #[número da issue] - [nome da issue ou funcionalidade]
+Nesta Sprint, o grupo trabalhou no planejamento, organização e especificação das funcionalidades relacionadas à seguintes issues:
 
 O escopo desta Sprint envolve:
 
@@ -47,8 +41,8 @@ O escopo desta Sprint envolve:
 
 O papel de **Scrum Master** foi exercido por:
 
-**Nome:** [Nome do Scrum Master]  
-**Matrícula:** [Matrícula]
+**Nome:** Yuri Santana Lopes
+**Matrícula:** 222009750
 
 Responsabilidades:
 
@@ -62,8 +56,8 @@ Responsabilidades:
 
 O papel de **Product Owner** foi exercido por:
 
-**Nome:** [Nome do Product Owner]  
-**Matrícula:** [Matrícula]
+**Nome:** João Felipe Stein  
+**Matrícula:** 241039331
 
 Responsabilidades:
 
@@ -260,16 +254,6 @@ A política de branching adotada pelo grupo foi definida para organizar o desenv
 
 A branch `main` foi mantida como branch principal do fork do grupo, contendo o estado base do projeto.
 
-### Branch da Sprint
-
-Foi criada uma branch específica para a entrega da Sprint 1:
-
-```bash
-git checkout -b sprint-1
-```
-
-A branch `sprint-1` contém somente as modificações relacionadas à primeira Sprint e não deve receber novos commits após a abertura do Pull Request.
-
 ### Branches de funcionalidades
 
 Cada integrante pode criar branches específicas para suas funcionalidades, seguindo o padrão:
@@ -282,55 +266,12 @@ Exemplos:
 
 ```bash
 feature/cadastro-usuario
-feature/importacao-dados
-feature/gerenciamento-turmas
+feature/criacao-formulario
+feature/resposta-questionarios
 ```
-
-### Fluxo utilizado
-
-1. Criar uma branch de funcionalidade a partir da `main` ou da branch da Sprint;
-2. Especificar a funcionalidade e seus cenários BDD;
-3. Realizar commits claros e objetivos;
-4. Enviar a branch para o GitHub;
-5. Abrir Pull Request interno para a branch `sprint-1`, se necessário;
-6. Revisar as alterações em grupo;
-7. Abrir apenas um Pull Request final da branch `sprint-1` para o repositório principal.
-
 ---
 
-## 10. Pull Request
-
-O Pull Request da Sprint 1 foi aberto seguindo as orientações da especificação.
-
-**Título do Pull Request:**  
-Grupo [número] - #[número da issue] [nome da funcionalidade]
-
-**Responsáveis pela branch:**
-
-| Nome | Matrícula |
-|---|---:|
-| [Nome] | [Matrícula] |
-| [Nome] | [Matrícula] |
-| [Nome] | [Matrícula] |
-
-**Issue/Feature relacionada:**  
-- #[número da issue] - [nome da issue]
-
----
-
-## 11. Commits
-
-Cada integrante realizou commits referentes às suas próprias modificações.
-
-| Integrante | Descrição dos commits realizados |
-|---|---|
-| [Nome] | [Descrição breve das alterações] |
-| [Nome] | [Descrição breve das alterações] |
-| [Nome] | [Descrição breve das alterações] |
-
----
-
-## 12. Links Úteis
+## 10. Links Úteis
 
 - [Repositório do Fork](https://github.com/EngSwCIC/CAMAAR)
 - [Protótipo no Figma](https://www.figma.com/design/5GVzfaJSBbcXmGvuvAi7WF/Camaar-2024.1?node-id=0-1&p=f)
