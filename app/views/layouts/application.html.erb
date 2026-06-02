@@ -17,6 +17,8 @@
   <link rel="apple-touch-icon" href="/icon.png">
 
   <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <%= yield :stylesheets %>
+
   <%= javascript_importmap_tags %>
 </head>
 
