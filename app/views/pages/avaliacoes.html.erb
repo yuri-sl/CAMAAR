@@ -1,2 +1,25 @@
-<h1>Pages#avaliacoes</h1>
-<p>Find me in app/views/pages/avaliacoes.html.erb</p>
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag "header", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "avaliacoes", "data-turbo-track": "reload" %>
+<% end %>
+
+<%= render "shared/header", title: "Avaliações" %>
+
+<div class="avaliacoes-page">
+  <aside class="sidebar">
+    <div class="sidebar-item active">Avaliações</div>
+    <div class="sidebar-item">Gerenciamento</div>
+  </aside>
+
+  <main class="content">
+    <div class="cards-container">
+      <% 5.times do %>
+        <div class="avaliacao-card">
+          <h2>Nome da matéria</h2>
+          <p>semestre</p>
+          <h3>Professor</h3>
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>
