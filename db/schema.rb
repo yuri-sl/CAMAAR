@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_31_141659) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_31_143101) do
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "departamento_id", null: false
@@ -56,6 +56,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_31_141659) do
     t.index ["turma_id"], name: "index_formularios_on_turma_id"
   end
 
+  create_table "materia", force: :cascade do |t|
+    t.string "codigoMateria"
+    t.datetime "created_at", null: false
+    t.integer "departamento_id", null: false
+    t.string "descricao_materia"
+    t.string "nome_materia"
+    t.datetime "updated_at", null: false
+    t.index ["departamento_id"], name: "index_materia_on_departamento_id"
+  end
+
   create_table "matriculas", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "estudante_id", null: false
@@ -75,6 +85,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_31_141659) do
     t.integer "tipo_pergunta"
     t.datetime "updated_at", null: false
     t.index ["template_formulario_id"], name: "index_pergunta_on_template_formulario_id"
+  end
+
+  create_table "pergunta_formularios", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "formulario_id", null: false
+    t.integer "pergunta_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["formulario_id"], name: "index_pergunta_formularios_on_formulario_id"
+    t.index ["pergunta_id"], name: "index_pergunta_formularios_on_pergunta_id"
   end
 
   create_table "professors", force: :cascade do |t|
@@ -141,9 +160,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_31_141659) do
   add_foreign_key "formularios", "criador_formularios"
   add_foreign_key "formularios", "template_formularios"
   add_foreign_key "formularios", "turmas"
+  add_foreign_key "materia", "departamentos"
   add_foreign_key "matriculas", "estudantes"
   add_foreign_key "matriculas", "turmas"
   add_foreign_key "pergunta", "template_formularios"
+  add_foreign_key "pergunta_formularios", "formularios"
+  add_foreign_key "pergunta_formularios", "pergunta", column: "pergunta_id"
   add_foreign_key "professors", "usuarios"
   add_foreign_key "resposta_formularios", "formularios"
   add_foreign_key "resposta_formularios", "usuarios"

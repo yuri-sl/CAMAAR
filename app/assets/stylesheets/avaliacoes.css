@@ -1,0 +1,72 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.avaliacoes-page {
+    display: flex;
+    min-height: calc(100vh - 44px);
+    background-color: #d9d9d9;
+}
+
+.avaliacoes-page .sidebar {
+    width: 205px;
+    background-color: #ffffff;
+    border-right: 2px solid #8e24ff;
+}
+
+.avaliacoes-page .sidebar-item {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    border-bottom: 1px dotted #8e24ff;
+    color: #000000;
+}
+
+.avaliacoes-page .sidebar-item.active {
+    background-color: #7b1b8d;
+    color: #ffffff;
+}
+
+.avaliacoes-page .content {
+    flex: 1;
+    padding: 22px 40px;
+}
+
+.avaliacoes-page .cards-container {
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
+    column-gap: 55px;
+    row-gap: 45px;
+}
+
+.avaliacoes-page .avaliacao-card {
+    width: 250px;
+    min-height: 125px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 18px 25px;
+    box-sizing: border-box;
+}
+
+.avaliacoes-page .avaliacao-card h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.avaliacoes-page .avaliacao-card p {
+    margin: 18px 0 0 0;
+    font-size: 16px;
+}
+
+.avaliacoes-page .avaliacao-card h3 {
+    margin: 24px 0 0 0;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+}
