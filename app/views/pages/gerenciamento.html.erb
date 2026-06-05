@@ -1,2 +1,28 @@
-<h1>Pages#gerenciamento</h1>
-<p>Find me in app/views/pages/gerenciamento.html.erb</p>
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag "header", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "gerenciamento", "data-turbo-track": "reload" %>
+<% end %>
+
+<%= render "shared/header", title: "Gerenciamento" %>
+
+<div class="gerenciamento-page">
+  <aside class="sidebar">
+    <%= link_to "Avaliações",    avaliacoes_path,   class: "sidebar-item" %>
+    <%= link_to "Gerenciamento", gerenciamento_path, class: "sidebar-item active" %>
+  </aside>
+
+  <main class="content">
+    <div class="panel">
+      <div class="actions">
+        <%= button_to "Importar dados", importar_dados_path,
+                      method: :post,
+                      class: "btn btn--primary",
+                      form: { class: "btn-form", data: { turbo_confirm: "Importar os dados agora?" } } %>
+
+        <%= link_to "Editar Templates",   editar_templates_path,   class: "btn btn--primary" %>
+        <%= link_to "Enviar Formularios", enviar_formularios_path, class: "btn btn--primary" %>
+        <%= link_to "Resultados",         resultados_path,         class: "btn btn--primary" %>
+      </div>
+    </div>
+  </main>
+</div>

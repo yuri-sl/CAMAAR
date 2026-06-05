@@ -6,6 +6,12 @@ Rails.application.routes.draw do
   get "avaliacoes",to: "pages#avaliacoes"
   get "relatorios",to: "pages#relatorios"
 
+  post "gerenciamento/importar",    to: "gerenciamento#importar",    as: :importar_dados
+  get  "gerenciamento/templates",   to: "gerenciamento#templates",   as: :editar_templates
+  get  "gerenciamento/formularios", to: "gerenciamento#formularios", as: :enviar_formularios
+  get  "gerenciamento/resultados",  to: "gerenciamento#resultados",  as: :resultados
+
+
 
   get "login", to: "login#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
