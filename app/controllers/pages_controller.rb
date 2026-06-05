@@ -1,7 +1,8 @@
 class PagesController < ApplicationController
-  def gerenciamento
-  end
+  before_action :require_login
+  before_action :require_admin, only: :gerenciamento
 
-  def avaliacoes
-  end
+  def gerenciamento; end
+  def avaliacoes; end
+  def relatorios; end
 end
