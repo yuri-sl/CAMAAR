@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
+  get "senha/redefinir"
   root "login#index"
-  get "login",to: "login#index"
+  get "login", to: "login#index"
   post "login", to: "login#create"
   delete "logout", to: "login#destroy"
 
-  get "signup",to: "usuarios#new"
-  post "signup",to: "usuarios#create"
+  get "signup", to: "usuarios#new"
+  post "signup", to: "usuarios#create"
 
   get "gerenciamento", to: "pages#gerenciamento"
   get "avaliacoes", to: "pages#avaliacoes"
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
   get  "gerenciamento/formularios", to: "gerenciamento#formularios", as: :enviar_formularios
   get  "gerenciamento/resultados",  to: "gerenciamento#resultados",  as: :resultados
 
+  post "senha/redefinir", to: "senha#redefinir"
 
 
   get "login", to: "login#index"
