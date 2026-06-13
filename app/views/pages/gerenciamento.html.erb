@@ -12,17 +12,34 @@
   </aside>
 
   <main class="content">
+    <% if notice %>
+      <p class="flash-notice"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p class="flash-alert"><%= alert %></p>
+    <% end %>
+
     <div class="panel">
       <div class="actions">
-        <%= button_to "Importar dados", importar_dados_path,
-                      method: :post,
-                      class: "btn btn--primary",
-                      form: { class: "btn-form", data: { turbo_confirm: "Importar os dados agora?" } } %>
-
         <%= link_to "Editar Templates",   editar_templates_path,   class: "btn btn--primary" %>
         <%= link_to "Enviar Formularios", enviar_formularios_path, class: "btn btn--primary" %>
         <%= link_to "Resultados",         resultados_path,         class: "btn btn--primary" %>
       </div>
+    </div>
+
+    <div class="import-panel">
+      <h2>Importar Dados</h2>
+      <%= form_with url: importar_dados_path, method: :post, multipart: true, class: "import-form" do |f| %>
+        <div class="form-group">
+          <%= f.label :classes_file, "Arquivo de Turmas (classes.json)" %>
+          <%= f.file_field :classes_file, accept: ".json", required: true %>
+        </div>
+        <div class="form-group">
+          <%= f.label :members_file, "Arquivo de Membros (class_members.json)" %>
+          <%= f.file_field :members_file, accept: ".json", required: true %>
+        </div>
+        <%= f.submit "Importar dados", class: "btn btn--primary" %>
+      <% end %>
     </div>
   </main>
 </div>

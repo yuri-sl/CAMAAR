@@ -48,9 +48,11 @@
   flex: 1;
   background: var(--gp-content-bg);
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   padding: 28px 20px;
+  gap: 20px;
 }
 
 .gerenciamento-page .panel {
@@ -182,6 +184,57 @@
   margin: 0;
   padding-left: 20px;
 }
+
+.import-panel {
+  background: var(--gp-card);
+  width: min(400px, 100%);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+  padding: 28px;
+  box-sizing: border-box;
+}
+
+.import-panel h2 {
+  margin: 0 0 20px;
+  font-size: 1.1rem;
+  color: var(--gp-ink-soft);
+}
+
+.import-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.import-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.import-form .form-group label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--gp-ink-soft);
+}
+
+.import-form .form-group input[type="file"] {
+  border: 1px solid var(--gp-line);
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.flash-notice,
+.flash-alert {
+  width: min(400px, 100%);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.flash-notice { background: #d1fae5; color: #065f46; }
+.flash-alert  { background: #fee2e2; color: #991b1b; }
 
 @media (max-width: 760px) {
   .gerenciamento-page { flex-direction: column; }
