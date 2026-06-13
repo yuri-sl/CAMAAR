@@ -47,6 +47,15 @@ body {
     box-sizing: border-box;
 }
 
+.signup-container {
+    height: auto;
+    min-height: 620px;
+}
+
+.signup-left {
+    padding: 40px 38px;
+}
+
 .login-left h1 {
     text-align: center;
     font-size: 20px;

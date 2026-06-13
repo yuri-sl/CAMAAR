@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   post "gerenciamento/importar",    to: "gerenciamento#importar",    as: :importar_dados
   get  "gerenciamento/templates",   to: "gerenciamento#templates",   as: :editar_templates
   get  "gerenciamento/formularios", to: "gerenciamento#formularios", as: :enviar_formularios
+  post "gerenciamento/formularios", to: "gerenciamento#criar_formulario"
   get  "gerenciamento/resultados",  to: "gerenciamento#resultados",  as: :resultados
 
   post "senha/redefinir", to: "senha#redefinir"
