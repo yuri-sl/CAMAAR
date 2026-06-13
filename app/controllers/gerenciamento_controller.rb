@@ -1,12 +1,29 @@
 class GerenciamentoController < ApplicationController
-  before_action :require_login, only: [ :formularios, :criar_formulario ]
-  before_action :autorizar_administrador, only: [ :formularios, :criar_formulario ]
+  before_action :require_login, only: [ :formularios, :criar_formulario, :importar ]
+  before_action :autorizar_administrador, only: [ :formularios, :criar_formulario, :importar ]
 
   def index
   end
 
   def importar
-    redirect_to gerenciamento_path, notice: "Importação iniciada."
+    classes_file = params[:classes_file]
+    members_file = params[:members_file]
+
+    if classes_file.blank? || members_file.blank?
+      return redirect_to gerenciamento_path, alert: "Selecione os dois arquivos JSON para importar."
+    end
+
+    classes_data = JSON.parse(classes_file.read)
+    members_data = JSON.parse(members_file.read)
+    result = ImportarDadosService.new(classes_data, members_data).call
+
+    if result[:success]
+      redirect_to gerenciamento_path, notice: "Importação concluída. #{result[:summary]}"
+    else
+      redirect_to gerenciamento_path, alert: "Erro na importação: #{result[:errors].join(', ')}"
+    end
+  rescue JSON::ParserError => e
+    redirect_to gerenciamento_path, alert: "Arquivo JSON inválido: #{e.message}"
   end
 
   def templates

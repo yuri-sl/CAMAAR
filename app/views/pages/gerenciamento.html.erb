@@ -11,18 +11,51 @@
     <%= link_to "Gerenciamento", gerenciamento_path, class: "sidebar-item active" %>
   </aside>
 
-  <main class="content">
+  <main class="content" data-controller="modal">
+    <% if notice %>
+      <p class="flash-notice"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p class="flash-alert"><%= alert %></p>
+    <% end %>
+
     <div class="panel">
       <div class="actions">
-        <%= button_to "Importar dados", importar_dados_path,
-                      method: :post,
-                      class: "btn btn--primary",
-                      form: { class: "btn-form", data: { turbo_confirm: "Importar os dados agora?" } } %>
-
+        <button class="btn btn--primary" data-action="click->modal#open">Importar Dados</button>
         <%= link_to "Editar Templates",   editar_templates_path,   class: "btn btn--primary" %>
         <%= link_to "Enviar Formularios", enviar_formularios_path, class: "btn btn--primary" %>
         <%= link_to "Resultados",         resultados_path,         class: "btn btn--primary" %>
       </div>
     </div>
+
+    <dialog class="import-dialog"
+            data-modal-target="dialog"
+            data-action="click->modal#backdropClose">
+      <div class="import-dialog-header">
+        <h2>Importar Dados</h2>
+        <button type="button" class="import-dialog-close"
+                data-action="click->modal#close"
+                aria-label="Fechar">✕</button>
+      </div>
+
+      <%= form_with url: importar_dados_path, method: :post, multipart: true, class: "import-form" do |f| %>
+        <div class="form-group">
+          <%= f.label :classes_file, "Arquivo de Turmas (classes.json)" %>
+          <%= f.file_field :classes_file, accept: ".json", required: true,
+                data: { modal_target: "fileInput", action: "change->modal#checkFiles" } %>
+        </div>
+        <div class="form-group">
+          <%= f.label :members_file, "Arquivo de Membros (class_members.json)" %>
+          <%= f.file_field :members_file, accept: ".json", required: true,
+                data: { modal_target: "fileInput", action: "change->modal#checkFiles" } %>
+        </div>
+        <div class="import-dialog-actions">
+          <button type="button" class="btn btn--primary"
+                  data-action="click->modal#close">Cancelar</button>
+          <%= f.submit "Importar", class: "btn btn--primary", disabled: true,
+                data: { modal_target: "submitButton" } %>
+        </div>
+      <% end %>
+    </dialog>
   </main>
 </div>
