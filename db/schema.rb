@@ -76,17 +76,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_210912) do
     t.index ["turma_id"], name: "index_matriculas_on_turma_id"
   end
 
-  create_table "pergunta", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "gabarito_discursiva"
-    t.string "gabarito_radio"
-    t.text "opcoes_radio"
-    t.integer "template_formulario_id", null: false
-    t.integer "tipo_pergunta"
-    t.datetime "updated_at", null: false
-    t.index ["template_formulario_id"], name: "index_pergunta_on_template_formulario_id"
-  end
-
   create_table "pergunta_formularios", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "formulario_id", null: false
@@ -94,6 +83,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_210912) do
     t.datetime "updated_at", null: false
     t.index ["formulario_id"], name: "index_pergunta_formularios_on_formulario_id"
     t.index ["pergunta_id"], name: "index_pergunta_formularios_on_pergunta_id"
+  end
+
+  create_table "perguntas", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "gabarito_discursiva"
+    t.string "gabarito_radio"
+    t.text "opcoes_radio"
+    t.integer "template_formulario_id", null: false
+    t.integer "tipo_pergunta"
+    t.datetime "updated_at", null: false
+    t.index ["template_formulario_id"], name: "index_perguntas_on_template_formulario_id"
   end
 
   create_table "professors", force: :cascade do |t|
@@ -113,14 +113,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_210912) do
     t.index ["usuario_id"], name: "index_resposta_formularios_on_usuario_id"
   end
 
-  create_table "resposta_pergunta", force: :cascade do |t|
+  create_table "resposta_perguntas", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "dataResposta"
     t.integer "formulario_id", null: false
     t.datetime "updated_at", null: false
     t.integer "usuario_id", null: false
-    t.index ["formulario_id"], name: "index_resposta_pergunta_on_formulario_id"
-    t.index ["usuario_id"], name: "index_resposta_pergunta_on_usuario_id"
+    t.index ["formulario_id"], name: "index_resposta_perguntas_on_formulario_id"
+    t.index ["usuario_id"], name: "index_resposta_perguntas_on_usuario_id"
   end
 
   create_table "template_formularios", force: :cascade do |t|
@@ -163,14 +163,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_210912) do
   add_foreign_key "materia", "departamentos"
   add_foreign_key "matriculas", "estudantes"
   add_foreign_key "matriculas", "turmas"
-  add_foreign_key "pergunta", "template_formularios"
   add_foreign_key "pergunta_formularios", "formularios"
-  add_foreign_key "pergunta_formularios", "pergunta", column: "pergunta_id"
+  add_foreign_key "pergunta_formularios", "perguntas"
+  add_foreign_key "perguntas", "template_formularios"
   add_foreign_key "professors", "usuarios"
   add_foreign_key "resposta_formularios", "formularios"
   add_foreign_key "resposta_formularios", "usuarios"
-  add_foreign_key "resposta_pergunta", "formularios"
-  add_foreign_key "resposta_pergunta", "usuarios"
+  add_foreign_key "resposta_perguntas", "formularios"
+  add_foreign_key "resposta_perguntas", "usuarios"
   add_foreign_key "template_formularios", "criador_de_formularios"
   add_foreign_key "turmas", "materia", column: "materia_id"
   add_foreign_key "turmas", "professors"
