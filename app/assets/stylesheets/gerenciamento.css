@@ -111,6 +111,20 @@
   background: var(--gp-green-soft-2);
 }
 
+.gerenciamento-page .btn--danger {
+  background: #dc2626;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.30);
+}
+.gerenciamento-page .btn--danger:hover {
+  background: #b91c1c;
+}
+
+.actions-divider {
+  border: none;
+  border-top: 1px solid #e6e6e8;
+  margin: 6px 0;
+}
+
 .gerenciamento-page .btn.is-disabled {
   opacity: .7;
   cursor: not-allowed;

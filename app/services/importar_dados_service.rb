@@ -4,12 +4,14 @@ class ImportarDadosService
     @members = members_data
     @created = Hash.new(0)
     @updated = Hash.new(0)
+    @email_logger = EmailLogger.new
   end
 
   def call
     ActiveRecord::Base.transaction do
       @members.each { |entry| import_entry(entry) }
     end
+    @email_logger.flush
     { success: true, summary: build_summary }
   rescue StandardError => e
     { success: false, errors: [ e.message ] }
@@ -98,15 +100,18 @@ class ImportarDadosService
   # Updates nome for existing users. Role and password are never overwritten.
   def upsert_usuario(nome:, email:, matricula:, role:)
     record = Usuario.find_or_initialize_by(email: email.to_s.downcase.strip)
+    temp_password = "Camaar#{matricula}"
     if record.new_record?
-      record.matricula = matricula
-      record.role      = role
-      temp_password    = "Camaar#{matricula}"
+      record.matricula             = matricula
+      record.role                  = role
       record.password              = temp_password
       record.password_confirmation = temp_password
     end
     record.nome = nome
     record.save!
+    if record.previously_new_record?
+      @email_logger.log_boas_vindas(nome: nome, email: record.email, senha_temporaria: temp_password)
+    end
     track(record, :usuarios)
     record
   end

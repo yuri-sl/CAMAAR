@@ -25,6 +25,14 @@
         <%= link_to "Editar Templates",   editar_templates_path,   class: "btn btn--primary" %>
         <%= link_to "Enviar Formularios", enviar_formularios_path, class: "btn btn--primary" %>
         <%= link_to "Resultados",         resultados_path,         class: "btn btn--primary" %>
+
+        <hr class="actions-divider">
+
+        <%= button_to "Limpar Dados", limpar_dados_path,
+              method: :delete,
+              class: "btn btn--danger",
+              form: { class: "btn-form" },
+              data: { turbo_confirm: "Tem certeza? Todos os dados importados (turmas, alunos, professores, formulários) serão removidos permanentemente. O administrador será mantido." } %>
       </div>
     </div>
 

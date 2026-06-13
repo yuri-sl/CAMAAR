@@ -12,7 +12,8 @@ Rails.application.routes.draw do
   get "avaliacoes", to: "pages#avaliacoes"
   get "relatorios", to: "pages#relatorios"
 
-  post "gerenciamento/importar",    to: "gerenciamento#importar",    as: :importar_dados
+  post   "gerenciamento/importar",    to: "gerenciamento#importar",    as: :importar_dados
+  delete "gerenciamento/limpar",     to: "gerenciamento#limpar",      as: :limpar_dados
   get  "gerenciamento/templates",   to: "gerenciamento#templates",   as: :editar_templates
   get  "gerenciamento/formularios", to: "gerenciamento#formularios", as: :enviar_formularios
   post "gerenciamento/formularios", to: "gerenciamento#criar_formulario"

@@ -1,6 +1,6 @@
 class GerenciamentoController < ApplicationController
-  before_action :require_login, only: [ :formularios, :criar_formulario, :importar ]
-  before_action :autorizar_administrador, only: [ :formularios, :criar_formulario, :importar ]
+  before_action :require_login, only: [ :formularios, :criar_formulario, :importar, :limpar ]
+  before_action :autorizar_administrador, only: [ :formularios, :criar_formulario, :importar, :limpar ]
 
   def index
   end
@@ -48,6 +48,15 @@ class GerenciamentoController < ApplicationController
       redirect_to enviar_formularios_path, notice: "Formulário criado com sucesso."
     else
       render :formularios, status: :unprocessable_content
+    end
+  end
+
+  def limpar
+    result = LimparDadosService.new.call
+    if result[:success]
+      redirect_to gerenciamento_path, notice: "Dados removidos. O banco está pronto para nova importação."
+    else
+      redirect_to gerenciamento_path, alert: "Erro ao limpar dados: #{result[:error]}"
     end
   end
 
