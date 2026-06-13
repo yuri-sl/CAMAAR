@@ -185,19 +185,45 @@
   padding-left: 20px;
 }
 
-.import-panel {
-  background: var(--gp-card);
-  width: min(400px, 100%);
+.import-dialog {
+  border: none;
   border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   padding: 28px;
+  width: min(460px, 90vw);
   box-sizing: border-box;
 }
 
-.import-panel h2 {
-  margin: 0 0 20px;
+.import-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.import-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.import-dialog-header h2 {
+  margin: 0;
   font-size: 1.1rem;
   color: var(--gp-ink-soft);
+}
+
+.import-dialog-close {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--gp-ink-soft);
+  padding: 4px 8px;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.import-dialog-close:hover {
+  background: #f0f0f0;
 }
 
 .import-form {
@@ -222,6 +248,25 @@
   border: 1px solid var(--gp-line);
   border-radius: 6px;
   padding: 8px;
+}
+
+.import-dialog-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.import-dialog-actions .btn {
+  width: auto;
+  flex: 0 0 auto;
+  padding: 10px 20px;
+}
+
+.import-dialog-actions .btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .flash-notice,
