@@ -7,8 +7,13 @@
 
 <div class="avaliacoes-page">
   <aside class="sidebar">
-    <%= link_to "Avaliações",    avaliacoes_path,   class: "sidebar-item active" %>
-    <%= link_to "Gerenciamento", gerenciamento_path, class: "sidebar-item" %>
+    <%= link_to "Avaliações", avaliacoes_path, class: "sidebar-item active" %>
+    <% if current_usuario&.admin? %>
+      <%= link_to "Gerenciamento", gerenciamento_path, class: "sidebar-item" %>
+    <% end %>
+    <% if current_usuario&.professor? %>
+      <%= link_to "Relatórios", relatorios_path, class: "sidebar-item" %>
+    <% end %>
   </aside>
 
   <main class="content">

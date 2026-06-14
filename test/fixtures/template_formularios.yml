@@ -2,8 +2,8 @@
 
 one:
   nome_template: MyString
-  criador_de_formulario: one
+  criador_formulario: one
 
 two:
   nome_template: MyString
-  criador_de_formulario: two
+  criador_formulario: two

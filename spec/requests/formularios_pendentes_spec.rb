@@ -1,14 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "Visualização de formulários pendentes", type: :request do
-  before(:context) do
-    ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = OFF")
-  end
-
-  after(:context) do
-    ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = ON")
-  end
-
   let!(:departamento) { Departamento.create!(nome_departamento: "CIC") }
   let!(:materia) do
     Materia.create!(
@@ -42,12 +34,10 @@ RSpec.describe "Visualização de formulários pendentes", type: :request do
   end
 
   def criar_template
-    template = TemplateFormulario.new(
+    TemplateFormulario.create!(
       nome_template: "Template para testes",
-      criador_de_formulario_id: criador_formulario.id
+      criador_formulario: criador_formulario
     )
-    template.save!(validate: false)
-    template
   end
 
   def criar_formulario(nome:, turma:, publico_estudante:)

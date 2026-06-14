@@ -1,14 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "Criação de formulário para discentes ou docentes", type: :request do
-  before(:context) do
-    ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = OFF")
-  end
-
-  after(:context) do
-    ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = ON")
-  end
-
   let!(:departamento) { Departamento.create!(nome_departamento: "CIC") }
   let!(:usuario_admin) { criar_usuario("Administrador", "admin-formularios@example.com", :admin) }
   let!(:admin) { Admin.create!(usuario: usuario_admin, departamento: departamento) }
@@ -44,12 +36,10 @@ RSpec.describe "Criação de formulário para discentes ou docentes", type: :req
   end
 
   def criar_template(nome)
-    template = TemplateFormulario.new(
+    TemplateFormulario.create!(
       nome_template: nome,
-      criador_de_formulario_id: criador_formulario.id
+      criador_formulario: criador_formulario
     )
-    template.save!(validate: false)
-    template
   end
 
   def entrar_como(usuario)
@@ -248,8 +238,9 @@ RSpec.describe "Criação de formulário para discentes ou docentes", type: :req
   end
 
   it "trata administrador sem CriadorFormulario com erro controlado" do
-    criador_formulario.destroy!
-    entrar_como(usuario_admin)
+    usuario_sem_criador = criar_usuario("Admin sem criador", "admin-sem-criador@example.com", :admin)
+    Admin.create!(usuario: usuario_sem_criador, departamento: departamento)
+    entrar_como(usuario_sem_criador)
 
     expect {
       post enviar_formularios_path, params: parametros_validos(publico_alvo: "docente")
