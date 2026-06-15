@@ -1,0 +1,27 @@
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag "header", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "avaliacoes", "data-turbo-track": "reload" %>
+<% end %>
+
+<%= render "shared/header", title: "Avaliações" %>
+
+<div class="avaliacoes-page">
+  <aside class="sidebar">
+    <%= link_to "Avaliações",    avaliacoes_path,   class: "sidebar-item active" %>
+    <%= link_to "Gerenciamento", gerenciamento_path, class: "sidebar-item" %>
+  </aside>
+
+  <main class="content">
+    <div class="cards-container">
+      <% @template_formularios.each do |template| %>
+        <div class="avaliacao-card">
+          <h2><%= template.nome %></h2>
+          <p><%= template.perguntas.count %> perguntas</p>
+          <h3><%= l template.created_at, format: :short %></h3>
+          <button type="">Editar</button> 
+          <button type="">Deletar</button> 
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>
