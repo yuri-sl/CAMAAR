@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_03_210912) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_13_220000) do
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "departamento_id", null: false
@@ -125,10 +125,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_210912) do
 
   create_table "template_formularios", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "criador_de_formulario_id", null: false
+    t.integer "criador_formulario_id", null: false
     t.string "nome_template"
     t.datetime "updated_at", null: false
-    t.index ["criador_de_formulario_id"], name: "index_template_formularios_on_criador_de_formulario_id"
+    t.index ["criador_formulario_id"], name: "index_template_formularios_on_criador_formulario_id"
   end
 
   create_table "turmas", force: :cascade do |t|
@@ -171,7 +171,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_210912) do
   add_foreign_key "resposta_formularios", "usuarios"
   add_foreign_key "resposta_pergunta", "formularios"
   add_foreign_key "resposta_pergunta", "usuarios"
-  add_foreign_key "template_formularios", "criador_de_formularios"
+  add_foreign_key "template_formularios", "criador_formularios"
   add_foreign_key "turmas", "materia", column: "materia_id"
   add_foreign_key "turmas", "professors"
 end
