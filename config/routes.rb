@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get "senha/redefinir"
   root "login#index"
   get "login", to: "login#index"
   post "login", to: "login#create"
@@ -19,8 +18,15 @@ Rails.application.routes.draw do
   post "gerenciamento/formularios", to: "gerenciamento#criar_formulario"
   get  "gerenciamento/resultados",  to: "gerenciamento#resultados",  as: :resultados
 
-  post "senha/redefinir", to: "senha#redefinir"
+  # Logged-in password change
+  get  "senha/redefinir", to: "senha#redefinir", as: :senha_redefinir
+  post "senha/redefinir", to: "senha#atualizar"
 
+  # Forgot-password flow (no login required)
+  get  "senha/recuperar", to: "senha#recuperar", as: :recuperar_senha
+  post "senha/recuperar", to: "senha#solicitar"
+  get  "senha/nova",      to: "senha#nova",      as: :senha_nova
+  post "senha/nova",      to: "senha#salvar"
 
   get "login", to: "login#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
