@@ -27,6 +27,7 @@ class GerenciamentoController < ApplicationController
   end
 
   def templates
+    @template_formularios = TemplateFormulario.all
   end
 
   def formularios
