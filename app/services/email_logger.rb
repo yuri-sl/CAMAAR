@@ -1,16 +1,17 @@
 class EmailLogger
   LOG_DIR = Rails.root.join("notificacoes")
 
-  def initialize
+  def initialize(base_url: "http://localhost:3000")
+    @base_url = base_url
     FileUtils.mkdir_p(LOG_DIR)
     @entries = []
   end
 
-  def log_boas_vindas(nome:, email:, senha_temporaria:)
-    @entries << build_email(nome: nome, email: email, senha_temporaria: senha_temporaria)
+  def log_convite_acesso(nome:, email:, token:)
+    url = "#{@base_url}/senha/nova?token=#{token}"
+    @entries << build_invite_email(nome: nome, email: email, url: url)
   end
 
-  # Escreve o log do arquivo e retorna o path. Retorna nil se não houverem entradas.
   def flush
     return nil if @entries.empty?
 
@@ -31,9 +32,9 @@ class EmailLogger
   def build_content
     sep = "=" * 60
     header = <<~HEADER
-      CAMAAR — Notificações de Credenciais de Acesso
+      CAMAAR — Convites de Primeiro Acesso
       Gerado em: #{Time.current.strftime('%d/%m/%Y às %H:%M:%S')}
-      Total de emails: #{@entries.size}
+      Total de convites: #{@entries.size}
 
       #{sep}
 
@@ -46,23 +47,23 @@ class EmailLogger
     header + body
   end
 
-  def build_email(nome:, email:, senha_temporaria:)
+  def build_invite_email(nome:, email:, url:)
     <<~EMAIL
       Para:    #{email}
-      Assunto: Bem-vindo ao CAMAAR — Suas credenciais de acesso
+      Assunto: Bem-vindo ao CAMAAR — Defina sua senha de acesso
 
       Olá, #{nome}!
 
       Você foi cadastrado no sistema CAMAAR da Universidade de Brasília.
 
-      Suas credenciais de acesso são:
+      Para ativar sua conta e definir sua senha, acesse o link abaixo:
 
-        E-mail:           #{email}
-        Senha temporária: #{senha_temporaria}
+        #{url}
 
-      Acesse o sistema utilizando as credenciais acima para entrar.
-      Recomendamos que você altere sua senha após o primeiro acesso
-      por meio da opção "Redefinir Senha" disponível no sistema.
+      Este link é válido por 48 horas. Após definir sua senha, você
+      poderá acessar o sistema normalmente.
+
+      Se você não esperava este email, entre em contato com a coordenação.
 
       Atenciosamente,
       Equipe CAMAAR — Universidade de Brasília

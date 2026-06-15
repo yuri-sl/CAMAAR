@@ -1,8 +1,6 @@
 class SenhaController < ApplicationController
   before_action :require_login, only: [ :redefinir, :atualizar ]
 
-  TOKEN_EXPIRY = 2.hours
-
   # GET /senha/redefinir (logged in — change current password)
   def redefinir; end
 
@@ -25,18 +23,13 @@ class SenhaController < ApplicationController
   # GET /senha/recuperar
   def recuperar; end
 
-  # POST /senha/recuperar — generate token and log the "email"
+  # POST /senha/recuperar — stateless token via generates_token_for (no DB write needed)
   def solicitar
     usuario = Usuario.find_by(email: params[:email].to_s.downcase.strip)
     if usuario
-      token = SecureRandom.urlsafe_base64(32)
-      usuario.update_columns(
-        password_reset_token:   token,
-        password_reset_sent_at: Time.current
-      )
+      token = usuario.generate_token_for(:password_reset)
       log_reset_email(usuario, token)
     end
-    # Same message whether email exists or not (prevents enumeration)
     redirect_to recuperar_senha_path,
       notice: "Se este e-mail estiver cadastrado, você receberá instruções em breve."
   end
@@ -44,7 +37,7 @@ class SenhaController < ApplicationController
   # GET /senha/nova?token=xxx
   def nova
     @token = params[:token]
-    unless find_usuario_by_token(@token)
+    unless Usuario.find_by_token_for(:password_reset, @token)
       redirect_to recuperar_senha_path, alert: "Link de redefinição inválido ou expirado."
     end
   end
@@ -52,14 +45,14 @@ class SenhaController < ApplicationController
   # POST /senha/nova
   def salvar
     @token = params[:token]
-    usuario = find_usuario_by_token(@token)
+    usuario = Usuario.find_by_token_for(:password_reset, @token)
     unless usuario
       redirect_to recuperar_senha_path, alert: "Link de redefinição inválido ou expirado."
       return
     end
 
     if usuario.update(password: params[:password], password_confirmation: params[:password_confirmation])
-      usuario.update_columns(password_reset_token: nil, password_reset_sent_at: nil)
+      # Token auto-invalidated: password_digest changed, so the signed JWT no longer matches
       redirect_to login_path, notice: "Senha redefinida com sucesso! Faça login com sua nova senha."
     else
       flash.now[:alert] = usuario.errors[:password].first || usuario.errors.full_messages.first
@@ -68,14 +61,6 @@ class SenhaController < ApplicationController
   end
 
   private
-
-  def find_usuario_by_token(token)
-    return nil if token.blank?
-    usuario = Usuario.find_by(password_reset_token: token)
-    return nil unless usuario
-    return nil if usuario.password_reset_sent_at.nil? || usuario.password_reset_sent_at < TOKEN_EXPIRY.ago
-    usuario
-  end
 
   def log_reset_email(usuario, token)
     reset_url = "#{request.base_url}/senha/nova?token=#{token}"
@@ -91,7 +76,7 @@ class SenhaController < ApplicationController
       Olá, #{usuario.nome}!
 
       Você solicitou a redefinição de senha no sistema CAMAAR.
-      Acesse o link abaixo para criar uma nova senha (válido por 2 horas):
+      Acesse o link abaixo para criar uma nova senha (válido por 48 horas):
 
         #{reset_url}
 

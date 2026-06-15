@@ -15,7 +15,7 @@ class GerenciamentoController < ApplicationController
 
     classes_data = JSON.parse(classes_file.read)
     members_data = JSON.parse(members_file.read)
-    result = ImportarDadosService.new(classes_data, members_data).call
+    result = ImportarDadosService.new(classes_data, members_data, base_url: request.base_url).call
 
     if result[:success]
       redirect_to gerenciamento_path, notice: "Importação concluída. #{result[:summary]}"
