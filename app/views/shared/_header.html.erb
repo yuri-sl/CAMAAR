@@ -27,6 +27,7 @@
 
       <div class="user-dropdown" data-dropdown-target="menu" hidden>
         <span class="user-dropdown-email"><%= current_usuario&.email %></span>
+        <%= link_to "Alterar Senha", senha_redefinir_path, class: "user-dropdown-item" %>
         <%= button_to "Sair", logout_path, method: :delete,
               class: "user-dropdown-signout",
               form: { class: "user-dropdown-form" } %>

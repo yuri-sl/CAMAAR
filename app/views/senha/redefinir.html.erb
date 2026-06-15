@@ -1,21 +1,25 @@
 <div class="main-page">
-<div class="redefinir-container">
-  <h1>REDEFINIÇÃO DE SENHA</h1>
-  <%= form_with url: senha_redefinir_path, method: :post, class: "login-form" do |form| %>
+  <div class="redefinir-container">
+    <h1>ALTERAR SENHA</h1>
 
-    <div class="form-group">
-      <%= form.password_field :password, placeholder: "Digite sua senha atual" %>
-    </div>
+    <% if notice %>
+      <p class="auth-notice"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p class="auth-alert"><%= alert %></p>
+    <% end %>
 
-    <div class="form-group">
-      <%= form.password_field :new_password_1, placeholder: "Digite uma nova senha" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.password_field :new_password_2, placeholder: "Digite novamente a nova senha" %>
-    </div>
-
-    <%= form.submit "Redefinir", class: "login-button" %>
-  <% end %>
-</div>
+    <%= form_with url: senha_redefinir_path, method: :post, class: "login-form" do |form| %>
+      <div class="form-group">
+        <%= form.password_field :password, placeholder: "Senha atual" %>
+      </div>
+      <div class="form-group">
+        <%= form.password_field :new_password_1, placeholder: "Nova senha" %>
+      </div>
+      <div class="form-group">
+        <%= form.password_field :new_password_2, placeholder: "Confirmar nova senha" %>
+      </div>
+      <%= form.submit "Alterar", class: "login-button" %>
+    <% end %>
+  </div>
 </div>

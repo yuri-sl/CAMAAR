@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_13_220000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_14_234332) do
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "departamento_id", null: false
@@ -149,6 +149,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_13_220000) do
     t.string "matricula"
     t.string "nome"
     t.string "password_digest"
+    t.datetime "password_reset_sent_at"
+    t.string "password_reset_token"
     t.integer "role"
     t.datetime "updated_at", null: false
   end
