@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_13_220000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_15_065851) do
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "departamento_id", null: false
@@ -78,9 +78,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_13_220000) do
 
   create_table "pergunta", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.text "enunciado"
     t.string "gabarito_discursiva"
-    t.string "gabarito_radio"
-    t.text "opcoes_radio"
+    t.integer "gabarito_radio"
+    t.integer "numero_opcoes"
+    t.json "opcoes_radio"
     t.integer "template_formulario_id", null: false
     t.integer "tipo_pergunta"
     t.datetime "updated_at", null: false
