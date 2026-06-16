@@ -1,7 +1,7 @@
 class TemplateFormulariosController < ApplicationController
   before_action :require_login
   before_action :require_admin
-  before_action :set_template, only: [:edit, :update, :destroy]
+  before_action :set_template, only: [:show, :edit, :update, :destroy]
 
   def index
     @template_formularios = TemplateFormulario.order(:nome_template)
@@ -38,7 +38,7 @@ class TemplateFormulariosController < ApplicationController
 
   def update
     if @template_formulario.update(template_params)
-      redirect_to gerenciamento_path, notice: "Template finalizado com sucesso."
+      redirect_to template_formularios_path, notice: "Template finalizado com sucesso."
     else
       render :edit, status: :unprocessable_content
     end
@@ -46,9 +46,9 @@ class TemplateFormulariosController < ApplicationController
 
   def destroy
     if @template_formulario.destroy
-      redirect_to gerenciamento_path, notice: "Template excluída com sucesso."
+      redirect_to template_formularios_path, notice: "Template excluída com sucesso."
     else
-      redirect_to gerenciamento_path, alert: "Não foi possível excluir: #{@template_formulario.errors.full_messages.to_sentence}"
+      redirect_to template_formularios_path, alert: "Não foi possível excluir: #{@template_formulario.errors.full_messages.to_sentence}"
     end
   end
 
@@ -61,7 +61,11 @@ class TemplateFormulariosController < ApplicationController
   def template_params
     params.require(:template_formulario).permit(
       :nome_template,
-      perguntas_attributes: [:id, :enunciado, :tipo_pergunta, :gabarito_discursiva, :gabarito_radio, :opcoes_radio, :_destroy]
+      perguntas_attributes: [
+        :id, :tipo_pergunta, :enunciado, :numero_opcoes, 
+        :gabarito_discursiva, :gabarito_radio, :_destroy,
+        opcoes_radio: [] 
+      ]
     )
   end
 end
