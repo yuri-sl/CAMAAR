@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   post "gerenciamento/formularios", to: "gerenciamento#criar_formulario"
   get  "gerenciamento/resultados",  to: "gerenciamento#resultados",  as: :resultados
 
-  resources :template_formularios, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  resources :template_formularios, only: [:show, :new, :create, :edit, :update, :destroy]
 
   post "senha/redefinir", to: "senha#redefinir"
 
