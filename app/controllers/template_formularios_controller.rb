@@ -3,10 +3,6 @@ class TemplateFormulariosController < ApplicationController
   before_action :require_admin
   before_action :set_template, only: [:show, :edit, :update, :destroy]
 
-  def index
-    @template_formularios = TemplateFormulario.order(:nome_template)
-  end
-
   def show
 
   end
@@ -38,7 +34,7 @@ class TemplateFormulariosController < ApplicationController
 
   def update
     if @template_formulario.update(template_params)
-      redirect_to template_formularios_path, notice: "Template finalizado com sucesso."
+      redirect_to editar_templates_path, notice: "Template finalizado com sucesso." 
     else
       render :edit, status: :unprocessable_content
     end
@@ -46,9 +42,9 @@ class TemplateFormulariosController < ApplicationController
 
   def destroy
     if @template_formulario.destroy
-      redirect_to template_formularios_path, notice: "Template excluída com sucesso."
+      redirect_to editar_templates_path, notice: "Template excluída com sucesso."
     else
-      redirect_to template_formularios_path, alert: "Não foi possível excluir: #{@template_formulario.errors.full_messages.to_sentence}"
+      redirect_to editar_templates_path, alert: "Não foi possível excluir: #{@template_formulario.errors.full_messages.to_sentence}"
     end
   end
 

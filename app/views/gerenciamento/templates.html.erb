@@ -12,14 +12,21 @@
   </aside>
 
   <main class="content">
+    <div style="margin-bottom: 20px;">
+      <%= link_to "Novo Template", new_template_formulario_path, class: "btn btn--primary", style: "width: fit-content;" %>
+    </div>
+
     <div class="cards-container">
       <% @template_formularios.each do |template| %>
         <div class="avaliacao-card">
-          <h2><%= template.nome %></h2>
+          <h2><%= template.nome_template %></h2> 
           <p><%= template.perguntas.count %> perguntas</p>
           <h3><%= l template.created_at, format: :short %></h3>
-          <button type="">Editar</button> 
-          <button type="">Deletar</button> 
+          <div style="display: flex; gap: 8px; margin-top: 15px;">
+            <%= link_to "Ver", template_formulario_path(template), class: "btn btn--primary", style: "padding: 8px 12px; font-size: 0.85rem;" %>
+            <%= link_to "Editar", edit_template_formulario_path(template), class: "btn btn--primary", style: "padding: 8px 12px; font-size: 0.85rem;" %>
+            <%= button_to "Deletar", template_formulario_path(template), method: :delete, class: "btn btn--danger", style: "padding: 8px 12px; font-size: 0.85rem;", form: { style: "margin: 0;" }, data: { turbo_confirm: "Tem certeza que deseja excluir?" } %>
+          </div>
         </div>
       <% end %>
     </div>
