@@ -38,6 +38,7 @@ class Formulario < ApplicationRecord
   def vincular_perguntas_do_template
     template_formulario.perguntas.each do |pergunta|
       pergunta_formularios.create!(
+        pergunta_id: pergunta.id,
         tipo_pergunta: pergunta.tipo_pergunta,
         enunciado: pergunta.enunciado,
         numero_opcoes: pergunta.numero_opcoes,
