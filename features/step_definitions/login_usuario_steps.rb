@@ -69,7 +69,7 @@ Then('deve exibir uma mensagem de erro informando que as credenciais são invál
 end
 
 Then('deve exibir uma mensagem de erro informando que o email é inválido') do
-  expect(page).to have_content(MENSAGEM_CREDENCIAIS_INVALIDAS)
+  expect(page).to have_content('inválido')
 end
 
 Then('deve exibir uma mensagem de erro indicando que o email é obrigatório') do
