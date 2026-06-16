@@ -14,7 +14,7 @@ class Pergunta < ApplicationRecord
   validates :tipo_pergunta, presence: { message: "Qual o tipo da pergunta?" }
   validates :enunciado, presence: { message: "Favor preencher campo do Enunciado."}
 
-  validates :numero_opcoes, presence: "Quantas opções de resposta?", if: :radio?
+  validates :numero_opcoes, presence: { message: "Quantas opções de resposta?" }, if: :radio?
   validates :gabarito_radio, presence: { message: "Selecione uma opção para o gabarito." }, if: :radio?
   validates :opcoes_radio, presence: { message: "Opção(ões) sem descrição, favor preencher todos os campos."}, if: :radio?
 end
