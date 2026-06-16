@@ -61,7 +61,7 @@
     <orderEntry type="library" scope="PROVIDED" name="cucumber-ci-environment (v11.0.0, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cucumber-core (v16.2.0, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cucumber-cucumber-expressions (v19.0.0, ruby-3.2.10-p266) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="cucumber-gherkin (v39.0.0, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-gherkin (v39.1.0, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cucumber-html-formatter (v22.3.0, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cucumber-messages (v32.3.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="TEST" name="cucumber-rails (v4.0.1, ruby-3.2.10-p266) [gem]" level="application" />

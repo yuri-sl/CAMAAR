@@ -51,8 +51,25 @@ class SenhaController < ApplicationController
       return
     end
 
-    if usuario.update(password: params[:password], password_confirmation: params[:password_confirmation])
-      # Token auto-invalidated: password_digest changed, so the signed JWT no longer matches
+    senha = params[:password].to_s
+    confirmacao = params[:password_confirmation].to_s
+
+    if senha.blank?
+      flash.now[:alert] = "A nova senha é obrigatória."
+      return render :nova, status: :unprocessable_entity
+    end
+
+    if senha != confirmacao
+      flash.now[:alert] = "As duas senhas não são iguais."
+      return render :nova, status: :unprocessable_entity
+    end
+
+    if usuario.authenticate(senha)
+      flash.now[:alert] = "A nova senha deve ser diferente da senha atual."
+      return render :nova, status: :unprocessable_entity
+    end
+
+    if usuario.update(password: senha, password_confirmation: confirmacao)
       redirect_to login_path, notice: "Senha redefinida com sucesso! Faça login com sua nova senha."
     else
       flash.now[:alert] = usuario.errors[:password].first || usuario.errors.full_messages.first
