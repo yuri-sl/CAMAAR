@@ -1,5 +1,5 @@
 class Formulario < ApplicationRecord
-  belongs_to :template_formulario
+  belongs_to :template_formulario, optional: true
   belongs_to :turma
   belongs_to :criador_formulario
 
@@ -37,7 +37,14 @@ class Formulario < ApplicationRecord
 
   def vincular_perguntas_do_template
     template_formulario.perguntas.each do |pergunta|
-      pergunta_formularios.create!(pergunta: pergunta)
+      pergunta_formularios.create!(
+        tipo_pergunta: pergunta.tipo_pergunta,
+        enunciado: pergunta.enunciado,
+        numero_opcoes: pergunta.numero_opcoes,
+        opcoes_radio: pergunta.opcoes_radio,
+        gabarito_radio: pergunta.gabarito_radio,
+        gabarito_discursiva: pergunta.gabarito_discursiva
+      )
     end
   end
 end
