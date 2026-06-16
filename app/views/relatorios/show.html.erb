@@ -1,0 +1,23 @@
+<h1>Relatório: <%= @formulario.title %></h1>
+
+<p>Total de respostas: <strong><%= @total_respostas %></strong></p>
+
+<% if @total_respostas == 0 %>
+  <p>Não há respostas registradas para este formulário.</p>
+<% else %>
+  <%= link_to "Exportar CSV", export_csv_relatorio_path(@formulario) %>
+
+  <% @questoes.each_with_index do |questao, i| %>
+    <div>
+      <h3><%= "#{i + 1}. #{questao.enunciado}" %></h3>
+      <ul>
+        <% questao.resposta_questoes.each do |rq| %>
+          <li><%= rq.answer %></li>
+        <% end %>
+      </ul>
+      <p>Total de respostas para esta questão: <%= questao.resposta_questoes.size %></p>
+    </div>
+  <% end %>
+<% end %>
+
+<%= link_to "Voltar para relatórios", relatorios_path %>

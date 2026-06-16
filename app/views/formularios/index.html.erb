@@ -1,0 +1,14 @@
+<h1>Formulários disponíveis</h1>
+
+<% if @formularios.empty? %>
+  <p>Não há formulários disponíveis no momento.</p>
+<% else %>
+  <ul>
+    <% @formularios.each do |formulario| %>
+      <li>
+        <%= link_to formulario.title, formulario_path(formulario) %>
+        — Prazo: <%= formulario.deadline.strftime("%d/%m/%Y") %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

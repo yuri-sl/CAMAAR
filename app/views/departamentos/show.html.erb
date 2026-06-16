@@ -1,0 +1,39 @@
+<h1><%= @turma.name %> — <%= @turma.codigo %></h1>
+<p>Semestre: <%= @turma.semester %></p>
+
+<h2>Formulários associados</h2>
+
+<% if @turma_formularios.empty? %>
+  <p>Nenhum formulário associado a esta turma.</p>
+<% else %>
+  <ul>
+    <% @turma_formularios.each do |tf| %>
+      <li>
+        <%= tf.formulario.title %>
+        &nbsp;
+        <%= button_to "Remover",
+              turma_formulario_path(tf),
+              method: :delete,
+              data: { confirm: "Confirmar remoção?" } %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<h2>Associar formulário</h2>
+
+<% if @available_formularios.empty? %>
+  <p>Não há formulários disponíveis para associar.</p>
+<% else %>
+  <%= form_with url: turma_formularios_path, method: :post do |f| %>
+    <%= hidden_field_tag :turma_id, @turma.id %>
+    <div>
+      <%= label_tag :formulario_id, "Formulário" %>
+      <%= select_tag :formulario_id,
+            options_for_select(@available_formularios.map { |f| [f.title, f.id] }) %>
+    </div>
+    <%= f.submit "Salvar" %>
+  <% end %>
+<% end %>
+
+<%= link_to "Voltar ao departamento", departamento_path %>
