@@ -1,10 +1,10 @@
 class ImportarDadosService
-  def initialize(classes_data, members_data)
+  def initialize(classes_data, members_data, base_url: "http://localhost:3000")
     @classes = classes_data
     @members = members_data
     @created = Hash.new(0)
     @updated = Hash.new(0)
-    @email_logger = EmailLogger.new
+    @email_logger = EmailLogger.new(base_url: base_url)
   end
 
   def call
@@ -45,7 +45,6 @@ class ImportarDadosService
     record
   end
 
-  # Updates nome_materia if the name changed; departamento is set only on creation.
   def upsert_materia(class_info, departamento)
     record = Materia.find_or_initialize_by(codigoMateria: class_info["code"])
     record.departamento = departamento if record.new_record?
@@ -67,7 +66,6 @@ class ImportarDadosService
     record
   end
 
-  # Updates professor if it changed; materia/numero_turma/semestre are identity fields.
   def upsert_turma(class_info, materia, professor)
     numero = class_numero(class_info.dig("class", "classCode"))
     record = Turma.find_or_initialize_by(
@@ -97,26 +95,36 @@ class ImportarDadosService
     @created[:matriculas] += 1 if matricula.previously_new_record?
   end
 
-  # Updates nome for existing users. Role and password are never overwritten.
+
+  # Atualiza nome para usuários existentes. Role e password nunca reescritos.
+  # Novos usuários ou uusuários q n unca definiram senha recebem token de convite.
+  # Login tá bloqueado até que alguém defina a própria senha pelo link de convite
   def upsert_usuario(nome:, email:, matricula:, role:)
     record = Usuario.find_or_initialize_by(email: email.to_s.downcase.strip)
-    temp_password = "Camaar#{matricula}"
+
     if record.new_record?
-      record.matricula             = matricula
-      record.role                  = role
-      record.password              = temp_password
-      record.password_confirmation = temp_password
+      record.matricula = matricula
+      record.role      = role
     end
+
     record.nome = nome
+
+    # Capture invite eligibility before save (new_record? changes after save!)
+    needs_invite = record.new_record? || record.password_digest.nil?
+
     record.save!
-    if record.previously_new_record?
-      @email_logger.log_boas_vindas(nome: nome, email: record.email, senha_temporaria: temp_password)
+
+    # generate_token_for requires a persisted record (uses ID + password_digest)
+    if needs_invite
+      token = record.generate_token_for(:password_reset)
+      @email_logger.log_convite_acesso(nome: record.nome, email: record.email, token: token)
     end
+
     track(record, :usuarios)
     record
   end
 
-  # "TA" → 1, "TB" → 2, etc. (last alphabetic character maps to ordinal)
+  # "TA" → 1, "TB" → 2, etc. Ultimo caracter alfabético mapeado para ordinal.
   def class_numero(class_code)
     letter = class_code.to_s[-1] || "A"
     (letter.upcase.ord - "A".ord + 1).clamp(1, 26)

@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    redirect_to login_path, alert: "Você precisa estar logado." unless logged_in?
+    redirect_to login_path, alert: "É necessário estar logado para acessar esta página." unless logged_in?
   end
   def require_admin
     redirect_to root_path, alert: "Acesso restrito." unless current_usuario&.admin?

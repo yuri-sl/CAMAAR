@@ -157,6 +157,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_16_163715) do
     t.string "matricula"
     t.string "nome"
     t.string "password_digest"
+    t.datetime "password_reset_sent_at"
+    t.string "password_reset_token"
     t.integer "role"
     t.datetime "updated_at", null: false
   end
