@@ -7,6 +7,8 @@ class Formulario < ApplicationRecord
   has_many :pergunta_formularios
   has_many :perguntas, through: :pergunta_formularios
 
+  after_create :vincular_perguntas_do_template
+
   validates :nome_formulario,
             presence: { message: "é obrigatório" },
             uniqueness: {
@@ -31,5 +33,11 @@ class Formulario < ApplicationRecord
     return if turma&.matriculas&.where(trancado: [ false, nil ])&.exists?
 
     errors.add(:turma, "não possui discentes matriculados")
+  end
+
+  def vincular_perguntas_do_template
+    template_formulario.perguntas.each do |pergunta|
+      pergunta_formularios.create!(pergunta: pergunta)
+    end
   end
 end
