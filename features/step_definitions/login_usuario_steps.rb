@@ -44,7 +44,7 @@ When('deixa o campo senha em brnaco') do
   fill_in 'Senha', with: ''
 end
 
-When('clica em {string}') do |_texto_botao|
+When('clica em "entrar"') do
   find('input[type="submit"]').click
 end
 
