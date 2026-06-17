@@ -191,7 +191,7 @@ RSpec.describe "Criação de formulário para discentes ou docentes", type: :req
     }.not_to change(Formulario, :count)
 
     expect(response).to have_http_status(:unprocessable_content)
-    expect(response.body).to include("Turma não possui discentes matriculados")
+    expect(response.body).to include("a turma selecionada não possui discentes matriculados")
   end
 
   it "não permite nome duplicado para a mesma turma e público-alvo" do

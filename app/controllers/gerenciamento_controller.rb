@@ -37,9 +37,6 @@ class GerenciamentoController < ApplicationController
   def criar_formulario
     preparar_formulario
     @formulario.assign_attributes(formulario_params)
-    if @formulario.nome_formulario.blank? && @formulario.template_formulario.present?
-      @formulario.nome_formulario = @formulario.template_formulario.nome_template
-    end
     @formulario.publico_estudante = publico_estudante
     @formulario.criador_formulario = current_usuario.criador_formulario
 

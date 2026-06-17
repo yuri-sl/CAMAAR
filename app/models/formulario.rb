@@ -30,18 +30,45 @@ class Formulario < ApplicationRecord
   private
 
   def mensagem_criacao_personalizada
-    if template_formulario.nil? && nome_formulario.blank?
+    nome = nome_formulario.presence
+
+    if template_formulario.nil? && nome.nil?
       errors.add(:base, "Formulario não pode ser criado, por favor preencha os dados necessários")
-    elsif template_formulario.nil?
-      errors.add(:base, "Formulario #{nome_formulario} não pode ser criado, por favor seleciona uma Template")
+      return
+    end
+
+    if nome.nil?
+      errors.add(:base, "Formulario não pode ser criado, o nome do formulário é obrigatório")
+      return
+    end
+
+    if template_formulario.nil?
+      errors.add(:base, "Formulario #{nome} não pode ser criado, por favor seleciona uma Template")
+      return
+    end
+
+    if publico_estudante.nil?
+      errors.add(:base, "Formulario #{nome} não pode ser criado, por favor selecione o Público-Alvo")
+      return
+    end
+
+    if turma.nil?
+      errors.add(:base, "Formulario #{nome} não pode ser criado, por favor selecione uma Turma")
+      return
+    end
+
+    if Formulario.where(nome_formulario: nome, turma_id: turma_id, publico_estudante: publico_estudante)
+                 .where.not(id: id).exists?
+      errors.add(:base, "Formulario #{nome} não pode ser criado, já existe um formulário com este nome para a turma e público-alvo selecionados")
     end
   end
 
   def turma_possui_matricula_ativa
     return unless publico_estudante?
-    return if turma&.matriculas&.where(trancado: [ false, nil ])&.exists?
+    return if turma.nil?
+    return if turma.matriculas.where(trancado: [ false, nil ]).exists?
 
-    errors.add(:turma, "não possui discentes matriculados")
+    errors.add(:base, "Formulario #{nome_formulario} não pode ser criado, a turma selecionada não possui discentes matriculados")
   end
 
   def vincular_perguntas_do_template

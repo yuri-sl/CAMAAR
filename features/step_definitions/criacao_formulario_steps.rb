@@ -84,7 +84,10 @@ end
 # When
 
 When('ele clica no botão "Criar Formulário"') do
-  # No-op: a página enviar_formularios_path já exibe o formulário de criação
+  # (Re)abre a página de criação. Importante porque o Background pode criar
+  # Templates/Turmas após o primeiro acesso à aba; revisitar garante que o
+  # formulário seja renderizado já com os Templates disponíveis (select habilitado).
+  visit enviar_formularios_path
 end
 
 When('escreve {string} em "Nome do Formulário"') do |nome|
@@ -96,9 +99,15 @@ When('seleciona {string} de "Templates"') do |template_name|
 end
 
 When('ele clica no botão "Criar"') do
-  opt_text = "#{@turma_criacao.materia.nome_materia} - Turma #{@turma_criacao.numero_turma} - #{@turma_criacao.semestre_string}"
-  select opt_text, from: 'Turma'
-  choose 'Docente'
+  # No fluxo de criacao_formulario.feature não há seleção explícita de Turma
+  # e Público-Alvo, então preenchemos com padrões (Docente + turma do Background).
+  # No fluxo de criar_formularios_discentes.feature essas escolhas são feitas em
+  # steps próprios, então aqui apenas submetemos o formulário.
+  unless @fluxo_discentes
+    opt_text = "#{@turma_criacao.materia.nome_materia} - Turma #{@turma_criacao.numero_turma} - #{@turma_criacao.semestre_string}"
+    select opt_text, from: 'Turma'
+    choose 'Docente'
+  end
   click_button 'Criar'
 end
 
