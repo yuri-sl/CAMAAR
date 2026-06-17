@@ -48,4 +48,4 @@ Quero ver todos os formulários que preciso preencher em uma aba específica à 
     Given que o usuário não está logado
     When o usuário acessa a aba de "Formulários Pendentes"
     Then o usuário deve ser redirecionado à página de Login
-    And ele deve ver "É necessário estar logado para acessar está página."
+    And ele deve ver "É necessário estar logado para acessar esta página."

@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   root "login#index"
-  get "login", to: "login#index"
-  post "login", to: "login#create"
-  delete "logout", to: "login#destroy"
+  get "login", to: "login#index", as: nil
+  post "login", to: "login#create", as: nil
+  delete "logout", to: "login#destroy", as: nil
 
   get "signup", to: "usuarios#new"
   post "signup", to: "usuarios#create"
@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   get  "senha/nova",      to: "senha#nova",      as: :senha_nova
   post "senha/nova",      to: "senha#salvar"
 
-  get "login", to: "login#index"
+  get "login", to: "login#index", as: nil
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -54,6 +54,4 @@ Rails.application.routes.draw do
 
   post   "turma_formularios",     to: "turma_formularios#create",  as: :turma_formularios
   delete "turma_formularios/:id", to: "turma_formularios#destroy", as: :turma_formulario
-
-  root "sessions#new"
 end

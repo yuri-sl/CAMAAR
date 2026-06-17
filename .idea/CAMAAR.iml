@@ -77,6 +77,8 @@
     <orderEntry type="library" scope="PROVIDED" name="erb (v6.0.4, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.13.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="et-orbi (v1.4.0, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="factory_bot (v6.6.0, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="factory_bot_rails (v6.5.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.17.4, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fugit (v1.12.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.3.0, ruby-3.2.10-p266) [gem]" level="application" />
@@ -151,6 +153,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v3.3.0, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="securerandom (v0.4.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="TEST" name="selenium-webdriver (v4.44.0, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="TEST" name="shoulda-matchers (v7.0.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="solid_cable (v3.0.12, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="solid_cache (v1.0.10, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="solid_queue (v1.4.0, ruby-3.2.10-p266) [gem]" level="application" />
