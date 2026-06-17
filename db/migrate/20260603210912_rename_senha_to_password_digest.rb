@@ -1,5 +1,9 @@
 class RenameSenhaToPasswordDigest < ActiveRecord::Migration[8.1]
-  def change
-    remove_column :usuarios, :senha, :string
+  def up
+    remove_column :usuarios, :senha, :string if column_exists?(:usuarios, :senha)
+  end
+
+  def down
+    add_column :usuarios, :senha, :string unless column_exists?(:usuarios, :senha)
   end
 end

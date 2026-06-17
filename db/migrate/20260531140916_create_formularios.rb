@@ -1,5 +1,7 @@
 class CreateFormularios < ActiveRecord::Migration[8.1]
-  def change
+  def up
+    return if table_exists?(:formularios) && column_exists?(:formularios, :template_formulario_id)
+    drop_table :formularios if table_exists?(:formularios)
     create_table :formularios do |t|
       t.string :nome_formulario
       t.float :nota_final
@@ -11,5 +13,9 @@ class CreateFormularios < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
+  end
+
+  def down
+    drop_table :formularios, if_exists: true
   end
 end

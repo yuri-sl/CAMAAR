@@ -1,5 +1,5 @@
 class RenameRespostaPerguntumToRespostaPergunta < ActiveRecord::Migration[8.1]
-  def change
-    rename_table :resposta_pergunta, :resposta_pergunta
-  end
+  # No-op: tabela já foi criada com o nome correto em create_resposta_pergunta.
+  def up; end
+  def down; end
 end
