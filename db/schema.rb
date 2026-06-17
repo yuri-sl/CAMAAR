@@ -175,7 +175,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_16_163715) do
   add_foreign_key "matriculas", "turmas"
   add_foreign_key "pergunta", "template_formularios"
   add_foreign_key "pergunta_formularios", "formularios"
-  add_foreign_key "pergunta_formularios", "pergunta", column: "pergunta_id"
+  add_foreign_key "pergunta_formularios", "pergunta", column: "pergunta_id", on_delete: :nullify
   add_foreign_key "professors", "usuarios"
   add_foreign_key "resposta_formularios", "formularios"
   add_foreign_key "resposta_formularios", "usuarios"
