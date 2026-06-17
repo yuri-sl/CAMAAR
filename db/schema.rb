@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2024_06_01_000009) do
+ActiveRecord::Schema[8.1].define(version: 2024_06_02_000001) do
   create_table "departments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -34,9 +34,11 @@ ActiveRecord::Schema[8.1].define(version: 2024_06_01_000009) do
     t.datetime "deadline", null: false
     t.integer "department_id", null: false
     t.text "description"
+    t.integer "template_id"
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_formularios_on_department_id"
+    t.index ["template_id"], name: "index_formularios_on_template_id"
   end
 
   create_table "questoes", force: :cascade do |t|
@@ -71,6 +73,13 @@ ActiveRecord::Schema[8.1].define(version: 2024_06_01_000009) do
     t.index ["turma_id"], name: "index_respostas_on_turma_id"
     t.index ["user_id", "formulario_id", "turma_id"], name: "index_respostas_on_user_id_and_formulario_id_and_turma_id", unique: true
     t.index ["user_id"], name: "index_respostas_on_user_id"
+  end
+
+  create_table "templates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_templates_on_name", unique: true
   end
 
   create_table "turma_formularios", force: :cascade do |t|
@@ -108,10 +117,11 @@ ActiveRecord::Schema[8.1].define(version: 2024_06_01_000009) do
   add_foreign_key "enrollments", "turmas"
   add_foreign_key "enrollments", "users"
   add_foreign_key "formularios", "departments"
+  add_foreign_key "formularios", "templates"
   add_foreign_key "formularios", "users", column: "created_by_id"
   add_foreign_key "questoes", "formularios"
-  add_foreign_key "resposta_questoes", "questoes", column: "questao_id"
-  add_foreign_key "resposta_questoes", "respostas", column: "resposta_id"
+  add_foreign_key "resposta_questoes", "questoes"
+  add_foreign_key "resposta_questoes", "respostas"
   add_foreign_key "respostas", "formularios"
   add_foreign_key "respostas", "turmas"
   add_foreign_key "respostas", "users"
