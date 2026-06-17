@@ -3,6 +3,7 @@ class Formulario < ApplicationRecord
 
   belongs_to :created_by, class_name: "User", foreign_key: :created_by_id
   belongs_to :department
+  belongs_to :turma
   has_many :questoes, -> { order(:position) }, dependent: :destroy
   has_many :turma_formularios, dependent: :destroy
   has_many :turmas, through: :turma_formularios
