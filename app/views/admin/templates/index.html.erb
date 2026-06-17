@@ -1,0 +1,18 @@
+<h1>Templates</h1>
+
+<%= link_to "Novo Template", new_admin_template_path %>
+
+<% if @templates.empty? %>
+  <p>Nenhum template cadastrado.</p>
+<% else %>
+  <ul>
+    <% @templates.each do |template| %>
+      <li>
+        <%= template.name %>
+        <%= link_to "Editar", edit_admin_template_path(template) %>
+        <%= button_to "Excluir", admin_template_path(template), method: :delete,
+              form: { data: { turbo_confirm: "Confirmar exclusão?" } } %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

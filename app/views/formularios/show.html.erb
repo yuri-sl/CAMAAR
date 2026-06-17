@@ -1,0 +1,24 @@
+<h1><%= @formulario.title %></h1>
+
+<% if @formulario.description.present? %>
+  <p><%= @formulario.description %></p>
+<% end %>
+
+<p>Prazo: <%= @formulario.deadline.strftime("%d/%m/%Y %H:%M") %></p>
+
+<%= form_with url: formulario_respostas_path(@formulario), method: :post do |f| %>
+  <% @questoes.each_with_index do |questao, i| %>
+    <div>
+      <label>
+        <%= "#{i + 1}. #{questao.enunciado}" %>
+        <%= questao.required? ? "*" : "" %>
+      </label>
+      <%= text_area_tag "respostas[#{questao.id}]", params.dig(:respostas, questao.id.to_s), rows: 3 %>
+    </div>
+  <% end %>
+
+  <p><small>* Questões obrigatórias</small></p>
+  <%= f.submit "Enviar respostas" %>
+<% end %>
+
+<%= link_to "Voltar", formularios_path %>

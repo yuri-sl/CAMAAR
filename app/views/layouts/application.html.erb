@@ -24,6 +24,29 @@
   </head>
 
   <body>
+    <nav>
+      <% if logged_in? %>
+        <span>Olá, <%= current_user.name %></span>
+        &nbsp;|&nbsp;
+        <% if current_user.student? %>
+          <%= link_to "Formulários", formularios_path %>
+        <% elsif current_user.admin? %>
+          <%= link_to "Relatórios", relatorios_path %>
+        <% elsif current_user.coordinator? %>
+          <%= link_to "Departamento", departamento_path %>
+        <% end %>
+        &nbsp;|&nbsp;
+        <%= button_to "Sair", logout_path, method: :delete %>
+      <% end %>
+    </nav>
+
+    <% if flash[:notice] %>
+      <div class="flash-notice"><%= flash[:notice] %></div>
+    <% end %>
+    <% if flash[:alert] %>
+      <div class="flash-alert"><%= flash[:alert] %></div>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
