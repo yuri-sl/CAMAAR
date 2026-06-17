@@ -8,6 +8,11 @@ class SenhaController < ApplicationController
   def atualizar
     usuario = current_usuario
     if usuario.authenticate(params[:password])
+      if params[:new_password_1] != params[:new_password_2]
+        flash.now[:alert] = "As senhas não são as mesmas"
+        render :redefinir, status: :unprocessable_entity
+        return
+      end
       if usuario.update(password: params[:new_password_1], password_confirmation: params[:new_password_2])
         redirect_to senha_redefinir_path, notice: "Senha alterada com sucesso!"
       else
@@ -15,7 +20,7 @@ class SenhaController < ApplicationController
         render :redefinir, status: :unprocessable_entity
       end
     else
-      flash.now[:alert] = "Senha atual está incorreta."
+      flash.now[:alert] = "Senha antiga está incorreta"
       render :redefinir, status: :unprocessable_entity
     end
   end

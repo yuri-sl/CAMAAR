@@ -1,29 +1,31 @@
 class DepartamentosController < ApplicationController
+  before_action :require_login
   before_action :require_coordinator
   before_action :set_departamento
 
   def index
-    @turmas = @departamento.turmas.includes(:formularios)
-    @formularios = Formulario.where(departamento: @departamento)
+    @turmas = @departamento.materias.flat_map(&:turmas).uniq
+    @formularios = Formulario.joins(turma: :materia).where(materia: { departamento_id: @departamento.id })
   end
 
   def show
-    @turma = @departamento.turmas.find_by(id: params[:id])
+    turmas_do_dep = @departamento.materias.flat_map(&:turmas).uniq
+    @turma = turmas_do_dep.find { |t| t.id == params[:id].to_i }
 
     unless @turma
       redirect_to departamento_path, alert: "A turma não pertence ao seu departamento." and return
     end
 
-    @turma_formularios = @turma.turma_formularios.includes(:formulario)
-    @available_formularios = Formulario
-      .where(departamento: @departamento)
-      .where.not(id: @turma.formularios.pluck(:id))
+    @formularios = Formulario.where(turma: @turma)
+    @formularios_disponiveis = Formulario.joins(turma: :materia)
+      .where(materia: { departamento_id: @departamento.id })
+      .where.not(turma: @turma)
   end
 
   private
 
   def set_departamento
-    @departamento = current_user.departamento
+    @departamento = current_usuario.admin&.departamento
     unless @departamento
       redirect_to root_path, alert: "Você não está associado a nenhum departamento."
     end

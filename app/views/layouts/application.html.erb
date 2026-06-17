@@ -23,6 +23,9 @@
 </head>
 
 <body data-controller="sidebar">
+<% flash.each do |type, msg| %>
+  <div class="flash-message flash-<%= type %>" style="padding:10px;background:<%= type.to_s=='alert' ? '#f8d7da' : '#d4edda' %>;color:<%= type.to_s=='alert' ? '#721c24' : '#155724' %>;border-radius:4px;margin:8px;"><%= msg %></div>
+<% end %>
 <%= yield %>
 </body>
 </html>

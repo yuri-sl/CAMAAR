@@ -1,47 +1,54 @@
 require "rails_helper"
 
-RSpec.describe User, type: :model do
+RSpec.describe Usuario, type: :model do
   describe "validations" do
-    it { is_expected.to validate_presence_of(:name) }
-    it { is_expected.to validate_presence_of(:email) }
-    it { is_expected.to have_many(:enrollments) }
-    it { is_expected.to have_many(:respostas) }
+    it "requires nome" do
+      usuario = build(:usuario, nome: nil)
+      expect(usuario).not_to be_valid
+      expect(usuario.errors[:nome]).to be_present
+    end
+
+    it "requires email" do
+      usuario = build(:usuario, email: nil)
+      expect(usuario).not_to be_valid
+      expect(usuario.errors[:email]).to be_present
+    end
   end
 
   describe "email uniqueness" do
     it "rejects duplicate emails" do
-      create(:user, email: "test@example.com")
-      duplicate = build(:user, email: "test@example.com")
+      create(:usuario, email: "test@example.com")
+      duplicate = build(:usuario, email: "test@example.com")
       expect(duplicate).not_to be_valid
     end
   end
 
   describe "roles" do
-    it "can be student" do
-      user = build(:user, role: :student)
-      expect(user.student?).to be true
+    it "can be estudante" do
+      usuario = build(:usuario, role: :estudante)
+      expect(usuario.estudante?).to be true
     end
 
     it "can be admin" do
-      user = build(:user, :admin)
-      expect(user.admin?).to be true
+      usuario = build(:usuario, :admin)
+      expect(usuario.admin?).to be true
     end
 
-    it "can be coordinator" do
-      user = build(:user, :coordinator)
-      expect(user.coordinator?).to be true
+    it "can be professor" do
+      usuario = build(:usuario, :professor)
+      expect(usuario.professor?).to be true
     end
   end
 
   describe "authentication" do
     it "authenticates with correct password" do
-      user = create(:user, password: "secret123", password_confirmation: "secret123")
-      expect(user.authenticate("secret123")).to eq(user)
+      usuario = create(:usuario, password: "Senha123", password_confirmation: "Senha123")
+      expect(usuario.authenticate("Senha123")).to eq(usuario)
     end
 
     it "rejects wrong password" do
-      user = create(:user, password: "secret123", password_confirmation: "secret123")
-      expect(user.authenticate("wrong")).to be false
+      usuario = create(:usuario, password: "Senha123", password_confirmation: "Senha123")
+      expect(usuario.authenticate("wrong")).to be false
     end
   end
 end

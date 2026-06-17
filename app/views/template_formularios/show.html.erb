@@ -34,7 +34,10 @@
                 
                 <% if pergunta.radio? %>
                   <strong style="color: var(--gp-green-dark);">Gabarito:</strong> <%= pergunta.gabarito_radio.titleize rescue '-' %><br>
-                  <strong>Número de Opções:</strong> <%= pergunta.numero_opcoes %>
+                  <strong>Qtd. respostas:</strong> <%= pergunta.numero_opcoes %><br>
+                  <% if pergunta.opcoes_radio.present? %>
+                    <%= pergunta.opcoes_radio.join(", ") %>
+                  <% end %>
                 <% elsif pergunta.discursiva? %>
                   <strong style="color: var(--gp-green-dark);">Gabarito Esperado:</strong> <%= pergunta.gabarito_discursiva %>
                 <% end %>

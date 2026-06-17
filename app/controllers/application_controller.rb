@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
     @current_usuario ||= Usuario.find_by(id: session[:usuario_id]) if session[:usuario_id]
   end
 
+  alias_method :current_user, :current_usuario
+
   def logged_in?
     current_usuario.present?
   end
@@ -16,7 +18,16 @@ class ApplicationController < ActionController::Base
   def require_login
     redirect_to login_path, alert: "É necessário estar logado para acessar esta página." unless logged_in?
   end
+
   def require_admin
-    redirect_to root_path, alert: "Acesso restrito." unless current_usuario&.admin?
+    unless current_usuario&.admin?
+      redirect_to root_path, alert: "Você não tem permissão para acessar esta página."
+    end
+  end
+
+  def require_coordinator
+    unless current_usuario&.admin?
+      redirect_to root_path, alert: "A turma não pertence ao seu departamento."
+    end
   end
 end

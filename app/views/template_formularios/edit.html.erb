@@ -14,6 +14,21 @@
   <main class="content">
     <section class="formulario-panel" style="width: min(800px, 100%);">
       <h2>Passo 2: Adicionar Perguntas</h2>
+      <h3><%= @template_formulario.nome_template %></h3>
+
+      <% if params[:erro] == "sem_perguntas" %>
+        <div class="formulario-errors" role="alert" style="margin-bottom: 20px;">
+          <ul><li>Template sem Perguntas. Adicione uma Pergunta para Salvar.</li></ul>
+        </div>
+      <% elsif params[:erro] == "enunciado_vazio" %>
+        <div class="formulario-errors" role="alert" style="margin-bottom: 20px;">
+          <ul><li>Alguma caixa está vazia. Certifique-se de que tudo está preenchido para Salvar.</li></ul>
+        </div>
+      <% elsif params[:erro] == "sem_questoes" %>
+        <div class="formulario-errors" role="alert" style="margin-bottom: 20px;">
+          <ul><li>Template <%= @template_formulario.nome_template %> não pode ser criada, por favor adicione uma Questão</li></ul>
+        </div>
+      <% end %>
 
       <% if @template_formulario.errors.any? %>
         <div class="formulario-errors" role="alert" style="margin-bottom: 20px;">

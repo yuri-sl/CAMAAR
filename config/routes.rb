@@ -9,7 +9,6 @@ Rails.application.routes.draw do
 
   get "gerenciamento", to: "pages#gerenciamento"
   get "avaliacoes", to: "pages#avaliacoes"
-  get "relatorios", to: "pages#relatorios"
 
   post   "gerenciamento/importar",    to: "gerenciamento#importar",    as: :importar_dados
   delete "gerenciamento/limpar",     to: "gerenciamento#limpar",      as: :limpar_dados

@@ -20,6 +20,7 @@ end
 
 Given('que existem as seguintes Turmas no sistema:') do |table|
   @turmas_por_codigo ||= {}
+  @turmas_vis_rel ||= {}
   depto = Departamento.find_or_create_by!(nome_departamento: 'Depto Turmas Discentes')
 
   table.hashes.each do |row|
@@ -27,29 +28,27 @@ Given('que existem as seguintes Turmas no sistema:') do |table|
     disciplina = row['disciplina'].strip
     semestre   = row['semestre'].strip
 
-    materia = Materia.create!(
-      codigoMateria: codigo,
-      nome_materia:  disciplina,
-      departamento:  depto
-    )
+    materia = Materia.find_or_create_by!(codigoMateria: codigo) do |m|
+      m.nome_materia = disciplina
+      m.departamento = depto
+    end
 
-    prof_usuario = Usuario.create!(
-      nome:                  "Docente #{codigo}",
-      email:                 "docente.#{codigo.downcase}@escola.com",
-      password:              SENHA_DISCENTES,
-      password_confirmation: SENHA_DISCENTES,
-      role:                  :professor
-    )
-    professor = Professor.create!(usuario: prof_usuario)
+    email_prof = "docente.#{codigo.downcase.gsub(/\W/, '')}@escola.com"
+    prof_usuario = Usuario.find_or_create_by!(email: email_prof) do |u|
+      u.nome = "Docente #{codigo}"
+      u.password = SENHA_DISCENTES
+      u.password_confirmation = SENHA_DISCENTES
+      u.role = :professor
+    end
+    professor = Professor.find_or_create_by!(usuario: prof_usuario)
 
-    turma = Turma.create!(
-      materia:         materia,
-      professor:       professor,
-      numero_turma:    codigo[/\d+/].to_i,
-      semestre_string: semestre
-    )
+    turma = Turma.find_or_create_by!(materia: materia, professor: professor) do |t|
+      t.numero_turma    = codigo[/\d+/].to_i
+      t.semestre_string = semestre
+    end
 
     @turmas_por_codigo[codigo] = turma
+    @turmas_vis_rel[codigo]    = turma
   end
 end
 
