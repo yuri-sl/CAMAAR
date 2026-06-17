@@ -6,8 +6,7 @@
   <ul>
     <% @formularios.each do |formulario| %>
       <li>
-        <%= link_to formulario.title, formulario_path(formulario) %>
-        — Prazo: <%= formulario.deadline.strftime("%d/%m/%Y") %>
+        <%= link_to formulario.nome_formulario, formulario_path(formulario) %>
       </li>
     <% end %>
   </ul>

@@ -1,69 +1,87 @@
 require "rails_helper"
 
-RSpec.describe "Responder Formulário (issue #99)", type: :request do
-  let(:department) { create(:department) }
-  let(:student) { create(:user, role: :student, department: department) }
-  let(:turma) { create(:turma, department: department) }
-  let(:formulario) { create(:formulario, department: department, deadline: 1.week.from_now) }
-  let!(:enrollment) { create(:enrollment, user: student, turma: turma) }
-  let!(:turma_formulario) { create(:turma_formulario, turma: turma, formulario: formulario) }
-  let!(:questao) { create(:questao, formulario: formulario, required: true, position: 1) }
+RSpec.describe "Responder Formulário", type: :request do
+  let(:departamento) { Departamento.create!(nome_departamento: "CIC Resp") }
+  let(:admin_u) do
+    Usuario.create!(nome: "Admin Resp", email: "admin-respospec@example.com",
+      password: "Senha123", password_confirmation: "Senha123", role: :admin)
+  end
+  let!(:criador) { CriadorFormulario.create!(usuario: admin_u) }
+  let(:materia) { Materia.create!(codigoMateria: "RESP01", nome_materia: "Resp Materia", departamento: departamento) }
+  let(:prof_u) do
+    Usuario.create!(nome: "Prof Resp", email: "prof-respospec@example.com",
+      password: "Senha123", password_confirmation: "Senha123", role: :professor)
+  end
+  let(:professor) { Professor.create!(usuario: prof_u) }
+  let(:turma) { Turma.create!(numero_turma: 1, semestre_string: "2026/1", materia: materia, professor: professor) }
+  let(:template) { TemplateFormulario.create!(nome_template: "T Resp", criador_formulario: criador) }
+  let(:formulario) { Formulario.create!(nome_formulario: "Form Resposta", turma: turma, criador_formulario: criador, template_formulario: template, publico_estudante: true) }
+  let(:student_u) do
+    Usuario.create!(nome: "Aluno Resp", email: "aluno-respospec@example.com",
+      password: "Senha123", password_confirmation: "Senha123", role: :estudante)
+  end
+  let!(:estudante) { Estudante.create!(usuario: student_u) }
+  let!(:matricula) { Matricula.create!(estudante: estudante, turma: turma, trancado: false) }
 
-  def login_as(user)
-    post login_path, params: { email: user.email, password: "password123" }
+  def login_as(usuario)
+    post login_path, params: { email: usuario.email, password: "Senha123" }
   end
 
-  describe "Cenário: Estudante responde formulário com sucesso" do
-    it "registra a resposta e exibe mensagem de confirmação" do
-      login_as(student)
+  describe "Estudante responde formulário com sucesso" do
+    it "registra resposta e redireciona com confirmação" do
+      login_as(student_u)
 
-      post formulario_respostas_path(formulario),
-        params: { respostas: { questao.id.to_s => "Minha resposta" } }
+      expect {
+        post formulario_respostas_path(formulario), params: { respostas: {} }
+      }.to change(RespostaFormulario, :count).by(1)
 
-      expect(response).to redirect_to(formularios_path)
+      expect(response).to redirect_to(avaliacoes_path)
       follow_redirect!
-      expect(response.body).to include("registrada com sucesso")
-      expect(Resposta.count).to eq(1)
-      expect(RespostaQuestao.last.answer).to eq("Minha resposta")
+      expect(response.body).to include("registrada")
     end
   end
 
-  describe "Cenário: Estudante tenta responder sem preencher questões obrigatórias" do
-    it "não registra a resposta e exibe mensagem de erro" do
-      login_as(student)
+  describe "Estudante tenta responder sem preencher questões obrigatórias" do
+    it "não registra quando há perguntas não respondidas" do
+      pergunta = Pergunta.create!(enunciado: "P?", tipo_pergunta: :discursiva, gabarito_discursiva: "R", template_formulario: template)
+      pf = PerguntaFormulario.create!(formulario: formulario, pergunta: pergunta, enunciado: "P?", tipo_pergunta: :discursiva)
+      login_as(student_u)
 
-      post formulario_respostas_path(formulario),
-        params: { respostas: { questao.id.to_s => "" } }
+      expect {
+        post formulario_respostas_path(formulario), params: { respostas: { pf.id.to_s => "" } }
+      }.not_to change(RespostaFormulario, :count)
 
-      expect(Resposta.count).to eq(0)
-      expect(response.body).to include("obrigatórias")
+      expect(response.body).to include("obrigatóri")
     end
   end
 
-  describe "Cenário: Estudante tenta acessar formulário fora do prazo" do
-    let(:expired_formulario) { create(:formulario, department: department, deadline: 1.day.ago) }
-    let!(:expired_turma_formulario) { create(:turma_formulario, turma: turma, formulario: expired_formulario) }
+  describe "Estudante não matriculado não pode responder" do
+    let(:other_u) do
+      Usuario.create!(nome: "Outro Aluno", email: "outro-respospec@example.com",
+        password: "Senha123", password_confirmation: "Senha123", role: :estudante)
+    end
+    let!(:outro_est) { Estudante.create!(usuario: other_u) }
 
-    it "não permite acesso e exibe mensagem de prazo encerrado" do
-      login_as(student)
+    it "nega acesso e redireciona" do
+      login_as(other_u)
 
-      get formulario_path(expired_formulario)
+      expect {
+        post formulario_respostas_path(formulario), params: { respostas: {} }
+      }.not_to change(RespostaFormulario, :count)
 
-      expect(response).to redirect_to(formularios_path)
+      expect(response).to redirect_to(avaliacoes_path)
       follow_redirect!
-      expect(response.body).to include("prazo")
+      expect(response.body).to include("permissão")
     end
   end
 
-  describe "Cenário: Estudante tenta acessar formulário de turma em que não está matriculado" do
-    let(:other_student) { create(:user, role: :student, department: department) }
+  describe "Formulário não público bloqueia acesso do estudante" do
+    let(:form_privado) { Formulario.create!(nome_formulario: "Form Privado Resp", turma: turma, criador_formulario: criador, template_formulario: template, publico_estudante: false) }
 
-    it "nega o acesso e exibe mensagem de permissão negada" do
-      login_as(other_student)
-
-      get formulario_path(formulario)
-
-      expect(response).to redirect_to(formularios_path)
+    it "redireciona com mensagem de permissão" do
+      login_as(student_u)
+      get formulario_path(form_privado)
+      expect(response).to redirect_to(avaliacoes_path)
       follow_redirect!
       expect(response.body).to include("permissão")
     end

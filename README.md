@@ -71,7 +71,13 @@ No Windows, caso o comando acima não funcione, use:
 ruby bin\rails db:prepare
 ```
 
-Esse comando cria o banco de dados, executa as migrations e prepara o ambiente de desenvolvimento.
+Esse comando cria o banco de dados, executa as migrations e, em um banco novo, também executa o `db/seeds.rb` — que cria o usuário administrador padrão (veja a seção [Acesso ao sistema](#acesso-ao-sistema)).
+
+Se o seu banco **já existe** e você só quer garantir o usuário admin, rode o seed manualmente (é idempotente):
+
+```bash
+bin/rails db:seed
+```
 
 ## Rodando o servidor
 
@@ -100,6 +106,17 @@ http://localhost:3000
 ```
 
 Se a página inicial do Rails aparecer, o projeto está rodando corretamente.
+
+## Acesso ao sistema
+
+O `db/seeds.rb` cria (de forma idempotente) um usuário administrador padrão, para que qualquer pessoa que rode o projeto consiga acessar o sistema:
+
+```text
+Email: admin@unb.br
+Senha: Admin123
+```
+
+Esse usuário é criado automaticamente em um banco novo (`bin/rails db:prepare`) ou ao rodar `bin/rails db:seed`. Ele já vem com um departamento ("Administração Geral") e perfil de criador de formulários.
 
 ## Observação para usuários Windows
 

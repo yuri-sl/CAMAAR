@@ -1,19 +1,13 @@
-<h1><%= @formulario.title %></h1>
-
-<% if @formulario.description.present? %>
-  <p><%= @formulario.description %></p>
-<% end %>
-
-<p>Prazo: <%= @formulario.deadline.strftime("%d/%m/%Y %H:%M") %></p>
+<h1><%= @formulario.nome_formulario %></h1>
 
 <%= form_with url: formulario_respostas_path(@formulario), method: :post do |f| %>
-  <% @questoes.each_with_index do |questao, i| %>
+  <% @pergunta_formularios.each_with_index do |pf, i| %>
     <div>
       <label>
-        <%= "#{i + 1}. #{questao.enunciado}" %>
-        <%= questao.required? ? "*" : "" %>
+        <%= "#{i + 1}. #{pf.enunciado}" %>
+        *
       </label>
-      <%= text_area_tag "respostas[#{questao.id}]", params.dig(:respostas, questao.id.to_s), rows: 3 %>
+      <%= text_area_tag "respostas[#{pf.id}]", params.dig(:respostas, pf.id.to_s), rows: 3 %>
     </div>
   <% end %>
 
@@ -21,4 +15,4 @@
   <%= f.submit "Enviar respostas" %>
 <% end %>
 
-<%= link_to "Voltar", formularios_path %>
+<%= link_to "Voltar", avaliacoes_path %>

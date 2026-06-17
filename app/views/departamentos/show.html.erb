@@ -1,18 +1,18 @@
-<h1><%= @turma.name %> — <%= @turma.codigo %></h1>
-<p>Semestre: <%= @turma.semester %></p>
+<h1>Turma <%= @turma.numero_turma %> — <%= @turma.materia.nome_materia %></h1>
+<p>Semestre: <%= @turma.semestre_string %></p>
 
 <h2>Formulários associados</h2>
 
-<% if @turma_formularios.empty? %>
+<% if @formularios.empty? %>
   <p>Nenhum formulário associado a esta turma.</p>
 <% else %>
   <ul>
-    <% @turma_formularios.each do |tf| %>
+    <% @formularios.each do |formulario| %>
       <li>
-        <%= tf.formulario.title %>
+        <%= formulario.nome_formulario %>
         &nbsp;
-        <%= button_to "Remover",
-              turma_formulario_path(tf),
+        <%= button_to "Confirmar remoção",
+              turma_formulario_path(formulario),
               method: :delete,
               data: { confirm: "Confirmar remoção?" } %>
       </li>
@@ -22,7 +22,7 @@
 
 <h2>Associar formulário</h2>
 
-<% if @available_formularios.empty? %>
+<% if @formularios_disponiveis.empty? %>
   <p>Não há formulários disponíveis para associar.</p>
 <% else %>
   <%= form_with url: turma_formularios_path, method: :post do |f| %>
@@ -30,7 +30,7 @@
     <div>
       <%= label_tag :formulario_id, "Formulário" %>
       <%= select_tag :formulario_id,
-            options_for_select(@available_formularios.map { |f| [f.title, f.id] }) %>
+            options_for_select(@formularios_disponiveis.map { |f| [f.nome_formulario, f.id] }) %>
     </div>
     <%= f.submit "Salvar" %>
   <% end %>

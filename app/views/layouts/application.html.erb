@@ -1,52 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= content_for(:title) || "Camaar" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Camaar">
-    <meta name="mobile-web-app-capable" content="yes">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title><%= content_for(:title) || "Camaar" %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Camaar">
+  <meta name="mobile-web-app-capable" content="yes">
 
-    <%= yield :head %>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+  <%= yield :head %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <%= yield :stylesheets %>
 
-  <body>
-    <nav>
-      <% if logged_in? %>
-        <span>Olá, <%= current_user.name %></span>
-        &nbsp;|&nbsp;
-        <% if current_user.student? %>
-          <%= link_to "Formulários", formularios_path %>
-        <% elsif current_user.admin? %>
-          <%= link_to "Relatórios", relatorios_path %>
-        <% elsif current_user.coordinator? %>
-          <%= link_to "Departamento", departamento_path %>
-        <% end %>
-        &nbsp;|&nbsp;
-        <%= button_to "Sair", logout_path, method: :delete %>
-      <% end %>
-    </nav>
+  <%= javascript_importmap_tags %>
+</head>
 
-    <% if flash[:notice] %>
-      <div class="flash-notice"><%= flash[:notice] %></div>
-    <% end %>
-    <% if flash[:alert] %>
-      <div class="flash-alert"><%= flash[:alert] %></div>
-    <% end %>
-
-    <%= yield %>
-  </body>
+<body data-controller="sidebar">
+<% flash.each do |type, msg| %>
+  <div class="flash-message flash-<%= type %>" style="padding:10px;background:<%= type.to_s=='alert' ? '#f8d7da' : '#d4edda' %>;color:<%= type.to_s=='alert' ? '#721c24' : '#155724' %>;border-radius:4px;margin:8px;"><%= msg %></div>
+<% end %>
+<%= yield %>
+</body>
 </html>

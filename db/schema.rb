@@ -60,24 +60,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_16_163715) do
 
   create_table "formularios", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "created_by_id"
     t.integer "criador_formulario_id", null: false
-    t.datetime "deadline"
-    t.integer "department_id"
-    t.text "description"
     t.string "nome_formulario"
     t.float "nota_final"
     t.float "nota_media"
     t.boolean "publico_estudante"
     t.integer "template_formulario_id", null: false
-    t.integer "template_id"
-    t.string "title"
     t.integer "turma_id", null: false
     t.datetime "updated_at", null: false
     t.index ["criador_formulario_id"], name: "index_formularios_on_criador_formulario_id"
-    t.index ["department_id"], name: "index_formularios_on_department_id"
     t.index ["template_formulario_id"], name: "index_formularios_on_template_formulario_id"
-    t.index ["template_id"], name: "index_formularios_on_template_id"
     t.index ["turma_id"], name: "index_formularios_on_turma_id"
   end
 
@@ -169,8 +161,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_16_163715) do
   create_table "resposta_questoes", force: :cascade do |t|
     t.text "answer"
     t.datetime "created_at", null: false
-    t.bigint "questao_id", null: false
-    t.bigint "resposta_id", null: false
+    t.integer "questao_id", null: false
+    t.integer "resposta_id", null: false
     t.datetime "updated_at", null: false
     t.index ["questao_id"], name: "index_resposta_questoes_on_questao_id"
     t.index ["resposta_id", "questao_id"], name: "index_resposta_questoes_on_resposta_id_and_questao_id", unique: true
@@ -217,14 +209,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_16_163715) do
 
   create_table "turmas", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "department_id"
     t.integer "materia_id", null: false
     t.float "nota_turma"
     t.integer "numero_turma"
     t.integer "professor_id", null: false
     t.string "semestre_string"
     t.datetime "updated_at", null: false
-    t.index ["department_id"], name: "index_turmas_on_department_id"
     t.index ["materia_id"], name: "index_turmas_on_materia_id"
     t.index ["professor_id"], name: "index_turmas_on_professor_id"
   end
@@ -260,11 +250,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_16_163715) do
   add_foreign_key "enrollments", "users"
   add_foreign_key "estudantes", "usuarios"
   add_foreign_key "formularios", "criador_formularios"
-  add_foreign_key "formularios", "departments"
   add_foreign_key "formularios", "template_formularios"
-  add_foreign_key "formularios", "templates"
   add_foreign_key "formularios", "turmas"
-  add_foreign_key "formularios", "users", column: "created_by_id"
   add_foreign_key "materia", "departamentos"
   add_foreign_key "matriculas", "estudantes"
   add_foreign_key "matriculas", "turmas"
@@ -285,7 +272,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_16_163715) do
   add_foreign_key "template_formularios", "criador_formularios"
   add_foreign_key "turma_formularios", "formularios"
   add_foreign_key "turma_formularios", "turmas"
-  add_foreign_key "turmas", "departments"
   add_foreign_key "turmas", "materia", column: "materia_id"
   add_foreign_key "turmas", "professors"
   add_foreign_key "users", "departments"

@@ -25,6 +25,7 @@
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/notificacoes" />
     </content>
     <orderEntry type="jdk" jdkName="ruby-3.2.10-p266" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -43,6 +44,7 @@
     <orderEntry type="library" scope="PROVIDED" name="addressable (v2.9.0, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ast (v2.4.3, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="base64 (v0.3.0, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bcrypt (v3.1.22, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bcrypt_pbkdf (v1.1.2, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bigdecimal (v4.1.2, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bindex (v0.8.1, ruby-3.2.10-p266) [gem]" level="application" />
@@ -59,7 +61,7 @@
     <orderEntry type="library" scope="PROVIDED" name="cucumber-ci-environment (v11.0.0, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cucumber-core (v16.2.0, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cucumber-cucumber-expressions (v19.0.0, ruby-3.2.10-p266) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="cucumber-gherkin (v39.0.0, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cucumber-gherkin (v39.1.0, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cucumber-html-formatter (v22.3.0, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cucumber-messages (v32.3.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="TEST" name="cucumber-rails (v4.0.1, ruby-3.2.10-p266) [gem]" level="application" />
@@ -75,6 +77,8 @@
     <orderEntry type="library" scope="PROVIDED" name="erb (v6.0.4, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.13.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="et-orbi (v1.4.0, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="factory_bot (v6.6.0, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="factory_bot_rails (v6.5.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.17.4, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fugit (v1.12.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.3.0, ruby-3.2.10-p266) [gem]" level="application" />
@@ -134,6 +138,11 @@
     <orderEntry type="library" scope="PROVIDED" name="regexp_parser (v2.12.0, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="reline (v0.6.3, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rexml (v3.4.4, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.13.6, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.13.5, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.13.8, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="TEST" name="rspec-rails (v8.0.4, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.13.7, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop (v1.86.2, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-ast (v1.49.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-performance (v1.26.1, ruby-3.2.10-p266) [gem]" level="application" />
@@ -144,6 +153,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v3.3.0, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="securerandom (v0.4.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="TEST" name="selenium-webdriver (v4.44.0, ruby-3.2.10-p266) [gem]" level="application" />
+    <orderEntry type="library" scope="TEST" name="shoulda-matchers (v7.0.1, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="solid_cable (v3.0.12, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="solid_cache (v1.0.10, ruby-3.2.10-p266) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="solid_queue (v1.4.0, ruby-3.2.10-p266) [gem]" level="application" />
@@ -267,6 +277,7 @@
       <value>file://$MODULE_DIR$/public/stylesheets</value>
     </entry>
     <entry key="test/mailers/previews">
+      <value>file://$MODULE_DIR$/spec/mailers/previews</value>
       <value>file://$MODULE_DIR$/test/mailers/previews</value>
       <value>file://$MODULE_DIR$/test/mailers/previews</value>
     </entry>

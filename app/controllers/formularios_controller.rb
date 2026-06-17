@@ -2,25 +2,28 @@ class FormulariosController < ApplicationController
   before_action :require_login
 
   def index
-    enrolled_turma_ids = current_user.enrollments.pluck(:turma_id)
-    formulario_ids = TurmaFormulario.where(turma_id: enrolled_turma_ids).pluck(:formulario_id)
-    @formularios = Formulario.where(id: formulario_ids).where("deadline >= ?", Time.current)
+    estudante = current_usuario.estudante
+    if estudante
+      turma_ids = estudante.matriculas.where(trancado: [false, nil]).pluck(:turma_id)
+      @formularios = Formulario.where(turma_id: turma_ids, publico_estudante: true).order(:nome_formulario)
+    else
+      @formularios = Formulario.none
+    end
   end
 
   def show
-    enrolled_turma_ids = current_user.enrollments.pluck(:turma_id)
-    allowed_ids = TurmaFormulario.where(turma_id: enrolled_turma_ids).pluck(:formulario_id)
+    @formulario = Formulario.find(params[:id])
 
-    @formulario = Formulario.find_by(id: params[:id])
-
-    unless @formulario && allowed_ids.include?(@formulario.id)
-      redirect_to formularios_path, alert: "Você não tem permissão para responder este formulário." and return
+    estudante = current_usuario.estudante
+    unless estudante
+      redirect_to avaliacoes_path, alert: "Você não tem permissão para responder este formulário." and return
     end
 
-    if @formulario.expired?
-      redirect_to formularios_path, alert: "O prazo de resposta deste formulário foi encerrado." and return
+    turma_ids = estudante.matriculas.where(trancado: [false, nil]).pluck(:turma_id)
+    unless turma_ids.include?(@formulario.turma_id) && @formulario.publico_estudante
+      redirect_to avaliacoes_path, alert: "Você não tem permissão para responder este formulário." and return
     end
 
-    @questoes = @formulario.questoes
+    @pergunta_formularios = @formulario.pergunta_formularios.order(:created_at)
   end
 end

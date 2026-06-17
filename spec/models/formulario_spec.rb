@@ -1,40 +1,40 @@
 require "rails_helper"
 
 RSpec.describe Formulario, type: :model do
-  describe "validations" do
-    it { is_expected.to validate_presence_of(:title) }
-    it { is_expected.to validate_presence_of(:deadline) }
-    it { is_expected.to belong_to(:department) }
-    it { is_expected.to belong_to(:created_by) }
-    it { is_expected.to have_many(:questoes) }
-    it { is_expected.to have_many(:respostas) }
-    it { is_expected.to have_many(:turma_formularios) }
+  describe "associations" do
+    it { is_expected.to belong_to(:turma) }
+    it { is_expected.to belong_to(:criador_formulario) }
+    it { is_expected.to have_many(:resposta_formularios) }
+    it { is_expected.to have_many(:pergunta_formularios) }
   end
 
-  describe "#expired?" do
-    it "returns true when deadline has passed" do
-      formulario = build(:formulario, deadline: 1.day.ago)
-      expect(formulario.expired?).to be true
+  describe "creation" do
+    it "can be saved without validations for general use" do
+      formulario = create(:formulario)
+      expect(formulario).to be_persisted
     end
 
-    it "returns false when deadline is in the future" do
-      formulario = build(:formulario, deadline: 1.day.from_now)
-      expect(formulario.expired?).to be false
+    it "is associated with a turma" do
+      formulario = create(:formulario)
+      expect(formulario.turma).to be_present
     end
   end
 
-  describe "#has_responses?" do
+  describe "resposta_formularios" do
     let(:formulario) { create(:formulario) }
 
-    it "returns false when no responses exist" do
-      expect(formulario.has_responses?).to be false
+    it "starts with no responses" do
+      expect(formulario.resposta_formularios.count).to eq(0)
     end
 
-    it "returns true when responses exist" do
-      turma = create(:turma, department: formulario.department)
-      student = create(:user, department: formulario.department)
-      create(:resposta, formulario: formulario, turma: turma, user: student)
-      expect(formulario.has_responses?).to be true
+    it "can have responses registered" do
+      usuario = create(:usuario)
+      RespostaFormulario.create!(
+        formulario: formulario,
+        usuario: usuario,
+        data_resposta: Time.current
+      )
+      expect(formulario.resposta_formularios.count).to eq(1)
     end
   end
 end

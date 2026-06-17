@@ -14,9 +14,9 @@
     <tbody>
       <% @formularios.each do |formulario| %>
         <tr>
-          <td><%= formulario.title %></td>
-          <td><%= formulario.respostas.size %></td>
-          <td><%= link_to "Ver relatório", relatorio_path(formulario) %></td>
+          <td><%= formulario.nome_formulario %></td>
+          <td><%= formulario.resposta_formularios.size %></td>
+          <td><%= link_to "Gerar relatório", relatorio_path(formulario) %></td>
         </tr>
       <% end %>
     </tbody>

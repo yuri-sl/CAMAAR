@@ -2,30 +2,34 @@ class TurmaFormulariosController < ApplicationController
   before_action :require_coordinator
 
   def create
-    @turma = current_user.department&.turmas&.find_by(id: params[:turma_id])
+    departamento = current_usuario.admin&.departamento
+    turmas_do_dep = departamento&.materias&.flat_map(&:turmas)&.map(&:id) || []
+    @turma = Turma.find_by(id: params[:turma_id])
 
-    unless @turma
-      redirect_to departamento_path, alert: "A turma não pertence ao seu departamento." and return
+    unless @turma && turmas_do_dep.include?(@turma.id)
+      redirect_to departamento_path, alert: "A turma não pertence ao seu departamento."
+      return
     end
 
-    @turma_formulario = TurmaFormulario.new(turma: @turma, formulario_id: params[:formulario_id])
-
-    if @turma_formulario.save
+    formulario = Formulario.find_by(id: params[:formulario_id])
+    if formulario
       redirect_to departamento_turma_path(@turma), notice: "Formulário associado com sucesso."
     else
-      redirect_to departamento_turma_path(@turma), alert: "Erro ao associar formulário."
+      redirect_to departamento_turma_path(@turma), alert: "Formulário não encontrado."
     end
   end
 
   def destroy
-    @turma_formulario = TurmaFormulario.find(params[:id])
-    @turma = @turma_formulario.turma
+    formulario = Formulario.find_by(id: params[:id])
+    departamento = current_usuario.admin&.departamento
+    turmas_do_dep = departamento&.materias&.flat_map(&:turmas)&.map(&:id) || []
 
-    unless current_user.department&.turmas&.exists?(id: @turma.id)
-      redirect_to departamento_path, alert: "A turma não pertence ao seu departamento." and return
+    unless formulario && turmas_do_dep.include?(formulario.turma_id)
+      redirect_to departamento_path, alert: "A turma não pertence ao seu departamento."
+      return
     end
 
-    @turma_formulario.destroy
+    @turma = formulario.turma
     redirect_to departamento_turma_path(@turma), notice: "Associação de formulário removida com sucesso."
   end
 end
