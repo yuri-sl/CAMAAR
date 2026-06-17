@@ -1,0 +1,20 @@
+<h1>Novo Template</h1>
+
+<%= form_with model: [:admin, @template] do |f| %>
+  <% if @template.errors.any? %>
+    <ul>
+      <% @template.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div>
+    <%= f.label :name, "Nome" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <%= f.submit "Salvar Template" %>
+<% end %>
+
+<%= link_to "Voltar", admin_templates_path %>

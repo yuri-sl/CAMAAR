@@ -19,5 +19,9 @@ Rails.application.routes.draw do
   post   "turma_formularios",     to: "turma_formularios#create",  as: :turma_formularios
   delete "turma_formularios/:id", to: "turma_formularios#destroy", as: :turma_formulario
 
+  namespace :admin do
+    resources :templates
+  end
+
   root "sessions#new"
 end

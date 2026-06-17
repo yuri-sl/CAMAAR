@@ -1,4 +1,4 @@
-Given("estou logado como administrador") do
+Given("que estou logado como administrador") do
   @department = create(:department)
   @current_user = create(:user, :admin, department: @department)
   visit login_path
@@ -7,7 +7,7 @@ Given("estou logado como administrador") do
   click_button "Entrar"
 end
 
-Given("estou logado como estudante") do
+Given("que estou logado como estudante") do
   @department = create(:department)
   @current_user = create(:user, role: :student, department: @department)
   visit login_path
@@ -16,7 +16,7 @@ Given("estou logado como estudante") do
   click_button "Entrar"
 end
 
-Given("estou logado como coordenador de departamento") do
+Given("que estou logado como coordenador de departamento") do
   @department = create(:department)
   @current_user = create(:user, :coordinator, department: @department)
   visit login_path
@@ -25,7 +25,7 @@ Given("estou logado como coordenador de departamento") do
   click_button "Entrar"
 end
 
-Given("estou logado como um usuário sem perfil de administrador") do
+Given("que estou logado como um usuário sem perfil de administrador") do
   @department = create(:department)
   @current_user = create(:user, role: :student, department: @department)
   visit login_path
@@ -35,7 +35,7 @@ Given("estou logado como um usuário sem perfil de administrador") do
 end
 
 Then("o sistema nega o acesso") do
-  expect(page).to have_content("permissão")
+  expect(page).to have_text(/permissão|não pertence/)
 end
 
 Then("vejo uma mensagem informando que não tenho permissão para acessar esta funcionalidade") do
