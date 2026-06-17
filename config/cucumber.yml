@@ -1,8 +1,8 @@
 <%
 rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
 rerun = rerun.strip.gsub /\s/, ' '
-rerun_opts = rerun.empty? ? "--format #{ENV['CUCUMBER_FORMAT'] || 'progress'} -r features features/gerar_relatorio_administrador.feature features/gerenciamento_por_departamento.feature features/responder_formulario.feature features/visualizar_resultados_relatorios.feature features/criacao_template_formulario.feature features/edicao_e_delecao_templates.feature" : "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} -r features #{rerun}"
-std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags 'not @wip' -r features features/gerar_relatorio_administrador.feature features/gerenciamento_por_departamento.feature features/responder_formulario.feature features/visualizar_resultados_relatorios.feature features/criacao_template_formulario.feature features/edicao_e_delecao_templates.feature"
+rerun_opts = rerun.empty? ? "--format #{ENV['CUCUMBER_FORMAT'] || 'progress'} -r features features/" : "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} -r features #{rerun}"
+std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'progress'} -r features features/"
 %>
 default: <%= std_opts %>
-rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags 'not @wip'
+rerun: <%= rerun_opts %> --format rerun --out rerun.txt
