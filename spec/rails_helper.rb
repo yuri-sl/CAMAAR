@@ -1,3 +1,7 @@
+require "simplecov"
+SimpleCov.command_name "RSpec"
+SimpleCov.start "rails"
+
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 abort("The Rails environment is running in production mode!") if Rails.env.production?
