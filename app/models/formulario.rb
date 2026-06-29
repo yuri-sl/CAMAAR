@@ -9,58 +9,49 @@ class Formulario < ApplicationRecord
 
   after_create :vincular_perguntas_do_template
 
-  validates :nome_formulario,
-            presence: { message: "é obrigatório" },
-            uniqueness: {
-              scope: [ :turma_id, :publico_estudante ],
-              message: "já existe para a turma e público-alvo selecionados"
-            },
-            on: :criacao_por_publico
-  validates :template_formulario, presence: { message: "é obrigatório" }, on: :criacao_por_publico
-  validates :turma, presence: { message: "é obrigatória" }, on: :criacao_por_publico
-  validates :publico_estudante,
-            inclusion: {
-              in: [ true, false ],
-              message: "deve ser Discente ou Docente"
-            },
-            on: :criacao_por_publico
   validate :turma_possui_matricula_ativa, on: :criacao_por_publico
-  validate :mensagem_criacao_personalizada, on: :criacao_por_publico
+  validate :validar_ausencia_total, on: :criacao_por_publico
+  validate :validar_campos_obrigatorios, on: :criacao_por_publico
+  validate :formularios_duplicados, on: :criacao_por_publico
 
   private
 
-  def mensagem_criacao_personalizada
-    nome = nome_formulario.presence
-
-    if template_formulario.nil? && nome.nil?
+  def validar_ausencia_total
+    if template_formulario.nil? && nome_formulario.presence.nil?
       errors.add(:base, "Formulario não pode ser criado, por favor preencha os dados necessários")
       return
     end
+  end
 
-    if nome.nil?
-      errors.add(:base, "Formulario não pode ser criado, o nome do formulário é obrigatório")
-      return
+  def validar_campos_obrigatorios
+    return if errors.any?
+
+    nome = nome_formulario.presence
+
+    atributos_obrigatorios = [
+      [nome.nil?, "o nome do formulário é obrigatório"],
+      [template_formulario.nil?, "por favor seleciona uma Template"],
+      [publico_estudante.nil?, "por favor selecione o Público-Alvo"],
+      [turma.nil?, "por favor selecione uma Turma"]
+    ]
+
+    falhou, motivo_falha = atributos_obrigatorios.find { |condicao, _| condicao == true }
+
+    if falhou
+      errors.add(:base, "Formulario #{nome || 'sem nome'} não pode ser criado, #{motivo_falha}")
     end
+  end
 
-    if template_formulario.nil?
-      errors.add(:base, "Formulario #{nome} não pode ser criado, por favor seleciona uma Template")
-      return
-    end
+  def formularios_duplicados
+    return if errors.any?
 
-    if publico_estudante.nil?
-      errors.add(:base, "Formulario #{nome} não pode ser criado, por favor selecione o Público-Alvo")
-      return
-    end
+    nome = nome_formulario.presence
 
-    if turma.nil?
-      errors.add(:base, "Formulario #{nome} não pode ser criado, por favor selecione uma Turma")
-      return
-    end
-
-    if Formulario.where(nome_formulario: nome, turma_id: turma_id, publico_estudante: publico_estudante)
-                 .where.not(id: id).exists?
+    if Formulario.where( nome_formulario: nome, turma_id: turma_id, publico_estudante: publico_estudante
+              ).where.not(id: id).exists?
       errors.add(:base, "Formulario #{nome} não pode ser criado, já existe um formulário com este nome para a turma e público-alvo selecionados")
     end
+
   end
 
   def turma_possui_matricula_ativa
