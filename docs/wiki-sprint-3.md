@@ -127,8 +127,8 @@ ao reanalizar com `Max: 9`. O arquivo `.rubocop_metrics.yml` foi corrigido.*
 | `GerenciamentoController#importar` - ABC Score | 28.11 | **10.63** | Concluido (João Victor Romero) |
 | `TurmaFormulariosController#create` - ABC Score | 23.17 | **10.63** | Concluido (João Victor Romero) |
 | Cobertura geral RSpec + Cucumber | 81.02% | **85.34%** | Concluido (Artur) |
-| Nota geral RubyCritic | 91.39 / 100 | 90.96 / 100 | Concluido (services fora do escopo da sprint) |
-| Documentacao RDoc | 7.06% | Pendente | Aguardando geracao final do `doc/` antes do PR |
+| Nota geral RubyCritic | 91.39 / 100 | **90.98 / 100** | Concluido |
+| Documentacao RDoc | 7.06% | **9.41%** | Concluido (`bundle exec rdoc app lib --output doc`) |
 
 ## Refatoracoes realizadas
 
@@ -245,7 +245,7 @@ Os metodos criados ou refatorados devem conter comentarios RDoc indicando:
 - [x] `bundle exec rspec` passando (111 exemplos, 0 falhas).
 - [x] `bundle exec cucumber` passando (117 cenarios, 908 steps, 0 falhas).
 - [x] Relatorio RubyCritic gerado (90.96 / 100).
-- [ ] RDoc gerado ao final — rodar `bundle exec rdoc app lib --output doc` antes do PR final.
+- [x] RDoc gerado (`bundle exec rdoc app lib --output doc` — 9.41% documentado, publico).
 - [x] Comentarios RDoc conferidos nos metodos criados/refatorados (controllers e models: ok).
 - [x] Wiki atualizada com tabela antes/depois e cobertura final.
 - [ ] PR revisado para evitar alteracoes desnecessarias.
@@ -255,5 +255,5 @@ Os metodos criados ou refatorados devem conter comentarios RDoc indicando:
 1. ~~Receber do João Victor Romero a lista final de controllers refatorados e integrar em sprint-3.~~ **Concluido.**
 2. ~~Receber do João Felipe Stein a lista final de models refatorados.~~ **Concluido.**
 3. ~~Receber do Artur os resultados finais de RSpec, Cucumber e SimpleCov.~~ **Concluido.** (111 RSpec + 117 Cucumber; todos os controllers/models do grupo >= 90%)
-4. Gerar `doc/` com `bundle exec rdoc app lib --output doc` antes de abrir o PR final.
+4. ~~Gerar `doc/`.~~ **Concluido** (9.41% documentado — metodos publicos refatorados cobertos).
 5. Abrir o PR da branch `sprint-3` para o repositorio principal e fazer a revisao final.
