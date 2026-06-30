@@ -34,3 +34,9 @@
 /config/*.key
 
 /notificacoes/
+
+# Sprint 3: saídas geradas pelas ferramentas de métricas (não versionar).
+/coverage/
+/tmp/rubycritic/
+/tmp/metric_fu/
+/doc/

@@ -69,4 +69,55 @@ RSpec.describe "Gerenciamento por Departamento", type: :request do
       expect(response).to redirect_to(root_path)
     end
   end
+
+  describe "Admin tenta associar formulário inexistente a uma turma (Sad Path)" do
+    it "redireciona com alerta de formulário não encontrado" do
+      turma
+      login_as(admin_usuario)
+      post turma_formularios_path, params: { turma_id: turma.id, formulario_id: 999_999 }
+      expect(response).to redirect_to(departamento_turma_path(turma))
+      follow_redirect!
+      expect(response.body).to include("não encontrado")
+    end
+  end
+
+  describe "Admin tenta associar formulário a turma de outro departamento (Sad Path)" do
+    it "redireciona com mensagem de departamento inválido" do
+      other_depto = Departamento.create!(nome_departamento: "Outro Depto Create")
+      other_mat = Materia.create!(codigoMateria: "OUT03", nome_materia: "Outra Create", departamento: other_depto)
+      other_turma = Turma.create!(numero_turma: 7, semestre_string: "2026/1", materia: other_mat, professor: professor)
+      formulario
+      login_as(admin_usuario)
+      post turma_formularios_path, params: { turma_id: other_turma.id, formulario_id: formulario.id }
+      expect(response).to redirect_to(departamento_path)
+      follow_redirect!
+      expect(response.body).to include("não pertence ao seu departamento")
+    end
+  end
+
+  describe "Admin remove associação de formulário (Happy Path)" do
+    it "destrói a associação e redireciona com aviso de sucesso" do
+      formulario
+      login_as(admin_usuario)
+      delete turma_formulario_path(formulario)
+      expect(response).to redirect_to(departamento_turma_path(turma))
+      follow_redirect!
+      expect(response.body).to include("removida com sucesso")
+    end
+  end
+
+  describe "Admin tenta remover formulário de turma de outro departamento (Sad Path)" do
+    it "redireciona com mensagem de departamento inválido" do
+      other_depto = Departamento.create!(nome_departamento: "Outro Depto Destroy")
+      other_mat = Materia.create!(codigoMateria: "OUT04", nome_materia: "Outra Destroy", departamento: other_depto)
+      other_turma = Turma.create!(numero_turma: 8, semestre_string: "2026/1", materia: other_mat, professor: professor)
+      other_form = Formulario.create!(nome_formulario: "Form Outro", turma: other_turma,
+        criador_formulario: criador, template_formulario: template)
+      login_as(admin_usuario)
+      delete turma_formulario_path(other_form)
+      expect(response).to redirect_to(departamento_path)
+      follow_redirect!
+      expect(response.body).to include("não pertence ao seu departamento")
+    end
+  end
 end

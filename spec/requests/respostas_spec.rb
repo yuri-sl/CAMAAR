@@ -86,4 +86,45 @@ RSpec.describe "Responder Formulário", type: :request do
       expect(response.body).to include("permissão")
     end
   end
+
+  describe "Formulário inexistente não é respondido" do
+    it "redireciona com mensagem de formulário não encontrado" do
+      login_as(student_u)
+      post "/formularios/99999999/respostas", params: { respostas: {} }
+      expect(response).to redirect_to(avaliacoes_path)
+      follow_redirect!
+      expect(response.body).to include("não encontrado")
+    end
+  end
+
+  describe "Usuário sem perfil de estudante tenta responder" do
+    it "redireciona com mensagem de permissão negada" do
+      login_as(admin_u)
+      post formulario_respostas_path(formulario), params: { respostas: {} }
+      expect(response).to redirect_to(avaliacoes_path)
+      follow_redirect!
+      expect(response.body).to include("permissão")
+    end
+  end
+
+  describe "Estudante tenta responder formulário já respondido" do
+    it "redireciona com mensagem de formulário já respondido" do
+      RespostaFormulario.create!(formulario: formulario, usuario: student_u)
+      login_as(student_u)
+      post formulario_respostas_path(formulario), params: { respostas: {} }
+      expect(response).to redirect_to(avaliacoes_path)
+      follow_redirect!
+      expect(response.body).to include("já respondeu")
+    end
+  end
+
+  describe "Erro interno ao salvar resposta" do
+    it "reexibe o formulário com mensagem de erro quando save falha" do
+      allow_any_instance_of(RespostaFormulario).to receive(:save).and_return(false)
+      login_as(student_u)
+      post formulario_respostas_path(formulario), params: { respostas: {} }
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include("Erro ao registrar resposta")
+    end
+  end
 end

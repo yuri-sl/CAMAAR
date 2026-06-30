@@ -1,230 +1,108 @@
 # CAMAAR
 
-Projeto desenvolvido em Ruby on Rails para a disciplina de Engenharia de Software.
+Sistema web para **gestão de avaliações institucionais** da UnB — permite criar formulários, distribuí-los a turmas importadas do SIGAA e gerar relatórios de respostas por disciplina.
 
-## Tecnologias utilizadas
+> Trabalho final da disciplina de Engenharia de Software · Grupo 7 · 2025/1
 
-- Ruby 3.2.10
-- Ruby on Rails 8.1.3
-- SQLite3
-- Puma
-- Capybara
-- Selenium WebDriver
+---
 
-## Pré-requisitos
+## Início rápido
 
-Antes de rodar o projeto, verifique se você possui instalado:
-
-- Ruby
-- Rails
-- Bundler
-- SQLite3
-- Git
-
-Para verificar as versões instaladas, execute:
+**Pré-requisitos:** Ruby 3.2.10, Bundler, SQLite3.
 
 ```bash
-ruby --version
-rails --version
-bundle --version
-sqlite3 --version
-git --version
-```
-
-## Clonando o projeto
-
-Clone o repositório:
-
-```bash
-git clone https://github.com/SEU-USUARIO/SEU-REPOSITORIO.git
-```
-
-Entre na pasta do projeto:
-
-```bash
-cd SEU-REPOSITORIO
-```
-
-Substitua `SEU-USUARIO` e `SEU-REPOSITORIO` pelos dados corretos do repositório.
-
-## Instalando as dependências
-
-Na raiz do projeto, execute:
-
-```bash
+git clone https://github.com/yuri-sl/CAMAAR.git
+cd CAMAAR
 bundle install
-```
-
-Esse comando instala todas as gems necessárias declaradas no arquivo `Gemfile`.
-
-## Preparando o banco de dados
-
-Como o projeto utiliza SQLite, execute:
-
-```bash
-bin/rails db:prepare
-```
-
-No Windows, caso o comando acima não funcione, use:
-
-```bash
-ruby bin\rails db:prepare
-```
-
-Esse comando cria o banco de dados, executa as migrations e, em um banco novo, também executa o `db/seeds.rb` — que cria o usuário administrador padrão (veja a seção [Acesso ao sistema](#acesso-ao-sistema)).
-
-Se o seu banco **já existe** e você só quer garantir o usuário admin, rode o seed manualmente (é idempotente):
-
-```bash
-bin/rails db:seed
-```
-
-## Rodando o servidor
-
-Para iniciar o servidor Rails, execute:
-
-```bash
+bin/rails db:prepare       # cria o banco, executa migrations e o seed inicial
 bin/rails server
 ```
 
-No Windows, recomenda-se usar:
+Acesse em **http://localhost:3000**.
 
-```bash
-ruby bin\rails server
-```
+> **Windows:** substitua `bin/rails` por `ruby bin\rails` caso obtenha erro `No such file or directory`. Se o servidor travar na inicialização, comente `plugin :tmp_restart` em `config/puma.rb`.
 
-ou:
+---
 
-```bash
-bundle exec rails server
-```
+## Acesso padrão
 
-Depois acesse no navegador:
+O seed cria automaticamente um administrador:
 
-```text
-http://localhost:3000
-```
+| Campo | Valor |
+|---|---|
+| E-mail | `admin@unb.br` |
+| Senha | `Admin123` |
 
-Se a página inicial do Rails aparecer, o projeto está rodando corretamente.
+---
 
-## Acesso ao sistema
+## Funcionalidades
 
-O `db/seeds.rb` cria (de forma idempotente) um usuário administrador padrão, para que qualquer pessoa que rode o projeto consiga acessar o sistema:
+| Papel | O que pode fazer |
+|---|---|
+| **Admin** | Importar dados do SIGAA (JSON), criar templates de formulário, enviar formulários às turmas do seu departamento, visualizar relatórios e exportar CSV |
+| **Professor** | Visualizar relatórios das turmas onde leciona |
+| **Estudante** | Responder os formulários abertos das suas turmas |
 
-```text
-Email: admin@unb.br
-Senha: Admin123
-```
+---
 
-Esse usuário é criado automaticamente em um banco novo (`bin/rails db:prepare`) ou ao rodar `bin/rails db:seed`. Ele já vem com um departamento ("Administração Geral") e perfil de criador de formulários.
+## Stack
 
-## Observação para usuários Windows
+- Ruby 3.2.10 · Rails 8.1.3 · SQLite3
+- Testes: RSpec + Cucumber (BDD) + SimpleCov
+- Qualidade: RuboCritic · RuboCop · RDoc
 
-Caso o servidor inicie e depois caia com um erro parecido com:
-
-```text
-No such file or directory - bin/rails
-```
-
-abra o arquivo:
-
-```text
-config/puma.rb
-```
-
-e comente a linha:
-
-```ruby
-plugin :tmp_restart
-```
-
-deixando assim:
-
-```ruby
-# plugin :tmp_restart
-```
-
-Depois tente iniciar o servidor novamente:
-
-```bash
-ruby bin\rails server
-```
-
-## Avisos relacionados ao VIPS
-
-Em alguns ambientes Windows, podem aparecer avisos semelhantes a:
-
-```text
-VIPS-WARNING unable to load ...
-```
-
-Esses avisos estão relacionados ao processamento de imagens e, em geral, não impedem a aplicação Rails de iniciar. Caso o projeto ainda não utilize upload ou manipulação de imagens, eles podem ser ignorados inicialmente.
+---
 
 ## Testes
 
-Para rodar os testes padrão do Rails:
+```bash
+bin/rails db:test:prepare
+
+# Testes unitários e de requisição
+bundle exec rspec
+
+# Testes de comportamento (BDD)
+bundle exec cucumber
+```
+
+---
+
+## Métricas de qualidade (Sprint 3)
 
 ```bash
-bin/rails test
+# Complexidade ciclomática e ABC Score por método
+bundle exec rubocop --config .rubocop_metrics.yml \
+  --only Metrics/CyclomaticComplexity,Metrics/AbcSize app lib --format simple
+
+# Relatório agregado (smells, duplicação, nota por arquivo)
+bundle exec rubycritic app lib --no-browser
+
+# Documentação
+bundle exec rdoc app lib --output doc
 ```
 
-No Windows:
+---
 
-```bash
-ruby bin\rails test
+## Importação de dados do SIGAA
+
+O sistema aceita dois arquivos JSON exportados do SIGAA:
+
+- **classes.json** — metadados das disciplinas (código, turma, semestre, docente)
+- **class\_members.json** — discentes por turma
+
+Faça o upload em **Gerenciamento → Importar dados**.
+
+---
+
+## Estrutura relevante
+
 ```
-
-O projeto também possui suporte a testes com Capybara e Selenium WebDriver.
-
-## Estrutura básica do projeto
-
-```text
-app/        # Código principal da aplicação
-config/     # Configurações do Rails
-db/         # Banco de dados e migrations
-test/       # Testes automatizados
-public/     # Arquivos públicos
-Gemfile     # Dependências do projeto
+app/
+  controllers/   rotas e lógica HTTP
+  models/        regras de negócio e validações
+  services/      ImportarDadosService, LimparDadosService, EmailLogger
+  views/         templates ERB
+spec/            testes RSpec (request specs e model specs)
+features/        cenários Cucumber (BDD)
+docs/            wiki e métricas da Sprint 3
 ```
-
-## Comandos úteis
-
-Instalar dependências:
-
-```bash
-bundle install
-```
-
-Preparar banco de dados:
-
-```bash
-ruby bin\rails db:prepare
-```
-
-Rodar servidor:
-
-```bash
-ruby bin\rails server
-```
-
-Rodar testes:
-
-```bash
-ruby bin\rails test
-```
-
-Ver rotas disponíveis:
-
-```bash
-ruby bin\rails routes
-```
-
-Abrir console Rails:
-
-```bash
-ruby bin\rails console
-```
-
-## Status do projeto
-
-Projeto em desenvolvimento.

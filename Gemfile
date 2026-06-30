@@ -71,3 +71,20 @@ group :test do
   gem "database_cleaner-active_record"
   gem "shoulda-matchers"
 end
+
+# Sprint 3: ferramentas de métricas de qualidade de código (cobertura,
+# complexidade ciclomática, ABC score, smells e documentação).
+group :metrics do
+  # Cobertura de testes [https://github.com/simplecov-ruby/simplecov]
+  gem "simplecov", require: false
+
+  # Relatório agregado de qualidade (Reek + Flay + Flog) [https://github.com/whitesmith/rubycritic]
+  gem "rubycritic", require: false
+
+  # Geração de documentação a partir dos comentários do código [https://github.com/ruby/rdoc]
+  gem "rdoc", require: false
+
+#Usamos os cops Metrics/CyclomaticComplexity e
+# Metrics/AbcSize do RuboCop (já no projeto) para extrair os mesmos
+# números de complexidade ciclomática — ver .rubocop_metrics.yml.
+end
