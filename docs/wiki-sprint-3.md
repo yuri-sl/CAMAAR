@@ -140,7 +140,7 @@ ao reanalizar com `Max: 9`. O arquivo `.rubocop_metrics.yml` foi corrigido.*
 | `app/models/formulario.rb` | ABC 31.80 em `mensagem_criacao_personalizada` | Extraido em `validar_ausencia_total`, `validar_campos_obrigatorios` e `formularios_duplicados`; RDoc adicionado em todos os metodos privados                                                                                     | Todos com ABC < 20 e CC < 10 |
 | `app/services/limpar_dados_service.rb#call` | ABC 29.44 | Extraido em `limpar_registros`, `ids_a_preservar`, `remover_formularios_e_respostas`, `remover_turmas_e_matriculas`; RDoc adicionado                                                                                             | ABC 6.4 (call); todos os metodos < 20 |
 | `app/controllers/gerenciamento_controller.rb#importar` | ABC 28.11 | Extraido em `arquivos_presentes?`, `redirecionar_arquivos_ausentes`, `processar_importacao`; RDoc completo                                                                                                                       | ABC 10.63 |
-| `app/services/importar_dados_service.rb` | Maior numero de smells (30) | Nao refatorado — nenhum metodo viola CC >= 10 ou ABC >= 20                                                                                                                                                                       | Dentro dos limiares de CC/ABC; |
+| `app/services/importar_dados_service.rb` | Maior numero de smells (30) | Nao refatorado — nenhum metodo viola CC >= 10 ou ABC >= 20. Os smells sao estruturais| Dentro dos limiares|
 
 ## Cobertura de testes
 
@@ -232,7 +232,7 @@ Os metodos criados ou refatorados devem conter comentarios RDoc indicando:
 | `app/models/usuario.rb` (normalize_email, password_meets_complexity_requirements) | Sim | Formato: descricao, argumentos, retorno e efeitos colaterais |
 | `app/services/limpar_dados_service.rb#call` (limpar_registros, ids_a_preservar, remover_formularios_e_respostas, remover_turmas_e_matriculas) | Sim | Formato: descricao, argumentos, retorno e efeitos colaterais |
 | `app/controllers/gerenciamento_controller.rb` (arquivos_presentes?, redirecionar_arquivos_ausentes, processar_importacao) | Sim | Formato: descricao, parametros, retorno e efeitos colaterais |
-| `app/services/importar_dados_service.rb` | Pendente | Aguardando refatoracao |
+| `app/services/importar_dados_service.rb` | Nao aplicavel | Nenhum metodo foi criado ou refatorado nesta sprint — nenhum violava CC/ABC. Smells documentados como divida tecnica. |
 
 ## Checklist do PR final
 
