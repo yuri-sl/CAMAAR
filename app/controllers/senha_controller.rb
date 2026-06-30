@@ -69,6 +69,23 @@ class SenhaController < ApplicationController
 
   private
 
+  # Localiza um usuário pelo token de redefinição de senha.
+  #
+  # Utiliza o método <tt>find_by_token_for</tt> com o propósito
+  # <tt>:password_reset</tt> para validar o token de forma stateless,
+  # sem necessidade de persistência no banco de dados.
+  #
+  # Se o token for inválido ou expirado (usuário não encontrado),
+  # redireciona para +recuperar_senha_path+ com mensagem de alerta
+  # e retorna +nil+, interrompendo o fluxo da ação +salvar+.
+  #
+  # ==== Parâmetros
+  # [token] Token de redefinição de senha gerado por
+  #         <tt>usuario.generate_token_for(:password_reset)</tt>.
+  #
+  # ==== Retorno
+  # [Usuario] se o token for válido e o usuário for encontrado.
+  # [nil]     se o token for inválido ou expirado (com redirecionamento).
   def find_usuario_by_token_or_redirect(token)
     usuario = Usuario.find_by_token_for(:password_reset, token)
     unless usuario
@@ -78,6 +95,21 @@ class SenhaController < ApplicationController
     usuario
   end
 
+  # Verifica se a nova senha foi preenchida.
+  #
+  # Valida que o campo de senha não está em branco.
+  #
+  # Se a senha estiver em branco, define mensagem de alerta via
+  # <tt>flash.now</tt> e renderiza a view +:nova+ com status
+  # HTTP 422 (Unprocessable Entity), interrompendo o fluxo da ação +salvar+.
+  #
+  # ==== Parâmetros
+  # [senha] String com a nova senha informada pelo usuário
+  #         (<tt>params[:password]</tt>).
+  #
+  # ==== Retorno
+  # [true]  se a senha foi preenchida.
+  # [false] se a senha está em branco (com renderização da view).
   def password_present?(senha)
     if senha.blank?
       flash.now[:alert] = "A nova senha é obrigatória."
@@ -87,6 +119,24 @@ class SenhaController < ApplicationController
     true
   end
 
+  # Verifica se a nova senha e a confirmação são iguais.
+  #
+  # Compara os dois campos informados pelo usuário para garantir
+  # que não houve erro de digitação.
+  #
+  # Se as senhas forem diferentes, define mensagem de alerta via
+  # <tt>flash.now</tt> e renderiza a view +:nova+ com status
+  # HTTP 422 (Unprocessable Entity), interrompendo o fluxo da ação +salvar+.
+  #
+  # ==== Parâmetros
+  # [senha]       String com a nova senha
+  #               (<tt>params[:password]</tt>).
+  # [confirmacao] String com a confirmação da nova senha
+  #               (<tt>params[:password_confirmation]</tt>).
+  #
+  # ==== Retorno
+  # [true]  se as senhas são iguais.
+  # [false] se as senhas são diferentes (com renderização da view).
   def passwords_match?(senha, confirmacao)
     if senha != confirmacao
       flash.now[:alert] = "As duas senhas não são iguais."
@@ -96,6 +146,23 @@ class SenhaController < ApplicationController
     true
   end
 
+  # Verifica se a nova senha é diferente da senha atual do usuário.
+  #
+  # Utiliza o método <tt>authenticate</tt> do <tt>has_secure_password</tt>
+  # para comparar a nova senha com a senha atual armazenada.
+  #
+  # Se a nova senha for igual à senha atual, define mensagem de alerta
+  # via <tt>flash.now</tt> e renderiza a view +:nova+ com status
+  # HTTP 422 (Unprocessable Entity), interrompendo o fluxo da ação +salvar+.
+  #
+  # ==== Parâmetros
+  # [usuario] Instância de <tt>Usuario</tt> dono do token de redefinição.
+  # [senha]   String com a nova senha informada
+  #           (<tt>params[:password]</tt>).
+  #
+  # ==== Retorno
+  # [true]  se a nova senha é diferente da senha atual.
+  # [false] se a nova senha é igual à senha atual (com renderização da view).
   def new_password_different?(usuario, senha)
     if usuario.authenticate(senha)
       flash.now[:alert] = "A nova senha deve ser diferente da senha atual."
