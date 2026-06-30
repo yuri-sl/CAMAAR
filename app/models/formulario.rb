@@ -25,44 +25,96 @@ class Formulario < ApplicationRecord
             },
             on: :criacao_por_publico
   validate :turma_possui_matricula_ativa, on: :criacao_por_publico
-  validate :mensagem_criacao_personalizada, on: :criacao_por_publico
+  validate :validar_ausencia_total, on: :criacao_por_publico
+  validate :validar_campos_obrigatorios, on: :criacao_por_publico
+  validate :formularios_duplicados, on: :criacao_por_publico
 
   private
 
-  def mensagem_criacao_personalizada
-    nome = nome_formulario.presence
+  # Serve como validação para o caso em que o formulário de criação
+  # de formulário está totalmente vazio (sem template e sem nome).
+  #
+  # Argumentos:
+  # Não recebe argumentos.
+  #
+  # Retorna:
+  # Nil.
+  #
+  # Efeitos colaterais:
+  # Adiciona um erro em :base quando template e nome estão ambos ausentes.
+  def validar_ausencia_total
+    return unless template_formulario.nil? && nome_formulario.presence.nil?
 
-    if template_formulario.nil? && nome.nil?
-      errors.add(:base, "Formulario não pode ser criado, por favor preencha os dados necessários")
-      return
-    end
+    errors.add(:base, "Formulario não pode ser criado, por favor preencha os dados necessários")
+  end
+
+  # Serve como validação para as variáveis básicas para criação de um formulário
+  # (Nome do Formulário, Template para Criação, Público Alvo e Turma).
+  #
+  # Argumentos:
+  # Não recebe argumentos.
+  #
+  # Retorna:
+  # Nil.
+  #
+  # Efeitos colaterais:
+  # Adiciona um erro em :base com a mensagem do primeiro campo obrigatório
+  # ausente (nome, template, público-alvo ou turma, nessa ordem), se houver
+  # algum. O nome só é interpolado na mensagem quando ele próprio já está
+  # presente.
+  def validar_campos_obrigatorios
+    nome = nome_formulario.presence
 
     if nome.nil?
       errors.add(:base, "Formulario não pode ser criado, o nome do formulário é obrigatório")
       return
     end
 
-    if template_formulario.nil?
-      errors.add(:base, "Formulario #{nome} não pode ser criado, por favor seleciona uma Template")
-      return
-    end
+    atributos_obrigatorios = [
+      [ template_formulario.nil?, "por favor seleciona uma Template" ],
+      [ publico_estudante.nil?, "por favor selecione o Público-Alvo" ],
+      [ turma.nil?, "por favor selecione uma Turma" ]
+    ]
 
-    if publico_estudante.nil?
-      errors.add(:base, "Formulario #{nome} não pode ser criado, por favor selecione o Público-Alvo")
-      return
-    end
+    falhou, motivo_falha = atributos_obrigatorios.find { |condicao, _| condicao == true }
 
-    if turma.nil?
-      errors.add(:base, "Formulario #{nome} não pode ser criado, por favor selecione uma Turma")
-      return
-    end
-
-    if Formulario.where(nome_formulario: nome, turma_id: turma_id, publico_estudante: publico_estudante)
-                 .where.not(id: id).exists?
-      errors.add(:base, "Formulario #{nome} não pode ser criado, já existe um formulário com este nome para a turma e público-alvo selecionados")
-    end
+    errors.add(:base, "Formulario #{nome} não pode ser criado, #{motivo_falha}") if falhou
   end
 
+  # Serve como validação para o caso de existir um formulário aberto de mesmo nome
+  # para o mesmo publico alvo e na mesma turma do formulario que se está criando.
+  #
+  # Argumentos:
+  # Não recebe argumentos.
+  #
+  # Retorna:
+  # Nil.
+  #
+  # Efeitos colaterais:
+  # Consulta o banco por outro formulário com o mesmo nome, turma e
+  # público-alvo; adiciona um erro em :base quando encontrado.
+  def formularios_duplicados
+    nome = nome_formulario.presence
+
+    duplicado = Formulario.where(nome_formulario: nome, turma_id: turma_id, publico_estudante: publico_estudante)
+                           .where.not(id: id).exists?
+    return unless duplicado
+
+    errors.add(:base, "Formulario #{nome} não pode ser criado, já existe um formulário com este nome para a turma e público-alvo selecionados")
+  end
+
+  # Serve como validação para o caso de não haver matrículas em uma turma
+  # selecionada durante a criação de um formulário.
+  #
+  # Argumentos:
+  # Não recebe argumentos.
+  #
+  # Retorna:
+  # Nil.
+  #
+  # Efeitos colaterais:
+  # Adiciona um erro em :base quando o formulário é destinado a discentes e
+  # a turma selecionada não possui nenhuma matrícula ativa.
   def turma_possui_matricula_ativa
     return unless publico_estudante?
     return if turma.nil?
@@ -71,6 +123,20 @@ class Formulario < ApplicationRecord
     errors.add(:base, "Formulario #{nome_formulario} não pode ser criado, a turma selecionada não possui discentes matriculados")
   end
 
+  # Cria uma instância de PerguntaFormulario para cada Pergunta do template
+  # vinculado, em um padrão Snapshot (cópia congelada dos dados no momento
+  # da criação do formulário).
+  #
+  # Argumentos:
+  # Não recebe argumentos.
+  #
+  # Retorna:
+  # Nil.
+  #
+  # Efeitos colaterais:
+  # Cria um registro PerguntaFormulario no banco para cada Pergunta do
+  # template (callback after_create); não faz nada se não houver template
+  # ou perguntas.
   def vincular_perguntas_do_template
     template_formulario&.perguntas&.each do |pergunta|
       pergunta_formularios.create!(
