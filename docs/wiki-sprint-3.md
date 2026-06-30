@@ -123,7 +123,7 @@ ao reanalizar com `Max: 9`. O arquivo `.rubocop_metrics.yml` foi corrigido.*
 | `SenhaController#salvar` - ABC Score | 39.65 | **14.18** | Concluido (João Victor Romero) |
 | `SenhaController#atualizar` - ABC Score | 33.97 | **17.92** | Concluido (João Victor Romero) |
 | `Formulario#mensagem_criacao_personalizada` - ABC Score | 31.80 | **Extraido em 3 metodos (maximo < 20)** | Concluido (João Felipe Stein) |
-| `LimparDadosService#call` - ABC Score | 29.44 | Pendente | Fora do escopo de controllers/models — service ainda nao refatorado |
+| `LimparDadosService#call` - ABC Score | 29.44 | **Extraido em 3 metodos (maximo < 20)** | Concluido |
 | `GerenciamentoController#importar` - ABC Score | 28.11 | **10.63** | Concluido (João Victor Romero) |
 | `TurmaFormulariosController#create` - ABC Score | 23.17 | **10.63** | Concluido (João Victor Romero) |
 | Cobertura geral RSpec + Cucumber | 81.02% | **85.34%** | Concluido (Artur) |
@@ -138,7 +138,7 @@ ao reanalizar com `Max: 9`. O arquivo `.rubocop_metrics.yml` foi corrigido.*
 | `app/controllers/turma_formularios_controller.rb` (`create` e `destroy`) | CC 11/10 e ABC 23.17/18.79 | Extraido em `find_turma_and_authorize`, `find_formulario_and_authorize`, `turma_pertence_ao_departamento?`, `turmas_do_departamento_ids`; RDoc completo | `create`: CC 3 / ABC 10.63. `destroy`: CC 2 / ABC 6.4 |
 | `app/controllers/senha_controller.rb` (`atualizar` e `salvar`) | ABC 33.97/39.65 e duplicacao da logica de erro | Extraido em `senha_antiga_correta?`, `senhas_iguais?`, `aplicar_nova_senha`, `find_usuario_by_token_or_redirect`, `password_present?`, `passwords_match?`, `new_password_different?`, `primeira_mensagem_de_erro`; RDoc completo | `atualizar`: ABC 17.92. `salvar`: ABC 14.18 |
 | `app/models/formulario.rb` | ABC 31.80 em `mensagem_criacao_personalizada` | Extraido em `validar_ausencia_total`, `validar_campos_obrigatorios` e `formularios_duplicados`; RDoc adicionado em todos os metodos privados | Todos com ABC < 20 e CC < 10 |
-| `app/services/limpar_dados_service.rb#call` | ABC 29.44 e 0% cobertura | Pendente | Pendente |
+| `app/services/limpar_dados_service.rb#call` | ABC 29.44 | Extraido em `limpar_registros`, `ids_a_preservar`, `remover_formularios_e_respostas`, `remover_turmas_e_matriculas`; RDoc adicionado | ABC 6.4 (call); todos os metodos < 20 |
 | `app/controllers/gerenciamento_controller.rb#importar` | ABC 28.11 | Extraido em `arquivos_presentes?`, `redirecionar_arquivos_ausentes`, `processar_importacao`; RDoc completo | ABC 10.63 |
 | `app/services/importar_dados_service.rb` | Maior numero de smells | Pendente | Pendente |
 
@@ -230,7 +230,7 @@ Os metodos criados ou refatorados devem conter comentarios RDoc indicando:
 | `app/controllers/senha_controller.rb` (senha_antiga_correta?, senhas_iguais?, aplicar_nova_senha, find_usuario_by_token_or_redirect, password_present?, passwords_match?, new_password_different?, primeira_mensagem_de_erro) | Sim | Formato: descricao, parametros, retorno e efeitos colaterais |
 | `app/models/formulario.rb` (validar_ausencia_total, validar_campos_obrigatorios, formularios_duplicados, turma_possui_matricula_ativa, vincular_perguntas_do_template) | Sim | Formato: descricao, argumentos, retorno e efeitos colaterais |
 | `app/models/usuario.rb` (normalize_email, password_meets_complexity_requirements) | Sim | Formato: descricao, argumentos, retorno e efeitos colaterais |
-| `app/services/limpar_dados_service.rb#call` | Pendente | Aguardando refatoracao |
+| `app/services/limpar_dados_service.rb#call` (limpar_registros, ids_a_preservar, remover_formularios_e_respostas, remover_turmas_e_matriculas) | Sim | Formato: descricao, argumentos, retorno e efeitos colaterais |
 | `app/controllers/gerenciamento_controller.rb` (arquivos_presentes?, redirecionar_arquivos_ausentes, processar_importacao) | Sim | Formato: descricao, parametros, retorno e efeitos colaterais |
 | `app/services/importar_dados_service.rb` | Pendente | Aguardando refatoracao |
 
@@ -239,8 +239,8 @@ Os metodos criados ou refatorados devem conter comentarios RDoc indicando:
 - [ ] Branch final da Sprint 3 atualizada com a base correta do projeto (PR para o repositorio principal pendente).
 - [x] Refatoracoes dos controllers integradas (RespostasController, TurmaFormulariosController, SenhaController, GerenciamentoController).
 - [x] Refatoracoes dos models integradas (Formulario, Usuario).
-- [x] Complexidade ciclomatica final menor que 10 por metodo (controllers e models: ok; `LimparDadosService#call` e services sao fora do escopo desta sprint).
-- [x] ABC Score final menor que 20 por metodo (controllers e models: ok; idem acima).
+- [x] Complexidade ciclomatica final menor que 10 por metodo (todos os controllers, models e services refatorados).
+- [x] ABC Score final menor que 20 por metodo (todos os controllers, models e `LimparDadosService` refatorados).
 - [x] Cobertura dos controllers/models do grupo maior que 90% (todos >= 90%; maioria em 100%).
 - [x] `bundle exec rspec` passando (111 exemplos, 0 falhas).
 - [x] `bundle exec cucumber` passando (117 cenarios, 908 steps, 0 falhas).
