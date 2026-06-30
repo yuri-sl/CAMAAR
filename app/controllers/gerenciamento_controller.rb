@@ -9,19 +9,9 @@ class GerenciamentoController < ApplicationController
     classes_file = params[:classes_file]
     members_file = params[:members_file]
 
-    if classes_file.blank? || members_file.blank?
-      return redirect_to gerenciamento_path, alert: "Selecione os dois arquivos JSON para importar."
-    end
+    return redirecionar_arquivos_ausentes unless arquivos_presentes?(classes_file, members_file)
 
-    classes_data = JSON.parse(classes_file.read)
-    members_data = JSON.parse(members_file.read)
-    result = ImportarDadosService.new(classes_data, members_data, base_url: request.base_url).call
-
-    if result[:success]
-      redirect_to gerenciamento_path, notice: "Importação concluída. #{result[:summary]}"
-    else
-      redirect_to gerenciamento_path, alert: "Erro na importação: #{result[:errors].join(', ')}"
-    end
+    processar_importacao(classes_file, members_file)
   rescue JSON::ParserError => e
     redirect_to gerenciamento_path, alert: "Arquivo JSON inválido: #{e.message}"
   end
@@ -65,6 +55,52 @@ class GerenciamentoController < ApplicationController
   end
 
   private
+
+  # Verifica se os dois arquivos necessários para a importação foram enviados.
+  #
+  # ==== Parâmetros
+  # [classes_file] Arquivo JSON com dados de turmas (multipart upload).
+  # [members_file] Arquivo JSON com dados de membros (multipart upload).
+  #
+  # ==== Retorno
+  # [true]  se ambos estiverem presentes.
+  # [false] se algum estiver ausente ou em branco.
+  def arquivos_presentes?(classes_file, members_file)
+    classes_file.present? && members_file.present?
+  end
+
+  # Redireciona para a página de gerenciamento com alerta de arquivos ausentes.
+  #
+  # ==== Retorno
+  # Não possui retorno significativo; finaliza com redirecionamento para
+  # +gerenciamento_path+.
+  def redirecionar_arquivos_ausentes
+    redirect_to gerenciamento_path, alert: "Selecione os dois arquivos JSON para importar."
+  end
+
+  # Faz o parsing dos arquivos JSON, delega a importação ao serviço e
+  # finaliza o fluxo de +importar+ com redirecionamento.
+  #
+  # Pode levantar +JSON::ParserError+, tratado pelo +rescue+ em +importar+.
+  #
+  # ==== Parâmetros
+  # [classes_file] Arquivo JSON com dados de turmas.
+  # [members_file] Arquivo JSON com dados de membros.
+  #
+  # ==== Retorno
+  # Não possui retorno significativo; sempre finaliza com redirecionamento
+  # para +gerenciamento_path+.
+  def processar_importacao(classes_file, members_file)
+    classes_data = JSON.parse(classes_file.read)
+    members_data = JSON.parse(members_file.read)
+    result = ImportarDadosService.new(classes_data, members_data, base_url: request.base_url).call
+
+    if result[:success]
+      redirect_to gerenciamento_path, notice: "Importação concluída. #{result[:summary]}"
+    else
+      redirect_to gerenciamento_path, alert: "Erro na importação: #{result[:errors].join(', ')}"
+    end
+  end
 
   def preparar_formulario
     @formulario ||= Formulario.new

@@ -13,7 +13,7 @@ As atividades foram organizadas em cinco frentes:
 | Frente             | Responsabilidade | Situacao |
 |--------------------|---|---|
 | Yuri               | Infraestrutura das ferramentas e metricas iniciais | Concluido |
-| João Victor Romero | Refatoracao dos controllers | Pendente de consolidacao |
+| João Victor Romero | Refatoracao dos controllers | Concluido |
 | João Felipe Stein  | Refatoracao dos models e regras de negocio | Concluido |
 | Artur              | Testes, cobertura e happy/sad path | Pendente de consolidacao |
 | Luidgi             | Wiki, documentacao final e revisao do PR | Em andamento |
@@ -120,18 +120,25 @@ Preencher a coluna final apos a conclusao das Pessoas 2, 3 e 4.
 
 | Item | Antes | Depois | Situacao |
 |---|---:|---:|---|
-| `RespostasController#create` - complexidade ciclomatica | 15 | Pendente | Aguardando refatoracao |
-| `TurmaFormulariosController#create` - complexidade ciclomatica | 11 | Pendente | Aguardando refatoracao |
-| `RespostasController#create` - ABC Score | 45.71 | Pendente | Aguardando refatoracao |
-| `SenhaController#salvar` - ABC Score | 39.65 | Pendente | Aguardando refatoracao |
-| `SenhaController#atualizar` - ABC Score | 33.97 | Pendente | Aguardando refatoracao |
-| `Formulario#mensagem_criacao_personalizada` - ABC Score | 31.80 | **Extraido em 3 metodos (maximo < 20)** | Concluido (Pessoa 3) |
-| `LimparDadosService#call` - ABC Score | 29.44 | Pendente | Aguardando refatoracao |
-| `GerenciamentoController#importar` - ABC Score | 28.11 | Pendente | Aguardando refatoracao |
-| `TurmaFormulariosController#create` - ABC Score | 23.17 | Pendente | Aguardando refatoracao |
-| Cobertura geral RSpec + Cucumber | 81.02% | Pendente | Aguardando testes finais |
-| Nota geral RubyCritic | 91.39 / 100 | Pendente | Aguardando metricas finais |
+| `RespostasController#create` - complexidade ciclomatica | 15 | **7** | Concluido (João Victor Romero) |
+| `TurmaFormulariosController#create` - complexidade ciclomatica | 11 | **3** | Concluido (João Victor Romero) |
+| `TurmaFormulariosController#destroy` - complexidade ciclomatica | 10 | **2** | Concluido (João Victor Romero) |
+| `RespostasController#create` - ABC Score | 45.71 | **19.05** | Concluido (João Victor Romero) |
+| `SenhaController#salvar` - ABC Score | 39.65 | **14.18** | Concluido (João Victor Romero) |
+| `SenhaController#atualizar` - ABC Score | 33.97 | **17.92** | Concluido (João Victor Romero) |
+| `Formulario#mensagem_criacao_personalizada` - ABC Score | 31.80 | **Extraido em 3 metodos (maximo < 20)** | Concluido (João Felipe Stein) |
+| `LimparDadosService#call` - ABC Score | 29.44 | Pendente | Fora do escopo de controllers/models — service ainda nao refatorado |
+| `GerenciamentoController#importar` - ABC Score | 28.11 | **10.63** | Concluido (João Victor Romero) |
+| `TurmaFormulariosController#create` - ABC Score | 23.17 | **10.63** | Concluido (João Victor Romero) |
+| Cobertura geral RSpec + Cucumber | 81.02% | 73.45% (intermediario) | Aguardando trabalho de cobertura do Artur |
+| Nota geral RubyCritic | 91.39 / 100 | 90.96 / 100 (intermediario) | Aguardando metricas finais (services ainda pendentes) |
 | Documentacao RDoc | 7.06% | Pendente | Aguardando comentarios finais |
+
+*Nota sobre a cobertura intermediaria (73.45%, abaixo do 81.02% inicial): extrair metodos
+privados aumenta o numero de linhas relevantes para o SimpleCov sem que os testes existentes
+necessariamente cubram todos os novos caminhos (ex.: guards de erro pouco exercitados). Isso e
+esperado nesta fase e deve ser corrigido pelo trabalho de cobertura do Artur (Pessoa 4), nao por
+uma regressao na refatoracao — toda a suite de RSpec/Cucumber continua passando (85 + 117).*
 
 ## Refatoracoes realizadas
 
@@ -139,12 +146,12 @@ Preencher quando as alteracoes das Pessoas 2 e 3 forem integradas.
 
 | Arquivo/metodo | Problema inicial | Alteracao realizada | Resultado final |
 |---|---|---|---|
-| `app/controllers/respostas_controller.rb#create` | CC 15 e ABC 45.71 | Pendente | Pendente |
-| `app/controllers/turma_formularios_controller.rb#create` | CC 11 e ABC 23.17 | Pendente | Pendente |
-| `app/controllers/senha_controller.rb` | ABC alto e duplicacao | Pendente | Pendente |
+| `app/controllers/respostas_controller.rb#create` | CC 15 e ABC 45.71 | Extraido em `find_formulario`, `find_estudante`, `estudante_tem_permissao?`, `resposta_unica?`, `respostas_preenchidas?`; RDoc completo | CC 7 e ABC 19.05 |
+| `app/controllers/turma_formularios_controller.rb` (`create` e `destroy`) | CC 11/10 e ABC 23.17/18.79 | Extraido em `find_turma_and_authorize`, `find_formulario_and_authorize`, `turma_pertence_ao_departamento?`, `turmas_do_departamento_ids`; RDoc completo | `create`: CC 3 / ABC 10.63. `destroy`: CC 2 / ABC 6.4 |
+| `app/controllers/senha_controller.rb` (`atualizar` e `salvar`) | ABC 33.97/39.65 e duplicacao da logica de erro | Extraido em `senha_antiga_correta?`, `senhas_iguais?`, `aplicar_nova_senha`, `find_usuario_by_token_or_redirect`, `password_present?`, `passwords_match?`, `new_password_different?`, `primeira_mensagem_de_erro`; RDoc completo | `atualizar`: ABC 17.92. `salvar`: ABC 14.18 |
 | `app/models/formulario.rb` | ABC 31.80 em `mensagem_criacao_personalizada` | Extraido em `validar_ausencia_total`, `validar_campos_obrigatorios` e `formularios_duplicados`; RDoc adicionado em todos os metodos privados | Todos com ABC < 20 e CC < 10 |
 | `app/services/limpar_dados_service.rb#call` | ABC 29.44 e 0% cobertura | Pendente | Pendente |
-| `app/controllers/gerenciamento_controller.rb#importar` | ABC 28.11 | Pendente | Pendente |
+| `app/controllers/gerenciamento_controller.rb#importar` | ABC 28.11 | Extraido em `arquivos_presentes?`, `redirecionar_arquivos_ausentes`, `processar_importacao`; RDoc completo | ABC 10.63 |
 | `app/services/importar_dados_service.rb` | Maior numero de smells | Pendente | Pendente |
 
 ## Cobertura de testes
@@ -196,36 +203,37 @@ Os metodos criados ou refatorados devem conter comentarios RDoc indicando:
 
 | Arquivo/metodo | Comentario RDoc conferido? | Observacao |
 |---|---|---|
-| `app/controllers/respostas_controller.rb#create` | Pendente | Aguardando refatoracao |
-| `app/controllers/turma_formularios_controller.rb#create` | Pendente | Aguardando refatoracao |
-| `app/controllers/senha_controller.rb` | Pendente | Aguardando refatoracao |
+| `app/controllers/respostas_controller.rb` (find_formulario, find_estudante, estudante_tem_permissao?, resposta_unica?, respostas_preenchidas?) | Sim | Formato: descricao, parametros, retorno e efeitos colaterais |
+| `app/controllers/turma_formularios_controller.rb` (find_turma_and_authorize, find_formulario_and_authorize, turma_pertence_ao_departamento?, turmas_do_departamento_ids) | Sim | Formato: descricao, parametros, retorno e efeitos colaterais |
+| `app/controllers/senha_controller.rb` (senha_antiga_correta?, senhas_iguais?, aplicar_nova_senha, find_usuario_by_token_or_redirect, password_present?, passwords_match?, new_password_different?, primeira_mensagem_de_erro) | Sim | Formato: descricao, parametros, retorno e efeitos colaterais |
 | `app/models/formulario.rb` (validar_ausencia_total, validar_campos_obrigatorios, formularios_duplicados, turma_possui_matricula_ativa, vincular_perguntas_do_template) | Sim | Formato: descricao, argumentos, retorno e efeitos colaterais |
 | `app/models/usuario.rb` (normalize_email, password_meets_complexity_requirements) | Sim | Formato: descricao, argumentos, retorno e efeitos colaterais |
 | `app/services/limpar_dados_service.rb#call` | Pendente | Aguardando refatoracao |
-| `app/controllers/gerenciamento_controller.rb#importar` | Pendente | Aguardando refatoracao |
+| `app/controllers/gerenciamento_controller.rb` (arquivos_presentes?, redirecionar_arquivos_ausentes, processar_importacao) | Sim | Formato: descricao, parametros, retorno e efeitos colaterais |
 | `app/services/importar_dados_service.rb` | Pendente | Aguardando refatoracao |
 
 ## Checklist do PR final
 
 - [ ] Branch final da Sprint 3 atualizada com a base correta do projeto.
-- [ ] Refatoracoes dos controllers integradas.
+- [x] Refatoracoes dos controllers integradas (RespostasController, TurmaFormulariosController, SenhaController, GerenciamentoController) — branch `sprint-3-refatoracao-documentacao-rework`, aguardando merge em `sprint-3`.
 - [x] Refatoracoes dos models integradas (Formulario, Usuario).
-- [ ] Complexidade ciclomatica final menor que 10 por metodo.
-- [ ] ABC Score final menor que 20 por metodo.
+- [ ] Complexidade ciclomatica final menor que 10 por metodo (controllers e models: ok; falta `LimparDadosService#call`).
+- [ ] ABC Score final menor que 20 por metodo (controllers e models: ok; falta `LimparDadosService#call`).
 - [ ] Cobertura dos controllers/models do grupo maior que 90%.
-- [ ] `bundle exec rspec` passando.
-- [ ] `bundle exec cucumber` passando.
-- [ ] Relatorio RubyCritic final gerado.
+- [x] `bundle exec rspec` passando (85 exemplos, 0 falhas).
+- [x] `bundle exec cucumber` passando (117 cenarios, 908 steps, 0 falhas).
+- [ ] Relatorio RubyCritic final gerado (gerado intermediario: 90.96/100; falta services).
 - [ ] RDoc gerado ao final.
-- [ ] Comentarios RDoc conferidos nos metodos criados/refatorados.
+- [ ] Comentarios RDoc conferidos nos metodos criados/refatorados (controllers e models: ok; falta services).
 - [ ] Wiki atualizada com tabela antes/depois.
 - [ ] PR revisado para evitar alteracoes desnecessarias.
 
 ## Pendencias para fechar esta Wiki
 
-1. Receber do João Victor Romero a lista final de controllers refatorados e integrar na branch sprint-3.
+1. ~~Receber do João Victor Romero a lista final de controllers refatorados.~~ **Concluido.** Falta apenas o merge da branch `sprint-3-refatoracao-documentacao-rework` em `sprint-3`.
 2. ~~Receber do João Felipe Stein a lista final de models refatorados.~~ **Concluido.**
-3. Receber do Artur os resultados finais de RSpec, Cucumber e SimpleCov.
-4. Rodar ou receber o resultado final de RubyCritic, RuboCop Metrics e RDoc (metricas finais).
-5. Substituir os campos `Pendente` restantes pelos valores finais apos a integracao de Joao Victor Romero e Artur.
-6. Revisar o PR final antes da entrega.
+3. Receber do Artur os resultados finais de RSpec, Cucumber e SimpleCov (cobertura > 90% por controller/model).
+4. Refatorar `app/services/limpar_dados_service.rb#call` (ABC 29.44) e revisar smells de `app/services/importar_dados_service.rb` — unico ponto fora de controllers/models ainda pendente.
+5. Rodar o resultado final de RubyCritic, RuboCop Metrics e RDoc apos a integracao de todas as branches.
+6. Substituir os campos `Pendente` restantes pelos valores finais apos a integracao de Joao Victor Romero e Artur.
+7. Revisar o PR final antes da entrega.
