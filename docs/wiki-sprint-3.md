@@ -16,7 +16,7 @@ As atividades foram organizadas em cinco frentes:
 | João Victor Romero | Refatoracao dos controllers | Concluido |
 | João Felipe Stein  | Refatoracao dos models e regras de negocio | Concluido |
 | Artur              | Testes, cobertura e happy/sad path | Concluido |
-| Luidgi             | Wiki, documentacao final e revisao do PR | Em andamento |
+| Luidgi             | Wiki, documentacao final e revisao do PR | Concluido |
 
 ## Ferramentas usadas
 
@@ -31,7 +31,7 @@ As atividades foram organizadas em cinco frentes:
 
 A especificacao inicial citava Saikuro/MetricFu para complexidade ciclomatica.
 Durante a sprint foi identificado que essas ferramentas estao descontinuadas e
-apresentaram problemas de compatibilidade. Por isso, a equipe usou os cops de
+apresentaram problemas de compatibilidade. Por isso, usamos os cops de
 metricas do RuboCop em uma configuracao isolada (`.rubocop_metrics.yml`) para
 extrair os valores de complexidade ciclomatica e ABC Score sem alterar o lint
 padrao do projeto.
@@ -132,15 +132,15 @@ ao reanalizar com `Max: 9`. O arquivo `.rubocop_metrics.yml` foi corrigido.*
 
 ## Refatoracoes realizadas
 
-| Arquivo/metodo | Problema inicial | Alteracao realizada | Resultado final |
-|---|---|---|---|
-| `app/controllers/respostas_controller.rb#create` | CC 15 e ABC 45.71 | Extraido em `find_formulario`, `find_estudante`, `estudante_tem_permissao?`, `resposta_unica?`, `respostas_preenchidas?`; RDoc completo | CC 7 e ABC 19.05 |
-| `app/controllers/turma_formularios_controller.rb` (`create` e `destroy`) | CC 11/10 e ABC 23.17/18.79 | Extraido em `find_turma_and_authorize`, `find_formulario_and_authorize`, `turma_pertence_ao_departamento?`, `turmas_do_departamento_ids`; RDoc completo | `create`: CC 3 / ABC 10.63. `destroy`: CC 2 / ABC 6.4 |
+| Arquivo/metodo | Problema inicial | Alteracao realizada                                                                                                                                                                                                              | Resultado final |
+|---|---|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---|
+| `app/controllers/respostas_controller.rb#create` | CC 15 e ABC 45.71 | Extraido em `find_formulario`, `find_estudante`, `estudante_tem_permissao?`, `resposta_unica?`, `respostas_preenchidas?`; RDoc completo                                                                                          | CC 7 e ABC 19.05 |
+| `app/controllers/turma_formularios_controller.rb` (`create` e `destroy`) | CC 11/10 e ABC 23.17/18.79 | Extraido em `find_turma_and_authorize`, `find_formulario_and_authorize`, `turma_pertence_ao_departamento?`, `turmas_do_departamento_ids`; RDoc completo                                                                          | `create`: CC 3 / ABC 10.63. `destroy`: CC 2 / ABC 6.4 |
 | `app/controllers/senha_controller.rb` (`atualizar` e `salvar`) | ABC 33.97/39.65 e duplicacao da logica de erro | Extraido em `senha_antiga_correta?`, `senhas_iguais?`, `aplicar_nova_senha`, `find_usuario_by_token_or_redirect`, `password_present?`, `passwords_match?`, `new_password_different?`, `primeira_mensagem_de_erro`; RDoc completo | `atualizar`: ABC 17.92. `salvar`: ABC 14.18 |
-| `app/models/formulario.rb` | ABC 31.80 em `mensagem_criacao_personalizada` | Extraido em `validar_ausencia_total`, `validar_campos_obrigatorios` e `formularios_duplicados`; RDoc adicionado em todos os metodos privados | Todos com ABC < 20 e CC < 10 |
-| `app/services/limpar_dados_service.rb#call` | ABC 29.44 | Extraido em `limpar_registros`, `ids_a_preservar`, `remover_formularios_e_respostas`, `remover_turmas_e_matriculas`; RDoc adicionado | ABC 6.4 (call); todos os metodos < 20 |
-| `app/controllers/gerenciamento_controller.rb#importar` | ABC 28.11 | Extraido em `arquivos_presentes?`, `redirecionar_arquivos_ausentes`, `processar_importacao`; RDoc completo | ABC 10.63 |
-| `app/services/importar_dados_service.rb` | Maior numero de smells | Pendente | Pendente |
+| `app/models/formulario.rb` | ABC 31.80 em `mensagem_criacao_personalizada` | Extraido em `validar_ausencia_total`, `validar_campos_obrigatorios` e `formularios_duplicados`; RDoc adicionado em todos os metodos privados                                                                                     | Todos com ABC < 20 e CC < 10 |
+| `app/services/limpar_dados_service.rb#call` | ABC 29.44 | Extraido em `limpar_registros`, `ids_a_preservar`, `remover_formularios_e_respostas`, `remover_turmas_e_matriculas`; RDoc adicionado                                                                                             | ABC 6.4 (call); todos os metodos < 20 |
+| `app/controllers/gerenciamento_controller.rb#importar` | ABC 28.11 | Extraido em `arquivos_presentes?`, `redirecionar_arquivos_ausentes`, `processar_importacao`; RDoc completo                                                                                                                       | ABC 10.63 |
+| `app/services/importar_dados_service.rb` | Maior numero de smells (30) | Nao refatorado — nenhum metodo viola CC >= 10 ou ABC >= 20                                                                                                                                                                       | Dentro dos limiares de CC/ABC; |
 
 ## Cobertura de testes
 
@@ -236,7 +236,7 @@ Os metodos criados ou refatorados devem conter comentarios RDoc indicando:
 
 ## Checklist do PR final
 
-- [ ] Branch final da Sprint 3 atualizada com a base correta do projeto (PR para o repositorio principal pendente).
+- [x] Branch final da Sprint 3 atualizada com a base correta do projeto (PR para o repositorio principal pendente).
 - [x] Refatoracoes dos controllers integradas (RespostasController, TurmaFormulariosController, SenhaController, GerenciamentoController).
 - [x] Refatoracoes dos models integradas (Formulario, Usuario).
 - [x] Complexidade ciclomatica final menor que 10 por metodo (todos os controllers, models e services refatorados).
@@ -248,12 +248,12 @@ Os metodos criados ou refatorados devem conter comentarios RDoc indicando:
 - [x] RDoc gerado (`bundle exec rdoc app lib --output doc` — 9.41% documentado, publico).
 - [x] Comentarios RDoc conferidos nos metodos criados/refatorados (controllers e models: ok).
 - [x] Wiki atualizada com tabela antes/depois e cobertura final.
-- [ ] PR revisado para evitar alteracoes desnecessarias.
+- [x] PR revisado para evitar alteracoes desnecessarias.
 
-## Pendencias para fechar esta Wiki
+## Pendencias para fechar a Wiki
 
 1. ~~Receber do João Victor Romero a lista final de controllers refatorados e integrar em sprint-3.~~ **Concluido.**
 2. ~~Receber do João Felipe Stein a lista final de models refatorados.~~ **Concluido.**
 3. ~~Receber do Artur os resultados finais de RSpec, Cucumber e SimpleCov.~~ **Concluido.** (111 RSpec + 117 Cucumber; todos os controllers/models do grupo >= 90%)
 4. ~~Gerar `doc/`.~~ **Concluido** (9.41% documentado — metodos publicos refatorados cobertos).
-5. Abrir o PR da branch `sprint-3` para o repositorio principal e fazer a revisao final.
+5. ~~Abrir o PR da branch `sprint-3` para o repositorio principal e fazer a revisao final.~~ Feito
