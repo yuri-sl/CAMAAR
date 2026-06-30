@@ -53,11 +53,15 @@ class Usuario < ApplicationRecord
   #
   # Retorna:
   # Nil.
+  #
+  # Efeitos colaterais:
+  # Sobrescreve o atributo +email+ do registro com a versão normalizada
+  # (callback before_validation; não grava no banco por si só).
   def normalize_email
     self.email = email.to_s.downcase.strip
   end
 
-  # Verifica a segurança de uma senha. Caso a senha tiver mais que 8 caractéres, tiver pelo 
+  # Verifica a segurança de uma senha. Caso a senha tiver mais que 8 caractéres, tiver pelo
   # menos uma letra e pelo menos um dígito, o método simplesmente retorna. Se não, continua
   # e adiciona um erro pedindo por estas especificações.
   #
@@ -66,6 +70,10 @@ class Usuario < ApplicationRecord
   #
   # Retorna:
   # Nil.
+  #
+  # Efeitos colaterais:
+  # Adiciona um erro em :password quando a senha não atende aos requisitos
+  # mínimos de complexidade.
   def password_meets_complexity_requirements
     return if password.length >= 8 && password.match?(/[A-Za-z]/) && password.match?(/\d/)
 
