@@ -8,6 +8,7 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
 html,
 body {
     margin: 0;
@@ -21,11 +22,11 @@ body.sidebar-collapsed .sidebar {
 .main-page {
     min-height: 100vh;
     background-color: #909090;
-
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .login-page {
     min-height: 100vh;
     background-color: #9f9e9e;
@@ -37,7 +38,7 @@ body.sidebar-collapsed .sidebar {
 
 .login-container {
     width: 880px;
-    height: 420px;
+    height: 520px;
     display: flex;
     border-radius: 4px;
     overflow: hidden;
@@ -182,6 +183,7 @@ body.sidebar-collapsed .sidebar {
     text-align: center;
     margin: 16px 0 0;
     font-size: 14px;
+    padding-bottom: 50px;
 }
 
 .auth-link a {

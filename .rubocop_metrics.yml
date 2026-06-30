@@ -5,6 +5,10 @@
 # o departamento Metrics. Este arquivo isolado liga só os cops necessários,
 # sem alterar o lint de estilo do projeto.
 #
+# Max é 1 unidade abaixo do limite da Sprint (CC >= 10, ABC >= 20): o RuboCop
+# só sinaliza valores MAIORES que Max, então Max: 10/20 deixaria passar um
+# método exatamente em 10/20.
+#
 # Uso: bundle exec rubocop --config .rubocop_metrics.yml \
 #        --only Metrics/CyclomaticComplexity,Metrics/AbcSize,Metrics/PerceivedComplexity \
 #        app lib --format simple
@@ -15,12 +19,12 @@ AllCops:
 
 Metrics/CyclomaticComplexity:
   Enabled: true
-  Max: 10
+  Max: 9
 
 Metrics/AbcSize:
   Enabled: true
-  Max: 20
+  Max: 19
 
 Metrics/PerceivedComplexity:
   Enabled: true
-  Max: 10
+  Max: 9
