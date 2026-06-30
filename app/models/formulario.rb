@@ -16,6 +16,14 @@ class Formulario < ApplicationRecord
 
   private
 
+  # Serve como validação para o caso em que o formulário de criação
+  # de formulário está totalmente vazio.
+  # 
+  # Argumentos:
+  # Não recebe argumentos.
+  #
+  # Retorna:
+  # Nil. Adiciona erro com mensagem formatada caso necessário.
   def validar_ausencia_total
     if template_formulario.nil? && nome_formulario.presence.nil?
       errors.add(:base, "Formulario não pode ser criado, por favor preencha os dados necessários")
@@ -23,6 +31,14 @@ class Formulario < ApplicationRecord
     end
   end
 
+  # Serve como validação para as variáveis básicas para criação de um formulário
+  # (Nome do Formulário, Template para Criação, Público Alvo e Turma).
+  #
+  # Argumentos:
+  # Não recebe argumentos.
+  # 
+  # Retorna:
+  # Nil. Adiciona erro com mensagem formatada caso necessário.
   def validar_campos_obrigatorios
     return if errors.any?
 
@@ -42,6 +58,14 @@ class Formulario < ApplicationRecord
     end
   end
 
+  # Serve como validação para o caso de existir um formulário aberto de mesmo nome
+  # para o mesmo publico alvo e na mesma turma do formulario que se está criando.
+  # 
+  # Argumentos:
+  # Não recebe argumentos.
+  #
+  # Retorna:
+  # Nil. Adiciona erro com mensagem formatada caso necessário.
   def formularios_duplicados
     return if errors.any?
 
@@ -54,6 +78,14 @@ class Formulario < ApplicationRecord
 
   end
 
+  # Serve como validação para o caso de não haver mátriculas em uma turma 
+  # selecionada durante a criação de um formulário.
+  # 
+  # Argumentos:
+  # Não recebe argumentos.
+  #
+  # Retorna:
+  # Nil. Adiciona erro com mensagem formatada caso necessário.
   def turma_possui_matricula_ativa
     return unless publico_estudante?
     return if turma.nil?
@@ -62,6 +94,13 @@ class Formulario < ApplicationRecord
     errors.add(:base, "Formulario #{nome_formulario} não pode ser criado, a turma selecionada não possui discentes matriculados")
   end
 
+  # Cria uma instância de PerguntaFormulario para vincular ao formulário, em um padrão Snapshot.
+  #
+  # Argumentos:
+  # Não recebe argumentos.
+  # 
+  # Retorna:
+  # Nil. Serve apenas para criar os objetos PerguntaFormulario necessários.
   def vincular_perguntas_do_template
     template_formulario&.perguntas&.each do |pergunta|
       pergunta_formularios.create!(
