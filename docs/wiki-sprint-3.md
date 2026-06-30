@@ -10,13 +10,13 @@ alteracoes.
 
 As atividades foram organizadas em cinco frentes:
 
-| Frente | Responsabilidade | Situacao |
-|---|---|---|
-| Pessoa 1 | Infraestrutura das ferramentas e metricas iniciais | Concluido |
-| Pessoa 2 | Refatoracao dos controllers | Pendente de consolidacao |
-| Pessoa 3 | Refatoracao dos models e regras de negocio | Pendente de consolidacao |
-| Pessoa 4 | Testes, cobertura e happy/sad path | Pendente de consolidacao |
-| Pessoa 5 | Wiki, documentacao final e revisao do PR | Em andamento |
+| Frente             | Responsabilidade | Situacao |
+|--------------------|---|---|
+| Yuri               | Infraestrutura das ferramentas e metricas iniciais | Concluido |
+| João Victor Romero | Refatoracao dos controllers | Pendente de consolidacao |
+| João Felipe Stein  | Refatoracao dos models e regras de negocio | Concluido |
+| Artur              | Testes, cobertura e happy/sad path | Pendente de consolidacao |
+| Luidgi             | Wiki, documentacao final e revisao do PR | Em andamento |
 
 ## Ferramentas usadas
 
@@ -77,6 +77,11 @@ Os resultados abaixo foram registrados antes das refatoracoes em
 |---|---:|---|
 | `RespostasController#create` | 15 | `app/controllers/respostas_controller.rb` |
 | `TurmaFormulariosController#create` | 11 | `app/controllers/turma_formularios_controller.rb` |
+| `TurmaFormulariosController#destroy` | 10 | `app/controllers/turma_formularios_controller.rb` |
+
+*Correcao: o relatorio inicial usava `Max: 10` no RuboCop, que so sinaliza valores
+maiores que o Max (nao >=). O metodo `#destroy` com CC exatamente 10 so apareceu
+ao reanalizar com `Max: 9`. O arquivo `.rubocop_metrics.yml` foi corrigido.*
 
 ### ABC Score >= 20
 
@@ -120,7 +125,7 @@ Preencher a coluna final apos a conclusao das Pessoas 2, 3 e 4.
 | `RespostasController#create` - ABC Score | 45.71 | Pendente | Aguardando refatoracao |
 | `SenhaController#salvar` - ABC Score | 39.65 | Pendente | Aguardando refatoracao |
 | `SenhaController#atualizar` - ABC Score | 33.97 | Pendente | Aguardando refatoracao |
-| `Formulario#mensagem_criacao_personalizada` - ABC Score | 31.80 | Pendente | Aguardando refatoracao |
+| `Formulario#mensagem_criacao_personalizada` - ABC Score | 31.80 | **Extraido em 3 metodos (maximo < 20)** | Concluido (Pessoa 3) |
 | `LimparDadosService#call` - ABC Score | 29.44 | Pendente | Aguardando refatoracao |
 | `GerenciamentoController#importar` - ABC Score | 28.11 | Pendente | Aguardando refatoracao |
 | `TurmaFormulariosController#create` - ABC Score | 23.17 | Pendente | Aguardando refatoracao |
@@ -137,7 +142,7 @@ Preencher quando as alteracoes das Pessoas 2 e 3 forem integradas.
 | `app/controllers/respostas_controller.rb#create` | CC 15 e ABC 45.71 | Pendente | Pendente |
 | `app/controllers/turma_formularios_controller.rb#create` | CC 11 e ABC 23.17 | Pendente | Pendente |
 | `app/controllers/senha_controller.rb` | ABC alto e duplicacao | Pendente | Pendente |
-| `app/models/formulario.rb#mensagem_criacao_personalizada` | ABC 31.80 | Pendente | Pendente |
+| `app/models/formulario.rb` | ABC 31.80 em `mensagem_criacao_personalizada` | Extraido em `validar_ausencia_total`, `validar_campos_obrigatorios` e `formularios_duplicados`; RDoc adicionado em todos os metodos privados | Todos com ABC < 20 e CC < 10 |
 | `app/services/limpar_dados_service.rb#call` | ABC 29.44 e 0% cobertura | Pendente | Pendente |
 | `app/controllers/gerenciamento_controller.rb#importar` | ABC 28.11 | Pendente | Pendente |
 | `app/services/importar_dados_service.rb` | Maior numero de smells | Pendente | Pendente |
@@ -194,7 +199,8 @@ Os metodos criados ou refatorados devem conter comentarios RDoc indicando:
 | `app/controllers/respostas_controller.rb#create` | Pendente | Aguardando refatoracao |
 | `app/controllers/turma_formularios_controller.rb#create` | Pendente | Aguardando refatoracao |
 | `app/controllers/senha_controller.rb` | Pendente | Aguardando refatoracao |
-| `app/models/formulario.rb#mensagem_criacao_personalizada` | Pendente | Aguardando refatoracao |
+| `app/models/formulario.rb` (validar_ausencia_total, validar_campos_obrigatorios, formularios_duplicados, turma_possui_matricula_ativa, vincular_perguntas_do_template) | Sim | Formato: descricao, argumentos, retorno e efeitos colaterais |
+| `app/models/usuario.rb` (normalize_email, password_meets_complexity_requirements) | Sim | Formato: descricao, argumentos, retorno e efeitos colaterais |
 | `app/services/limpar_dados_service.rb#call` | Pendente | Aguardando refatoracao |
 | `app/controllers/gerenciamento_controller.rb#importar` | Pendente | Aguardando refatoracao |
 | `app/services/importar_dados_service.rb` | Pendente | Aguardando refatoracao |
@@ -203,7 +209,7 @@ Os metodos criados ou refatorados devem conter comentarios RDoc indicando:
 
 - [ ] Branch final da Sprint 3 atualizada com a base correta do projeto.
 - [ ] Refatoracoes dos controllers integradas.
-- [ ] Refatoracoes dos models/services integradas.
+- [x] Refatoracoes dos models integradas (Formulario, Usuario).
 - [ ] Complexidade ciclomatica final menor que 10 por metodo.
 - [ ] ABC Score final menor que 20 por metodo.
 - [ ] Cobertura dos controllers/models do grupo maior que 90%.
@@ -217,9 +223,9 @@ Os metodos criados ou refatorados devem conter comentarios RDoc indicando:
 
 ## Pendencias para fechar esta Wiki
 
-1. Receber da Pessoa 2 a lista final de controllers refatorados.
-2. Receber da Pessoa 3 a lista final de models/services refatorados.
-3. Receber da Pessoa 4 os resultados finais de RSpec, Cucumber e SimpleCov.
-4. Rodar ou receber o resultado final de RubyCritic, RuboCop Metrics e RDoc.
-5. Substituir todos os campos `Pendente` pelos valores finais.
+1. Receber do João Victor Romero a lista final de controllers refatorados e integrar na branch sprint-3.
+2. ~~Receber do João Felipe Stein a lista final de models refatorados.~~ **Concluido.**
+3. Receber do Artur os resultados finais de RSpec, Cucumber e SimpleCov.
+4. Rodar ou receber o resultado final de RubyCritic, RuboCop Metrics e RDoc (metricas finais).
+5. Substituir os campos `Pendente` restantes pelos valores finais apos a integracao de Joao Victor Romero e Artur.
 6. Revisar o PR final antes da entrega.
