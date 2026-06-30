@@ -50,29 +50,14 @@ class SenhaController < ApplicationController
   # POST /senha/nova
   def salvar
     @token = params[:token]
-    usuario = Usuario.find_by_token_for(:password_reset, @token)
-    unless usuario
-      redirect_to recuperar_senha_path, alert: "Link de redefinição inválido ou expirado."
-      return
-    end
-
+    usuario = find_usuario_by_token_or_redirect(@token)
+    return unless usuario
     senha = params[:password].to_s
     confirmacao = params[:password_confirmation].to_s
 
-    if senha.blank?
-      flash.now[:alert] = "A nova senha é obrigatória."
-      return render :nova, status: :unprocessable_entity
-    end
-
-    if senha != confirmacao
-      flash.now[:alert] = "As duas senhas não são iguais."
-      return render :nova, status: :unprocessable_entity
-    end
-
-    if usuario.authenticate(senha)
-      flash.now[:alert] = "A nova senha deve ser diferente da senha atual."
-      return render :nova, status: :unprocessable_entity
-    end
+    return unless password_present?(senha)
+    return unless passwords_match?(senha, confirmacao)
+    return unless new_password_different?(usuario, senha)
 
     if usuario.update(password: senha, password_confirmation: confirmacao)
       redirect_to login_path, notice: "Senha redefinida com sucesso! Faça login com sua nova senha."
@@ -83,6 +68,42 @@ class SenhaController < ApplicationController
   end
 
   private
+
+  def find_usuario_by_token_or_redirect(token)
+    usuario = Usuario.find_by_token_for(:password_reset, token)
+    unless usuario
+      redirect_to recuperar_senha_path, alert: "Link de redefinição inválido ou expirado."
+      return nil
+    end
+    usuario
+  end
+
+  def password_present?(senha)
+    if senha.blank?
+      flash.now[:alert] = "A nova senha é obrigatória."
+      render :nova, status: :unprocessable_entity
+      return false
+    end
+    true
+  end
+
+  def passwords_match?(senha, confirmacao)
+    if senha != confirmacao
+      flash.now[:alert] = "As duas senhas não são iguais."
+      render :nova, status: :unprocessable_entity
+      return false
+    end
+    true
+  end
+
+  def new_password_different?(usuario, senha)
+    if usuario.authenticate(senha)
+      flash.now[:alert] = "A nova senha deve ser diferente da senha atual."
+      render :nova, status: :unprocessable_entity
+      return false
+    end
+    true
+  end
 
   def log_reset_email(usuario, token)
     reset_url = "#{request.base_url}/senha/nova?token=#{token}"
